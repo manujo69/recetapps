@@ -1,59 +1,113 @@
 # RecipeApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.19.
+Aplicación Angular 20 de gestión de recetas, estructurada con **arquitectura hexagonal** (Ports & Adapters).
 
-## Development server
+## Arquitectura Hexagonal
 
-To start a local development server, run:
+La arquitectura hexagonal separa el núcleo de negocio de los detalles de infraestructura y presentación. Cada feature se organiza en tres capas bien definidas:
 
-```bash
-ng serve
+```
+feature/
+  domain/          # Núcleo: modelos e interfaces de repositorio (Ports)
+  application/     # Casos de uso: servicios que orquestan el dominio
+  infrastructure/  # Adaptadores externos: HTTP, mocks, interceptores
+  ui/              # Adaptadores de presentación: componentes Angular
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Capas
 
-## Code scaffolding
+| Capa | Responsabilidad | Ejemplos |
+|------|----------------|---------|
+| **domain** | Modelos de negocio e interfaces de repositorio (puertos) | `recipe.model.ts`, `recipe.repository.ts` |
+| **application** | Casos de uso, lógica de negocio, orquestación | `recipe.service.ts`, `auth.service.ts` |
+| **infrastructure** | Implementaciones concretas de los repositorios (adaptadores) | `recipe-http.repository.ts`, `recipe-mock.repository.ts` |
+| **ui** | Componentes Angular, plantillas, estilos | `recipe-list.component.ts`, `login.component.ts` |
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+La capa `domain` no depende de ninguna otra. `application` solo conoce el dominio. `infrastructure` y `ui` implementan las interfaces definidas en `domain`.
 
-```bash
-ng generate component component-name
+## Estructura de carpetas
+
+```
+src/
+  app/
+    app.ts                   # Componente raíz
+    app.config.ts            # Providers globales (router, HTTP, i18n)
+    app.routes.ts            # Definición de rutas
+    app.html / app.scss
+
+    recipes/                 # Feature: recetas
+      domain/
+        recipe.model.ts      # Interfaces/tipos del dominio
+        recipe.repository.ts # Puerto (interfaz) del repositorio
+      application/
+        recipe.service.ts    # Casos de uso (obtener, crear, etc.)
+      infrastructure/
+        recipe-http.repository.ts   # Adaptador HTTP real
+        recipe-mock.repository.ts   # Adaptador mock para desarrollo/tests
+      ui/
+        recipe-list/         # Listado de recetas
+        recipe-detail/       # Detalle de receta
+        recipe-panel/        # Panel general de recetas
+        recipe-add/          # Formulario de añadir receta
+        recipe-ingredients/  # Subcomponente de ingredientes
+        recipe-instructions/ # Subcomponente de instrucciones
+
+    auth/                    # Feature: autenticación
+      domain/
+        auth.model.ts
+        auth.repository.ts
+      application/
+        auth.service.ts
+      infrastructure/
+        auth-http.repository.ts
+        auth-mock.repository.ts
+        auth.interceptor.ts  # Interceptor HTTP para tokens
+      ui/
+        login/
+        register/
+
+    categories/              # Feature: categorías
+      domain/
+        category.model.ts
+        category.repository.ts
+      application/
+        category.service.ts
+
+    shared/                  # Componentes compartidos entre features
+      ui/
+        app-header/
+
+  environments/              # Configuración por entorno
+    environment.ts
+    environment.dev.ts
+    environment.production.ts
+
+  main.ts
+  styles.css
+
+public/
+  i18n/                      # Ficheros de traducción (ngx-translate)
+    es.json
+    ...
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Tech Stack
+
+- **Framework**: Angular 20 (standalone components, sin NgModules)
+- **Lenguaje**: TypeScript 5.9
+- **Change detection**: Zone.js
+- **Routing**: Angular Router
+- **Forms**: Angular Forms
+- **i18n**: ngx-translate v17 (idioma por defecto: `es`)
+- **Testing**: Karma + Jasmine
+- **Build**: Angular CLI / esbuild
+- **CSS**: metodología BEM
+
+## Comandos
 
 ```bash
-ng generate --help
+npm start          # Servidor de desarrollo (ng serve → http://localhost:4200)
+npm run build      # Build de producción
+npm test           # Tests unitarios (Karma)
+npm run watch      # Build en modo watch
 ```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
