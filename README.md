@@ -103,6 +103,12 @@ public/
 - **Build**: Angular CLI / esbuild
 - **CSS**: metodología BEM
 
+## Dependencias externas
+
+| Proyecto | Descripción |
+|----------|-------------|
+| [recetapps-back](https://github.com/manu/recetapps-back) | API REST backend que expone los endpoints de recetas, autenticación y categorías |
+
 ## Comandos
 
 ```bash
