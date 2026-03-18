@@ -1,0 +1,52 @@
+{
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "email": "Email",
+      "password": "Contraseña",
+      "submit": "Entrar",
+      "no_account": "¿No tienes cuenta?",
+      "register_link": "Regístrate"
+    },
+    "register": {
+      "title": "Crear cuenta",
+      "username": "Usuario",
+      "email": "Email",
+      "password": "Contraseña",
+      "submit": "Registrarse",
+      "has_account": "¿Ya tienes cuenta?",
+      "login_link": "Inicia sesión"
+    }
+  },
+  "recipes": {
+    "list": {
+      "title": "Listado de recetas",
+      "loading": "Cargando recetas...",
+      "meta": "Tiempo/Raciones: {{time}} min · {{servings}} raciones",
+      "metaSingular": "Tiempo/Raciones: {{time}} min · 1 ración"
+    },
+    "add": {
+      "title": "Nueva receta",
+      "namePlaceholder": "Nombre de la receta",
+      "descriptionPlaceholder": "Describe brevemente tu receta...",
+      "ingredientsPlaceholder": "Lista los ingredientes, uno por línea...",
+      "instructionsPlaceholder": "1. Primer paso\n2. Segundo paso...",
+      "submit": "Guardar receta"
+    },
+    "detail": {
+      "loading": "Cargando receta...",
+      "meta": "Preparación: {{prep}} min · Cocción: {{cook}} min · {{servings}} personas",
+      "category": "Categoría: {{name}}",
+      "ingredients": "Ingredientes",
+      "instructions": "Instrucciones",
+      "description": "Descripción",
+      "prep": "Preparación",
+      "cook": "Cocción",
+      "servings": "Raciones",
+      "servingsSingular": "Ración"
+    }
+  },
+  "errors": {
+    "generic": "Ha ocurrido un error. Inténtalo de nuevo."
+  }
+}

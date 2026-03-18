@@ -1,0 +1,153 @@
+<div class="recipe-add">
+
+  <header class="recipe-add__topbar">
+    <a class="recipe-add__back" routerLink="/recipes" aria-label="Volver">
+      <i class="pi pi-arrow-left"></i>
+    </a>
+    <span class="recipe-add__topbar-title">{{ 'recipes.add.title' | translate }}</span>
+    <span class="recipe-add__topbar-actions"></span>
+  </header>
+
+  <div class="recipe-add__hero">
+    <img class="recipe-add__image" [src]="imageUrl()" alt="Imagen de la receta" />
+    <input
+      #fileInput
+      type="file"
+      accept="image/*"
+      class="recipe-add__file-input"
+      (change)="onFileSelected($event)"
+    />
+    <button
+      class="recipe-add__upload-btn"
+      type="button"
+      aria-label="Subir imagen"
+      (click)="openFilePicker()"
+    >
+      <i class="pi pi-upload"></i>
+    </button>
+  </div>
+
+  <form class="recipe-add__content" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <input
+      class="recipe-add__name-input"
+      type="text"
+      formControlName="title"
+      [placeholder]="'recipes.add.namePlaceholder' | translate"
+    />
+
+    <div class="recipe-add__meta">
+      <span class="recipe-add__meta-item">
+        <i class="pi pi-clock"></i>
+        <input
+          class="recipe-add__meta-input"
+          type="number"
+          formControlName="prepTime"
+          min="0"
+          aria-label="Tiempo de preparación"
+        />
+        <span>+</span>
+        <input
+          class="recipe-add__meta-input"
+          type="number"
+          formControlName="cookTime"
+          min="0"
+          aria-label="Tiempo de cocción"
+        />
+        min
+      </span>
+      <span class="recipe-add__meta-item">
+        <i class="pi pi-users"></i>
+        <input
+          class="recipe-add__meta-input"
+          type="number"
+          formControlName="servings"
+          min="1"
+          aria-label="Raciones"
+        />
+        {{ 'recipes.detail.servings' | translate }}
+      </span>
+    </div>
+
+    <section class="recipe-add__section">
+      <h2 class="recipe-add__section-title">{{ 'recipes.detail.description' | translate }}</h2>
+      <textarea
+        class="recipe-add__textarea"
+        formControlName="description"
+        rows="3"
+        [placeholder]="'recipes.add.descriptionPlaceholder' | translate"
+      ></textarea>
+    </section>
+
+    <div class="recipe-add__times">
+      <div class="recipe-add__time-item">
+        <span class="recipe-add__time-label">{{ 'recipes.detail.prep' | translate }}</span>
+        <input
+          class="recipe-add__time-input"
+          type="number"
+          formControlName="prepTime"
+          min="0"
+        />
+        <span class="recipe-add__time-unit">min</span>
+      </div>
+      <div class="recipe-add__time-divider"></div>
+      <div class="recipe-add__time-item">
+        <span class="recipe-add__time-label">{{ 'recipes.detail.cook' | translate }}</span>
+        <input
+          class="recipe-add__time-input"
+          type="number"
+          formControlName="cookTime"
+          min="0"
+        />
+        <span class="recipe-add__time-unit">min</span>
+      </div>
+      <div class="recipe-add__time-divider"></div>
+      <div class="recipe-add__time-item">
+        <span class="recipe-add__time-label">{{ 'recipes.detail.servings' | translate }}</span>
+        <input
+          class="recipe-add__time-input"
+          type="number"
+          formControlName="servings"
+          min="1"
+        />
+      </div>
+    </div>
+
+    <section class="recipe-add__section">
+      <h2 class="recipe-add__section-title">{{ 'recipes.detail.ingredients' | translate }}</h2>
+      <textarea
+        class="recipe-add__textarea"
+        formControlName="ingredients"
+        rows="5"
+        [placeholder]="'recipes.add.ingredientsPlaceholder' | translate"
+      ></textarea>
+    </section>
+
+    <section class="recipe-add__section">
+      <h2 class="recipe-add__section-title">{{ 'recipes.detail.instructions' | translate }}</h2>
+      <textarea
+        class="recipe-add__textarea"
+        formControlName="instructions"
+        rows="7"
+        [placeholder]="'recipes.add.instructionsPlaceholder' | translate"
+      ></textarea>
+    </section>
+
+    @if (error()) {
+      <p class="recipe-add__error">{{ error() }}</p>
+    }
+
+    <button
+      class="recipe-add__submit"
+      type="submit"
+      [disabled]="form.invalid || submitting()"
+    >
+      @if (submitting()) {
+        <i class="pi pi-spin pi-spinner"></i>
+      } @else {
+        {{ 'recipes.add.submit' | translate }}
+      }
+    </button>
+
+  </form>
+</div>

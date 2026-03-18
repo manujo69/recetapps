@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(export NVM_DIR=\"$HOME/.nvm\")",
+      "Bash(. \"$NVM_DIR/nvm.sh\")",
+      "Bash(nvm use:*)",
+      "Bash(npm run:*)",
+      "Bash(bash -c 'source /home/manu/.nvm/nvm.sh && nvm use 22 && npm run build 2>&1 | tail -15')",
+      "Bash(npm install:*)",
+      "Bash(nvm list:*)"
+    ]
+  }
+}

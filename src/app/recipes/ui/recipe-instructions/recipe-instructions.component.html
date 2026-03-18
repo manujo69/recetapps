@@ -1,0 +1,8 @@
+<ol class="recipe-instructions">
+  @for (step of steps(); track step.number) {
+    <li class="recipe-instructions__step">
+      <span class="recipe-instructions__number">{{ step.number }}</span>
+      <span class="recipe-instructions__text">{{ step.text }}</span>
+    </li>
+  }
+</ol>

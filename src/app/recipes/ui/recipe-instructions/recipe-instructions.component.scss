@@ -1,0 +1,27 @@
+$brand-color: #e8a020;
+
+.recipe-instructions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.recipe-instructions__step {
+  display: flex;
+  gap: 0.6rem;
+  line-height: 1.6;
+}
+
+.recipe-instructions__number {
+  color: $brand-color;
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 1.5rem;
+}
+
+.recipe-instructions__text {
+  color: inherit;
+}

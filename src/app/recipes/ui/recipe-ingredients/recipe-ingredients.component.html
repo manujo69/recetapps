@@ -1,0 +1,8 @@
+<ul class="recipe-ingredients">
+  @for (item of items(); track item) {
+    <li class="recipe-ingredients__item">
+      <span class="recipe-ingredients__bullet" aria-hidden="true"></span>
+      <span class="recipe-ingredients__text">{{ item }}</span>
+    </li>
+  }
+</ul>

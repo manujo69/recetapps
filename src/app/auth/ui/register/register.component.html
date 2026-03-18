@@ -1,0 +1,66 @@
+<div class="min-h-screen flex items-center justify-center bg-surface-100">
+  <div class="bg-white rounded-2xl shadow-md w-full max-w-sm p-8 flex flex-col gap-5">
+
+    <h1 class="text-3xl font-bold text-center text-surface-800">{{ 'auth.register.title' | translate }}</h1>
+
+    @if (error()) {
+      <p class="text-red-500 text-sm text-center">{{ error() }}</p>
+    }
+
+    <form (ngSubmit)="submit()" class="flex flex-col gap-4">
+
+      <div class="flex flex-col gap-1">
+        <label class="text-sm text-surface-500">{{ 'auth.register.username' | translate }}</label>
+        <input
+          pInputText
+          type="text"
+          name="username"
+          [(ngModel)]="data.username"
+          [placeholder]="'auth.register.username' | translate"
+          class="w-full"
+          required
+          maxlength="50"
+        />
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-sm text-surface-500">{{ 'auth.register.email' | translate }}</label>
+        <input
+          pInputText
+          type="email"
+          name="email"
+          [(ngModel)]="data.email"
+          [placeholder]="'auth.register.email' | translate"
+          class="w-full"
+          required
+          maxlength="100"
+        />
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-sm text-surface-500">{{ 'auth.register.password' | translate }}</label>
+        <p-password
+          name="password"
+          [(ngModel)]="data.password"
+          [feedback]="false"
+          [fluid]="true"
+          required
+        />
+      </div>
+
+      <p-button
+        type="submit"
+        [label]="'auth.register.submit' | translate"
+        [loading]="loading()"
+        [fluid]="true"
+      />
+
+    </form>
+
+    <p class="text-center text-sm text-surface-500">
+      {{ 'auth.register.has_account' | translate }}
+      <a routerLink="/login" class="text-primary font-medium hover:underline">{{ 'auth.register.login_link' | translate }}</a>
+    </p>
+
+  </div>
+</div>

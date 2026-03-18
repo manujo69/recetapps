@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+@import 'primeicons/primeicons.css';
+
+:root {
+  --font-open-sans: 'Open Sans', sans-serif;
+  /* Override PrimeNG Aura theme font variable */
+  --p-font-family: 'Open Sans', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+}

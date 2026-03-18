@@ -1,0 +1,29 @@
+@if (loading()) {
+  <p class="recipe-list__status">{{ 'recipes.list.loading' | translate }}</p>
+} @else if (error()) {
+  <p class="recipe-list__status recipe-list__status--error">Error: {{ error() }}</p>
+} @else {
+  <div class="recipe-list">
+    <h1 class="recipe-list__title">Listado de recetas</h1>
+    <div class="recipe-list__grid">
+      @for (recipe of recipes(); track recipe.id) {
+        <app-recipe-panel [recipe]="recipe" />
+      }
+    </div>
+  </div>
+
+  <nav class="recipe-list__bottom-nav">
+    <a class="recipe-list__nav-item recipe-list__nav-item--active" routerLink="/recipes">
+      <i class="pi pi-home"></i>
+      <span>Inicio</span>
+    </a>
+    <a class="recipe-list__nav-item" routerLink="/favorites">
+      <i class="pi pi-heart"></i>
+      <span>Favoritos</span>
+    </a>
+  </nav>
+
+  <a class="recipe-list__add" routerLink="/recipes/new" aria-label="Crear receta">
+    <i class="pi pi-plus"></i>
+  </a>
+}

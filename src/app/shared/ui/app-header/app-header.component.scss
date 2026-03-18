@@ -1,0 +1,22 @@
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: white;
+  border-bottom: 1px solid #eee;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.app-header__logo-link {
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.app-header__logo {
+  height: 80px;
+  width: auto;
+  display: block;
+}
