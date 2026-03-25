@@ -1,29 +1,43 @@
 @if (loading()) {
-  <p class="recipe-list__status">{{ 'recipes.list.loading' | translate }}</p>
+  <p class="p-4">{{ 'recipes.list.loading' | translate }}</p>
 } @else if (error()) {
-  <p class="recipe-list__status recipe-list__status--error">Error: {{ error() }}</p>
+  <p class="p-4 text-red-600">Error: {{ error() }}</p>
 } @else {
-  <div class="recipe-list">
-    <h1 class="recipe-list__title">Listado de recetas</h1>
-    <div class="recipe-list__grid">
+  <div
+    class="px-4 pt-4 pb-[calc(1rem+64px)] md:px-8 md:pt-6 md:pb-[calc(1.5rem+64px)] lg:px-12 lg:pt-8 lg:pb-8 lg:max-w-7xl lg:mx-auto"
+  >
+    <h1 class="mt-0 mb-4 text-xl">Listado de recetas</h1>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
       @for (recipe of recipes(); track recipe.id) {
         <app-recipe-panel [recipe]="recipe" />
       }
     </div>
   </div>
 
-  <nav class="recipe-list__bottom-nav">
-    <a class="recipe-list__nav-item recipe-list__nav-item--active" routerLink="/recipes">
-      <i class="pi pi-home"></i>
+  <nav
+    class="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-gray-100 flex justify-around items-center z-[100] lg:hidden"
+  >
+    <a
+      class="flex flex-col items-center gap-[3px] no-underline text-brand text-[0.7rem] flex-1"
+      routerLink="/recipes"
+    >
+      <i class="pi pi-home text-[1.3rem]"></i>
       <span>Inicio</span>
     </a>
-    <a class="recipe-list__nav-item" routerLink="/favorites">
-      <i class="pi pi-heart"></i>
+    <a
+      class="flex flex-col items-center gap-[3px] no-underline text-gray-400 text-[0.7rem] flex-1"
+      routerLink="/favorites"
+    >
+      <i class="pi pi-heart text-[1.3rem]"></i>
       <span>Favoritos</span>
     </a>
   </nav>
 
-  <a class="recipe-list__add" routerLink="/recipes/new" aria-label="Crear receta">
+  <a
+    class="fixed bottom-[76px] left-1/2 -translate-x-1/2 w-[52px] h-[52px] rounded-full bg-brand text-white no-underline flex items-center justify-center z-[101] shadow-[0_4px_12px_rgba(232,160,32,0.4)] text-[1.4rem] lg:bottom-8 lg:right-12 lg:left-auto lg:translate-x-0"
+    routerLink="/recipes/new"
+    aria-label="Crear receta"
+  >
     <i class="pi pi-plus"></i>
   </a>
 }

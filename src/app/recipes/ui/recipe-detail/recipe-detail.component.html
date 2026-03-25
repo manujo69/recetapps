@@ -1,29 +1,29 @@
 @if (loading()) {
-  <p class="recipe-detail__status">{{ 'recipes.detail.loading' | translate }}</p>
+  <p class="p-4">{{ 'recipes.detail.loading' | translate }}</p>
 } @else if (error()) {
-  <p class="recipe-detail__status recipe-detail__status--error">{{ error() }}</p>
+  <p class="p-4 text-red-600">{{ error() }}</p>
 } @else if (recipe(); as r) {
-  <div class="recipe-detail">
+  <div class="min-h-dvh bg-[#9bad7969] pb-8">
 
-    <header class="recipe-detail__topbar">
-      <a class="recipe-detail__back" routerLink="/recipes" aria-label="Volver">
+    <header class="flex items-center justify-between px-4 pt-4 pb-3 bg-[#faf9f7] sticky top-0 z-10">
+      <a
+        class="flex items-center justify-center w-9 h-9 rounded-full bg-white shadow text-gray-800 no-underline shrink-0"
+        routerLink="/recipes"
+        aria-label="Volver"
+      >
         <i class="pi pi-arrow-left"></i>
       </a>
-      <span class="recipe-detail__topbar-actions"></span>
+      <span class="w-9"></span>
     </header>
 
-    <div class="recipe-detail__hero">
-      <img class="recipe-detail__image" [src]="imageUrl()" [alt]="r.title" />
-      <input
-        #fileInput
-        type="file"
-        accept="image/*"
-        class="recipe-detail__file-input"
-        (change)="onFileSelected($event)"
-      />
+    <div
+      class="mx-4 rounded-2xl aspect-[4/3] bg-[#e8ddd0] relative md:mx-8 md:mt-8 md:aspect-[16/7] lg:max-w-[860px] lg:mx-auto"
+    >
+      <img class="w-full h-full object-cover block rounded-2xl" [src]="imageUrl()" [alt]="r.title" />
+      <input #fileInput type="file" accept="image/*" class="hidden" (change)="onFileSelected($event)" />
       @if (isPlaceholderImage()) {
         <button
-          class="recipe-detail__upload-btn"
+          class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white border-0 shadow-md flex items-center justify-center cursor-pointer text-brand text-base transition-shadow hover:shadow-lg"
           type="button"
           aria-label="Subir imagen"
           [disabled]="uploading()"
@@ -34,58 +34,63 @@
       }
     </div>
 
-    <div class="recipe-detail__content">
+    <div class="px-4 pt-5 md:px-8 md:pt-6 lg:max-w-[860px] lg:mx-auto lg:px-0 lg:pt-6">
 
-      <h1 class="recipe-detail__name">{{ r.title }}</h1>
+      <h1 class="m-0 mb-3 text-[1.4rem] font-bold">{{ r.title }}</h1>
 
-      <div class="recipe-detail__meta">
-        <span class="recipe-detail__meta-item">
-          <i class="pi pi-clock"></i>
+      <div class="flex flex-wrap gap-y-3 gap-x-5 mb-5">
+        <span class="flex items-center gap-[0.35rem] text-[0.85rem] text-gray-600">
+          <i class="pi pi-clock text-brand text-[0.9rem]"></i>
           {{ r.prepTime + r.cookTime }} min
         </span>
-        <span class="recipe-detail__meta-item">
-          <i class="pi pi-users"></i>
-          {{ r.servings }} {{ (r.servings === 1 ? 'recipes.detail.servingsSingular' : 'recipes.detail.servings') | translate }}
+        <span class="flex items-center gap-[0.35rem] text-[0.85rem] text-gray-600">
+          <i class="pi pi-users text-brand text-[0.9rem]"></i>
+          {{ r.servings }}
+          {{
+            (r.servings === 1 ? 'recipes.detail.servingsSingular' : 'recipes.detail.servings') | translate
+          }}
         </span>
         @if (r.categoryName) {
-          <span class="recipe-detail__meta-item">
-            <i class="pi pi-tag"></i>
+          <span class="flex items-center gap-[0.35rem] text-[0.85rem] text-gray-600">
+            <i class="pi pi-tag text-brand text-[0.9rem]"></i>
             {{ r.categoryName }}
           </span>
         }
       </div>
 
       @if (r.description) {
-        <section class="recipe-detail__section">
-          <h2 class="recipe-detail__section-title">{{ 'recipes.detail.description' | translate }}</h2>
-          <p class="recipe-detail__description">{{ r.description }}</p>
+        <section class="mb-5 bg-white rounded-xl p-4 shadow-sm">
+          <h2 class="m-0 mb-2 text-base font-semibold">{{ 'recipes.detail.description' | translate }}</h2>
+          <p class="m-0 text-[0.9rem] text-gray-600 leading-relaxed">{{ r.description }}</p>
         </section>
       }
 
-      <div class="recipe-detail__times">
-        <div class="recipe-detail__time-item">
-          <span class="recipe-detail__time-label">{{ 'recipes.detail.prep' | translate }}</span>
-          <span class="recipe-detail__time-value">{{ r.prepTime }} min</span>
+      <div class="flex items-center bg-white rounded-xl p-4 mb-5 shadow-sm">
+        <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
+          <span class="text-xs text-gray-400">{{ 'recipes.detail.prep' | translate }}</span>
+          <span class="text-[0.95rem] font-semibold">{{ r.prepTime }} min</span>
         </div>
-        <div class="recipe-detail__time-divider"></div>
-        <div class="recipe-detail__time-item">
-          <span class="recipe-detail__time-label">{{ 'recipes.detail.cook' | translate }}</span>
-          <span class="recipe-detail__time-value">{{ r.cookTime }} min</span>
+        <div class="w-px h-8 bg-gray-100"></div>
+        <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
+          <span class="text-xs text-gray-400">{{ 'recipes.detail.cook' | translate }}</span>
+          <span class="text-[0.95rem] font-semibold">{{ r.cookTime }} min</span>
         </div>
-        <div class="recipe-detail__time-divider"></div>
-        <div class="recipe-detail__time-item">
-          <span class="recipe-detail__time-label">{{ (r.servings === 1 ? 'recipes.detail.servingsSingular' : 'recipes.detail.servings') | translate }}</span>
-          <span class="recipe-detail__time-value">{{ r.servings }}</span>
+        <div class="w-px h-8 bg-gray-100"></div>
+        <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
+          <span class="text-xs text-gray-400">{{
+            (r.servings === 1 ? 'recipes.detail.servingsSingular' : 'recipes.detail.servings') | translate
+          }}</span>
+          <span class="text-[0.95rem] font-semibold">{{ r.servings }}</span>
         </div>
       </div>
 
-      <section class="recipe-detail__section">
-        <h2 class="recipe-detail__section-title">{{ 'recipes.detail.ingredients' | translate }}</h2>
+      <section class="mb-5 bg-white rounded-xl p-4 shadow-sm">
+        <h2 class="m-0 mb-2 text-base font-semibold">{{ 'recipes.detail.ingredients' | translate }}</h2>
         <app-recipe-ingredients [ingredients]="r.ingredients" />
       </section>
 
-      <section class="recipe-detail__section">
-        <h2 class="recipe-detail__section-title">{{ 'recipes.detail.instructions' | translate }}</h2>
+      <section class="mb-5 bg-white rounded-xl p-4 shadow-sm">
+        <h2 class="m-0 mb-2 text-base font-semibold">{{ 'recipes.detail.instructions' | translate }}</h2>
         <app-recipe-instructions [instructions]="r.instructions" />
       </section>
 

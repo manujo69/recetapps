@@ -1,8 +1,8 @@
-<ul class="recipe-ingredients">
+<ul class="list-none m-0 p-0 flex flex-col gap-[0.65rem]">
   @for (item of items(); track item) {
-    <li class="recipe-ingredients__item">
-      <span class="recipe-ingredients__bullet" aria-hidden="true"></span>
-      <span class="recipe-ingredients__text">{{ item }}</span>
+    <li class="flex items-baseline gap-[0.6rem] leading-relaxed">
+      <span class="shrink-0 w-[7px] h-[7px] rounded-full bg-brand mt-[0.15rem]" aria-hidden="true"></span>
+      <span class="text-[0.9rem] text-gray-600">{{ item }}</span>
     </li>
   }
 </ul>

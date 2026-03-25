@@ -2,6 +2,10 @@
 
 Guidelines for AI agents working on this codebase.
 
+## API Reference
+
+The file `openapi.json` (project root) is the authoritative reference for the backend API: endpoints, request/response schemas, authentication, and data models. Always consult it when working with backend-related functionality.
+
 ## Project Overview
 
 Angular 20 application (recipe-app). Uses standalone components, Angular Router, and Zone.js-based change detection.
@@ -48,11 +52,70 @@ src/
     app.ts              # Root component
     app.config.ts       # App-level providers
     app.routes.ts       # Route definitions
-    # TODO: add feature folders here (e.g. recipes/, shared/)
+    <feature>/
+      domain/           # Models + ports (abstract classes)
+      application/      # Use cases (services)
+      infrastructure/   # Adapters (HTTP, mock, etc.)
+      ui/               # Standalone components
+    shared/
+      ui/               # Reusable components with no feature dependency
   main.ts
   styles.css
 public/               # Static assets
 ```
+
+## Hexagonal Architecture (Ports & Adapters)
+
+Every feature follows a strict four-layer structure. All layers are inside `src/app/<feature>/`.
+
+### Layers
+
+**1. Domain** (`domain/`)
+- `<feature>.model.ts` — pure TypeScript interfaces / value objects. No Angular, no RxJS, no framework dependencies.
+- `<feature>.repository.ts` — the **port**: an `abstract class` that defines the contract between application and infrastructure. Components and services only ever reference this abstract class, never a concrete implementation.
+
+**2. Application** (`application/`)
+- `<feature>.service.ts` — **use case orchestrator**. Injected with the port via `inject(FeatureRepository)`. Coordinates domain logic, applies side effects (e.g. `tap` for storing tokens), and exposes reactive state via `signal()` / `computed()` when needed. Never imports from `infrastructure/` or `ui/`.
+
+**3. Infrastructure** (`infrastructure/`)
+- `<feature>-http.repository.ts` — production adapter. Extends the abstract repository and calls the real HTTP API.
+- `<feature>-mock.repository.ts` — development/test adapter. Extends the same abstract repository and returns in-memory data.
+- Other adapters (WebSocket, localStorage, etc.) follow the same `<feature>-<transport>.repository.ts` naming.
+
+**4. UI** (`ui/`)
+- One subfolder per component (`ui/<feature-screen>/`).
+- Components inject the **application service**, never the repository or infrastructure directly.
+- Local state uses `signal()` and `computed()`; async flows use RxJS (`Observable` returned by the service).
+
+### Dependency Injection wiring
+
+Adapters are registered in `app.config.ts` using the `useClass` token:
+
+```typescript
+{ provide: RecipeRepository, useClass: environment.useMockApi ? RecipeMockRepository : RecipeHttpRepository },
+RecipeService,
+```
+
+This is the only place in the codebase that knows which adapter is active. Swapping from HTTP to mock (or any future transport) requires changing only this one line.
+
+### Dependency rules (strict)
+
+| Layer | May depend on | Must NOT depend on |
+|---|---|---|
+| Domain | nothing | Application, Infrastructure, UI, Angular |
+| Application | Domain | Infrastructure, UI |
+| Infrastructure | Domain | Application, UI |
+| UI | Application, Domain (models only) | Infrastructure |
+
+### Adding a new feature — checklist
+
+1. Create `src/app/<feature>/domain/<feature>.model.ts` with interfaces.
+2. Create `src/app/<feature>/domain/<feature>.repository.ts` as an `abstract class`.
+3. Create `src/app/<feature>/application/<feature>.service.ts` injecting the abstract class.
+4. Create at least one adapter in `infrastructure/` that `extends` the abstract class.
+5. Register the chosen adapter in `app.config.ts` via `{ provide: FeatureRepository, useClass: ... }`.
+6. Build UI components under `ui/` that inject only the application service.
+7. Write unit tests for the service and each adapter independently.
 
 ## Guidelines for Agents
 

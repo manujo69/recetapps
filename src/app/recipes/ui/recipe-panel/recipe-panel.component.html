@@ -1,15 +1,18 @@
-<article class="recipe-card">
-  <a class="recipe-card__link" [routerLink]="['/recipes', recipe().id]">
-    <div class="recipe-card__image-wrapper">
-      <img class="recipe-card__image" [src]="imageUrl()" [alt]="recipe().title" />
+<article class="rounded-xl overflow-hidden shadow-md bg-white transition-shadow duration-200 hover:shadow-lg">
+  <a class="block no-underline text-inherit" [routerLink]="['/recipes', recipe().id]">
+    <div class="w-full aspect-[4/3] overflow-hidden bg-[#f5f0ea]">
+      <img class="w-full h-full object-cover block" [src]="imageUrl()" [alt]="recipe().title" />
     </div>
-    <div class="recipe-card__body">
-      <h3 class="recipe-card__title">{{ recipe().title }}</h3>
-      <p class="recipe-card__meta">
+    <div class="p-3">
+      <h3 class="m-0 mb-1 text-[0.95rem] font-semibold">{{ recipe().title }}</h3>
+      <p class="m-0 text-[0.8rem] text-gray-400">
         @if (recipe().servings === 1) {
           {{ 'recipes.list.metaSingular' | translate: { time: recipe().prepTime + recipe().cookTime } }}
         } @else {
-          {{ 'recipes.list.meta' | translate: { time: recipe().prepTime + recipe().cookTime, servings: recipe().servings } }}
+          {{
+            'recipes.list.meta'
+              | translate: { time: recipe().prepTime + recipe().cookTime, servings: recipe().servings }
+          }}
         }
       </p>
     </div>

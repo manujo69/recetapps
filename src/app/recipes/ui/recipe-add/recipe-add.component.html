@@ -1,24 +1,24 @@
-<div class="recipe-add">
+<div class="min-h-dvh bg-[#9bad7969] pb-8">
 
-  <header class="recipe-add__topbar">
-    <a class="recipe-add__back" routerLink="/recipes" aria-label="Volver">
+  <header class="flex items-center justify-between px-4 pt-4 pb-3 bg-[#faf9f7] sticky top-0 z-10">
+    <a
+      class="flex items-center justify-center w-9 h-9 rounded-full bg-white shadow text-gray-800 no-underline shrink-0"
+      routerLink="/recipes"
+      aria-label="Volver"
+    >
       <i class="pi pi-arrow-left"></i>
     </a>
-    <span class="recipe-add__topbar-title">{{ 'recipes.add.title' | translate }}</span>
-    <span class="recipe-add__topbar-actions"></span>
+    <span class="font-semibold text-base">{{ 'recipes.add.title' | translate }}</span>
+    <span class="w-9"></span>
   </header>
 
-  <div class="recipe-add__hero">
-    <img class="recipe-add__image" [src]="imageUrl()" alt="Imagen de la receta" />
-    <input
-      #fileInput
-      type="file"
-      accept="image/*"
-      class="recipe-add__file-input"
-      (change)="onFileSelected($event)"
-    />
+  <div
+    class="mx-4 rounded-2xl aspect-[4/3] bg-[#e8ddd0] relative md:mx-8 md:mt-8 md:aspect-[16/7] lg:max-w-[860px] lg:mx-auto"
+  >
+    <img class="w-full h-full object-cover block rounded-2xl" [src]="imageUrl()" alt="Imagen de la receta" />
+    <input #fileInput type="file" accept="image/*" class="hidden" (change)="onFileSelected($event)" />
     <button
-      class="recipe-add__upload-btn"
+      class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white border-0 shadow-md flex items-center justify-center cursor-pointer text-brand text-base transition-shadow hover:shadow-lg"
       type="button"
       aria-label="Subir imagen"
       (click)="openFilePicker()"
@@ -27,20 +27,24 @@
     </button>
   </div>
 
-  <form class="recipe-add__content" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form
+    class="px-4 pt-5 md:px-8 md:pt-6 lg:max-w-[860px] lg:mx-auto lg:px-0 lg:pt-6"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
 
     <input
-      class="recipe-add__name-input"
+      class="block w-full mb-3 text-[1.4rem] font-bold border-b-2 border-gray-200 bg-transparent outline-none py-1 focus:border-brand placeholder:text-gray-200 placeholder:font-normal"
       type="text"
       formControlName="title"
       [placeholder]="'recipes.add.namePlaceholder' | translate"
     />
 
-    <div class="recipe-add__meta">
-      <span class="recipe-add__meta-item">
-        <i class="pi pi-clock"></i>
+    <div class="flex flex-wrap gap-y-3 gap-x-5 mb-5 items-center">
+      <span class="flex items-center gap-[0.35rem] text-[0.85rem] text-gray-600">
+        <i class="pi pi-clock text-brand text-[0.9rem]"></i>
         <input
-          class="recipe-add__meta-input"
+          class="w-12 border-b border-gray-200 bg-transparent text-[0.85rem] text-gray-600 text-center outline-none py-0.5 focus:border-brand"
           type="number"
           formControlName="prepTime"
           min="0"
@@ -48,7 +52,7 @@
         />
         <span>+</span>
         <input
-          class="recipe-add__meta-input"
+          class="w-12 border-b border-gray-200 bg-transparent text-[0.85rem] text-gray-600 text-center outline-none py-0.5 focus:border-brand"
           type="number"
           formControlName="cookTime"
           min="0"
@@ -56,10 +60,10 @@
         />
         min
       </span>
-      <span class="recipe-add__meta-item">
-        <i class="pi pi-users"></i>
+      <span class="flex items-center gap-[0.35rem] text-[0.85rem] text-gray-600">
+        <i class="pi pi-users text-brand text-[0.9rem]"></i>
         <input
-          class="recipe-add__meta-input"
+          class="w-12 border-b border-gray-200 bg-transparent text-[0.85rem] text-gray-600 text-center outline-none py-0.5 focus:border-brand"
           type="number"
           formControlName="servings"
           min="1"
@@ -69,43 +73,43 @@
       </span>
     </div>
 
-    <section class="recipe-add__section">
-      <h2 class="recipe-add__section-title">{{ 'recipes.detail.description' | translate }}</h2>
+    <section class="mb-5 bg-white rounded-xl p-4 shadow-sm">
+      <h2 class="m-0 mb-2 text-base font-semibold">{{ 'recipes.detail.description' | translate }}</h2>
       <textarea
-        class="recipe-add__textarea"
+        class="block w-full text-[0.9rem] text-gray-600 leading-relaxed border border-gray-100 rounded-lg p-2 resize-y outline-none focus:border-brand placeholder:text-gray-300"
         formControlName="description"
         rows="3"
         [placeholder]="'recipes.add.descriptionPlaceholder' | translate"
       ></textarea>
     </section>
 
-    <div class="recipe-add__times">
-      <div class="recipe-add__time-item">
-        <span class="recipe-add__time-label">{{ 'recipes.detail.prep' | translate }}</span>
+    <div class="flex items-center bg-white rounded-xl p-4 mb-5 shadow-sm">
+      <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
+        <span class="text-xs text-gray-400">{{ 'recipes.detail.prep' | translate }}</span>
         <input
-          class="recipe-add__time-input"
+          class="w-14 text-[0.95rem] font-semibold border-b border-gray-200 bg-transparent text-center outline-none py-0.5 focus:border-brand"
           type="number"
           formControlName="prepTime"
           min="0"
         />
-        <span class="recipe-add__time-unit">min</span>
+        <span class="text-[0.7rem] text-gray-300">min</span>
       </div>
-      <div class="recipe-add__time-divider"></div>
-      <div class="recipe-add__time-item">
-        <span class="recipe-add__time-label">{{ 'recipes.detail.cook' | translate }}</span>
+      <div class="w-px h-8 bg-gray-100"></div>
+      <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
+        <span class="text-xs text-gray-400">{{ 'recipes.detail.cook' | translate }}</span>
         <input
-          class="recipe-add__time-input"
+          class="w-14 text-[0.95rem] font-semibold border-b border-gray-200 bg-transparent text-center outline-none py-0.5 focus:border-brand"
           type="number"
           formControlName="cookTime"
           min="0"
         />
-        <span class="recipe-add__time-unit">min</span>
+        <span class="text-[0.7rem] text-gray-300">min</span>
       </div>
-      <div class="recipe-add__time-divider"></div>
-      <div class="recipe-add__time-item">
-        <span class="recipe-add__time-label">{{ 'recipes.detail.servings' | translate }}</span>
+      <div class="w-px h-8 bg-gray-100"></div>
+      <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
+        <span class="text-xs text-gray-400">{{ 'recipes.detail.servings' | translate }}</span>
         <input
-          class="recipe-add__time-input"
+          class="w-14 text-[0.95rem] font-semibold border-b border-gray-200 bg-transparent text-center outline-none py-0.5 focus:border-brand"
           type="number"
           formControlName="servings"
           min="1"
@@ -113,20 +117,20 @@
       </div>
     </div>
 
-    <section class="recipe-add__section">
-      <h2 class="recipe-add__section-title">{{ 'recipes.detail.ingredients' | translate }}</h2>
+    <section class="mb-5 bg-white rounded-xl p-4 shadow-sm">
+      <h2 class="m-0 mb-2 text-base font-semibold">{{ 'recipes.detail.ingredients' | translate }}</h2>
       <textarea
-        class="recipe-add__textarea"
+        class="block w-full text-[0.9rem] text-gray-600 leading-relaxed border border-gray-100 rounded-lg p-2 resize-y outline-none focus:border-brand placeholder:text-gray-300"
         formControlName="ingredients"
         rows="5"
         [placeholder]="'recipes.add.ingredientsPlaceholder' | translate"
       ></textarea>
     </section>
 
-    <section class="recipe-add__section">
-      <h2 class="recipe-add__section-title">{{ 'recipes.detail.instructions' | translate }}</h2>
+    <section class="mb-5 bg-white rounded-xl p-4 shadow-sm">
+      <h2 class="m-0 mb-2 text-base font-semibold">{{ 'recipes.detail.instructions' | translate }}</h2>
       <textarea
-        class="recipe-add__textarea"
+        class="block w-full text-[0.9rem] text-gray-600 leading-relaxed border border-gray-100 rounded-lg p-2 resize-y outline-none focus:border-brand placeholder:text-gray-300"
         formControlName="instructions"
         rows="7"
         [placeholder]="'recipes.add.instructionsPlaceholder' | translate"
@@ -134,11 +138,11 @@
     </section>
 
     @if (error()) {
-      <p class="recipe-add__error">{{ error() }}</p>
+      <p class="text-red-600 text-[0.85rem] mb-4">{{ error() }}</p>
     }
 
     <button
-      class="recipe-add__submit"
+      class="flex items-center justify-center gap-2 w-full py-3.5 bg-brand text-white border-0 rounded-xl text-base font-semibold cursor-pointer transition-opacity enabled:hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
       type="submit"
       [disabled]="form.invalid || submitting()"
     >
