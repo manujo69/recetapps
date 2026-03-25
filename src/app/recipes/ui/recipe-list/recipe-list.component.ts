@@ -1,7 +1,6 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Recipe } from '../../domain/recipe.model';
-import { RecipeService } from '../../application/recipe.service';
+import { RecipeStore } from '../../application/recipe.store';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RecipePanelComponent } from '../recipe-panel/recipe-panel.component';
 
@@ -12,26 +11,14 @@ import { RecipePanelComponent } from '../recipe-panel/recipe-panel.component';
   styleUrl: './recipe-list.component.scss',
 })
 export class RecipeListComponent implements OnInit {
-  private readonly recipeService = inject(RecipeService);
+  private readonly store = inject(RecipeStore);
 
-  readonly recipes = signal<Recipe[]>([]);
-  readonly loading = signal(true);
-  readonly error = signal<string | null>(null);
+  // Alias hacia las signals del store — el template no necesita cambiar
+  readonly recipes = this.store.recipes;
+  readonly loading = this.store.loading;
+  readonly error = this.store.error;
 
   ngOnInit(): void {
-    this.recipeService.getAll().subscribe({
-      next: (recipes) => {
-        this.recipes.set(recipes);
-        this.loading.set(false);
-      },
-      error: (err) => {
-        this.error.set(err.message ?? 'Error al cargar las recetas');
-        this.loading.set(false);
-      },
-    });
-  }
-
-  addRecipe(): void {
-
+    this.store.loadAll();
   }
 }

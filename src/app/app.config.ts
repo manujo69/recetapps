@@ -14,7 +14,7 @@ import { environment } from '../environments/environment';
 import { RecipeRepository } from './recipes/domain/recipe.repository';
 import { RecipeHttpRepository } from './recipes/infrastructure/recipe-http.repository';
 import { RecipeMockRepository } from './recipes/infrastructure/recipe-mock.repository';
-import { RecipeService } from './recipes/application/recipe.service';
+import { RecipeStore } from './recipes/application/recipe.store';
 
 import { AuthRepository } from './auth/domain/auth.repository';
 import { AuthHttpRepository } from './auth/infrastructure/auth-http.repository';
@@ -32,7 +32,7 @@ export const appConfig: ApplicationConfig = {
     provideTranslateService({ lang: 'es' }),
     provideTranslateHttpLoader({ prefix: '/i18n/', suffix: '.json' }),
     { provide: RecipeRepository, useClass: environment.useMockApi ? RecipeMockRepository : RecipeHttpRepository },
-    RecipeService,
+    RecipeStore,
     { provide: AuthRepository, useClass: environment.useMockApi ? AuthMockRepository : AuthHttpRepository },
     AuthService,
   ],

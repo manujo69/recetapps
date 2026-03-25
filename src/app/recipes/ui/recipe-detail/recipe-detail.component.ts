@@ -1,7 +1,6 @@
 import { Component, computed, inject, OnInit, signal, viewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Recipe } from '../../domain/recipe.model';
-import { RecipeService } from '../../application/recipe.service';
+import { RecipeStore } from '../../application/recipe.store';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RecipeInstructionsComponent } from '../recipe-instructions/recipe-instructions.component';
 import { RecipeIngredientsComponent } from '../recipe-ingredients/recipe-ingredients.component';
@@ -13,12 +12,15 @@ import { RecipeIngredientsComponent } from '../recipe-ingredients/recipe-ingredi
   styleUrl: './recipe-detail.component.scss',
 })
 export class RecipeDetailComponent implements OnInit {
-  private readonly recipeService = inject(RecipeService);
+  private readonly store = inject(RecipeStore);
   private readonly route = inject(ActivatedRoute);
 
-  readonly recipe = signal<Recipe | null>(null);
-  readonly loading = signal(true);
-  readonly error = signal<string | null>(null);
+  // Alias hacia las signals del store — el template no necesita cambiar
+  readonly recipe = this.store.selectedRecipe;
+  readonly loading = this.store.loading;
+  readonly error = this.store.error;
+
+  // Estado local exclusivo de esta vista
   readonly uploading = signal(false);
 
   private readonly fileInput = viewChild.required<ElementRef<HTMLInputElement>>('fileInput');
@@ -37,7 +39,7 @@ export class RecipeDetailComponent implements OnInit {
   private readonly recipeId = computed(() => Number(this.route.snapshot.paramMap.get('id')));
 
   ngOnInit(): void {
-    this.loadRecipe();
+    this.store.loadById(this.recipeId());
   }
 
   openFilePicker(): void {
@@ -49,30 +51,9 @@ export class RecipeDetailComponent implements OnInit {
     if (!file) return;
 
     this.uploading.set(true);
-    this.recipeService.uploadImage(this.recipeId(), file).subscribe({
-      next: (image) => {
-        const current = this.recipe();
-        if (current) {
-          this.recipe.set({ ...current, images: [image, ...(current.images ?? [])] });
-        }
-        this.uploading.set(false);
-      },
-      error: () => {
-        this.uploading.set(false);
-      },
-    });
-  }
-
-  private loadRecipe(): void {
-    this.recipeService.getById(this.recipeId()).subscribe({
-      next: (recipe) => {
-        this.recipe.set(recipe);
-        this.loading.set(false);
-      },
-      error: (err) => {
-        this.error.set(err.message ?? 'Receta no encontrada');
-        this.loading.set(false);
-      },
+    this.store.uploadImage(this.recipeId(), file).subscribe({
+      next: () => this.uploading.set(false),
+      error: () => this.uploading.set(false),
     });
   }
 }

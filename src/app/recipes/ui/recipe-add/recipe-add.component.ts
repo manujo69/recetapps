@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal, viewChild, ElementRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RecipeService } from '../../application/recipe.service';
+import { RecipeStore } from '../../application/recipe.store';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -11,7 +11,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './recipe-add.component.scss',
 })
 export class RecipeAddComponent {
-  private readonly recipeService = inject(RecipeService);
+  private readonly store = inject(RecipeStore);
   private readonly router = inject(Router);
 
   readonly submitting = signal(false);
@@ -26,9 +26,18 @@ export class RecipeAddComponent {
   readonly form = new FormGroup({
     title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     description: new FormControl('', { nonNullable: true }),
-    prepTime: new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] }),
-    cookTime: new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] }),
-    servings: new FormControl(1, { nonNullable: true, validators: [Validators.required, Validators.min(1)] }),
+    prepTime: new FormControl(0, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.min(0)],
+    }),
+    cookTime: new FormControl(0, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.min(0)],
+    }),
+    servings: new FormControl(1, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.min(1)],
+    }),
     ingredients: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     instructions: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
   });
@@ -53,13 +62,13 @@ export class RecipeAddComponent {
     const { title, description, prepTime, cookTime, servings, ingredients, instructions } =
       this.form.getRawValue();
 
-    this.recipeService
+    this.store
       .create({ title, description, prepTime, cookTime, servings, ingredients, instructions })
       .subscribe({
         next: (recipe) => {
           const image = this.selectedImage();
           if (image && recipe.id) {
-            this.recipeService.uploadImage(recipe.id, image).subscribe({
+            this.store.uploadImage(recipe.id, image).subscribe({
               next: () => this.router.navigate(['/recipes', recipe.id]),
               error: () => this.router.navigate(['/recipes', recipe.id]),
             });
