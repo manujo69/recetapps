@@ -1,8 +1,10 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
+import { provideTranslateService } from '@ngx-translate/core';
 import { RecipeListComponent } from './recipe-list.component';
-import { RecipeService } from '../../application/recipe.service';
+import { RecipeStore } from '../../application/recipe.store';
+import { RecipeRepository } from '../../domain/recipe.repository';
 import { Recipe } from '../../domain/recipe.model';
 
 const MOCK_RECIPES: Recipe[] = [
@@ -11,34 +13,40 @@ const MOCK_RECIPES: Recipe[] = [
 ];
 
 describe('RecipeListComponent', () => {
-  let mockRecipeService: jasmine.SpyObj<RecipeService>;
+  let mockRepository: jasmine.SpyObj<RecipeRepository>;
 
   beforeEach(async () => {
-    mockRecipeService = jasmine.createSpyObj('RecipeService', ['getAll']);
+    mockRepository = jasmine.createSpyObj('RecipeRepository', [
+      'getAll', 'getById', 'create', 'update', 'delete',
+      'getByUser', 'search', 'getByCategory', 'uploadImage',
+    ]);
 
     await TestBed.configureTestingModule({
       imports: [RecipeListComponent],
       providers: [
         provideRouter([]),
-        { provide: RecipeService, useValue: mockRecipeService },
+        provideTranslateService({ lang: 'es' }),
+        { provide: RecipeRepository, useValue: mockRepository },
+        RecipeStore,
       ],
     }).compileComponents();
   });
 
   it('should create', () => {
-    mockRecipeService.getAll.and.returnValue(of([]));
+    mockRepository.getAll.and.returnValue(of([]));
     const fixture = TestBed.createComponent(RecipeListComponent);
     expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('should show loading state before data arrives', () => {
-    mockRecipeService.getAll.and.returnValue(of([]));
+  it('should start with empty state before data loads', () => {
+    mockRepository.getAll.and.returnValue(of([]));
     const fixture = TestBed.createComponent(RecipeListComponent);
-    expect(fixture.componentInstance.loading()).toBeTrue();
+    expect(fixture.componentInstance.recipes()).toEqual([]);
+    expect(fixture.componentInstance.loading()).toBeFalse();
   });
 
   it('should populate recipes and stop loading on success', fakeAsync(() => {
-    mockRecipeService.getAll.and.returnValue(of(MOCK_RECIPES));
+    mockRepository.getAll.and.returnValue(of(MOCK_RECIPES));
     const fixture = TestBed.createComponent(RecipeListComponent);
     fixture.detectChanges();
     tick();
@@ -49,7 +57,7 @@ describe('RecipeListComponent', () => {
   }));
 
   it('should set error message and stop loading on failure', fakeAsync(() => {
-    mockRecipeService.getAll.and.returnValue(throwError(() => new Error('Error al cargar las recetas')));
+    mockRepository.getAll.and.returnValue(throwError(() => new Error('Error al cargar las recetas')));
     const fixture = TestBed.createComponent(RecipeListComponent);
     fixture.detectChanges();
     tick();

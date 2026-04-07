@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test --watch=false",
+    "test:coverage": "ng test recetapps --watch=false --browsers=ChromeHeadless --code-coverage",
+    "test:coverage:open": "npm run test:coverage && open-cli coverage/recetapps/index.html"
   },
   "prettier": {
     "printWidth": 100,
@@ -51,8 +53,12 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "open-cli": "^9.0.0",
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.2",
     "typescript": "~5.9.2"
+  },
+  "volta": {
+    "node": "22.22.1"
   }
 }

@@ -97,12 +97,12 @@ export const RecipeStore = signalStore(
         return repository.uploadImage(recipeId, file).pipe(
           tap((image) => {
             const current = store.selectedRecipe();
-            if (current) {
-              patchState(store, {
+            patchState(store, {
+              loading: false,
+              ...(current && {
                 selectedRecipe: { ...current, images: [image, ...(current.images ?? [])] },
-                loading: false,
-              });
-            }
+              }),
+            });
           }),
           catchError((err) => {
             patchState(store, { loading: false });

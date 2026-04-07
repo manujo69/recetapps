@@ -2,8 +2,10 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
+import { provideTranslateService } from '@ngx-translate/core';
 import { RegisterComponent } from './register.component';
 import { AuthService } from '../../application/auth.service';
 import { AuthResponse } from '../../domain/auth.model';
@@ -27,7 +29,9 @@ describe('RegisterComponent', () => {
       imports: [RegisterComponent],
       providers: [
         provideRouter([]),
+        provideAnimations(),
         providePrimeNG({ theme: { preset: Aura } }),
+        provideTranslateService({ lang: 'es' }),
         { provide: AuthService, useValue: mockAuthService },
       ],
     }).compileComponents();
@@ -49,6 +53,7 @@ describe('RegisterComponent', () => {
 
   it('should call authService.register with form data on submit', fakeAsync(() => {
     mockAuthService.register.and.returnValue(of(MOCK_RESPONSE));
+    spyOn(router, 'navigateByUrl');
     const fixture = TestBed.createComponent(RegisterComponent);
     const component = fixture.componentInstance;
     component.data = { username: 'newuser', email: 'new@test.com', password: 'secret123' };
@@ -84,5 +89,16 @@ describe('RegisterComponent', () => {
 
     expect(component.error()).toBe('El email ya está registrado');
     expect(component.loading()).toBeFalse();
+  }));
+
+  it('should show fallback error message when error has no message', fakeAsync(() => {
+    mockAuthService.register.and.returnValue(throwError(() => ({})));
+    const fixture = TestBed.createComponent(RegisterComponent);
+    const component = fixture.componentInstance;
+
+    component.submit();
+    tick();
+
+    expect(component.error()).toBe('Error al registrarse');
   }));
 });

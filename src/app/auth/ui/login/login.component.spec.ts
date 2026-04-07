@@ -2,8 +2,10 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
+import { provideTranslateService } from '@ngx-translate/core';
 import { LoginComponent } from './login.component';
 import { AuthService } from '../../application/auth.service';
 import { AuthResponse } from '../../domain/auth.model';
@@ -27,7 +29,9 @@ describe('LoginComponent', () => {
       imports: [LoginComponent],
       providers: [
         provideRouter([]),
+        provideAnimations(),
         providePrimeNG({ theme: { preset: Aura } }),
+        provideTranslateService({ lang: 'es' }),
         { provide: AuthService, useValue: mockAuthService },
       ],
     }).compileComponents();
@@ -49,6 +53,7 @@ describe('LoginComponent', () => {
 
   it('should call authService.login with credentials on submit', fakeAsync(() => {
     mockAuthService.login.and.returnValue(of(MOCK_RESPONSE));
+    spyOn(router, 'navigateByUrl');
     const fixture = TestBed.createComponent(LoginComponent);
     const component = fixture.componentInstance;
     component.credentials = { email: 'test@test.com', password: '123456' };
@@ -80,5 +85,16 @@ describe('LoginComponent', () => {
 
     expect(component.error()).toBe('Credenciales incorrectas');
     expect(component.loading()).toBeFalse();
+  }));
+
+  it('should show fallback error message when error has no message', fakeAsync(() => {
+    mockAuthService.login.and.returnValue(throwError(() => ({})));
+    const fixture = TestBed.createComponent(LoginComponent);
+    const component = fixture.componentInstance;
+
+    component.submit();
+    tick();
+
+    expect(component.error()).toBe('Error al iniciar sesión');
   }));
 });
