@@ -207,7 +207,7 @@ describe('RecipeStore', () => {
     it('should use a fallback error message when the error has no message', fakeAsync(() => {
       repositorySpy.create.and.returnValue(throwError(() => ({})));
 
-      store.create(RECIPE_1).subscribe({ error: () => {} });
+      store.create(RECIPE_1).subscribe({ error: () => { console.log('Error al crear receta'); } });
       tick();
 
       expect(store.error()).toBe('Error al crear receta');

@@ -10,11 +10,12 @@
     <form (ngSubmit)="submit()" class="flex flex-col gap-4">
 
       <div class="flex flex-col gap-1">
-        <label class="text-sm text-gray-500">{{ 'auth.register.username' | translate }}</label>
+        <label for="register-username" class="text-sm text-gray-500">{{ 'auth.register.username' | translate }}</label>
         <input
           pInputText
           type="text"
           name="username"
+          inputId="register-username"
           [(ngModel)]="data.username"
           [placeholder]="'auth.register.username' | translate"
           class="w-full"
@@ -24,11 +25,12 @@
       </div>
 
       <div class="flex flex-col gap-1">
-        <label class="text-sm text-gray-500">{{ 'auth.register.email' | translate }}</label>
+        <label for="email" class="text-sm text-gray-500">{{ 'auth.register.email' | translate }}</label>
         <input
           pInputText
           type="email"
           name="email"
+          inputName="email"
           [(ngModel)]="data.email"
           [placeholder]="'auth.register.email' | translate"
           class="w-full"
@@ -38,9 +40,10 @@
       </div>
 
       <div class="flex flex-col gap-1">
-        <label class="text-sm text-gray-500">{{ 'auth.register.password' | translate }}</label>
+        <label for="password" class="text-sm text-gray-500">{{ 'auth.register.password' | translate }}</label>
         <p-password
           name="password"
+          inputId="password"
           [(ngModel)]="data.password"
           [feedback]="false"
           [fluid]="true"

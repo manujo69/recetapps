@@ -17,6 +17,6 @@ describe('App', () => {
 
   it('should have title signal set to recetapps', () => {
     const fixture = TestBed.createComponent(App);
-    expect((fixture.componentInstance as any).title()).toBe('recetapps');
+    expect((fixture.componentInstance as unknown as { title: () => string }).title()).toBe('recetapps');
   });
 });

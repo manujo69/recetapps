@@ -20,8 +20,9 @@
       />
 
       <div class="flex flex-col gap-1">
-        <label class="text-sm text-gray-500">{{ 'auth.login.password' | translate }}</label>
+        <label for="login-password" class="text-sm text-gray-500">{{ 'auth.login.password' | translate }}</label>
         <p-password
+          inputId="login-password"
           name="password"
           [(ngModel)]="credentials.password"
           [feedback]="false"

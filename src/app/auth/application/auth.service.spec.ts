@@ -91,7 +91,7 @@ describe('AuthService', () => {
     it('should not update state if repository errors', () => {
       repositorySpy.login.and.returnValue(throwError(() => new Error('Unauthorized')));
 
-      service.login(credentials).subscribe({ error: () => {} });
+      service.login(credentials).subscribe({ error: () => { console.log('Login failed'); } });
 
       expect(service.currentUser()).toBeNull();
       expect(localStorage.getItem('token')).toBeNull();
@@ -145,7 +145,7 @@ describe('AuthService', () => {
     it('should not update state if repository errors', () => {
       repositorySpy.register.and.returnValue(throwError(() => new Error('Conflict')));
 
-      service.register(data).subscribe({ error: () => {} });
+      service.register(data).subscribe({ error: () => { console.log('Registration failed'); } });
 
       expect(service.currentUser()).toBeNull();
       expect(localStorage.getItem('token')).toBeNull();
