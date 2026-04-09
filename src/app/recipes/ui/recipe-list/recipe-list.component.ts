@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { RecipeStore } from '../../application/recipe.store';
+import { RecipeService } from '../../application/recipe.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RecipePanelComponent } from '../recipe-panel/recipe-panel.component';
 
@@ -11,14 +11,14 @@ import { RecipePanelComponent } from '../recipe-panel/recipe-panel.component';
   styleUrl: './recipe-list.component.scss',
 })
 export class RecipeListComponent implements OnInit {
-  private readonly store = inject(RecipeStore);
+  private readonly recipeService = inject(RecipeService);
 
   // Alias hacia las signals del store — el template no necesita cambiar
-  readonly recipes = this.store.recipes;
-  readonly loading = this.store.loading;
-  readonly error = this.store.error;
+  readonly recipes = this.recipeService.recipes;
+  readonly loading = this.recipeService.loading;
+  readonly error = this.recipeService.error;
 
   ngOnInit(): void {
-    this.store.loadAll();
+    this.recipeService.loadAll();
   }
 }

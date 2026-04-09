@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal, viewChild, ElementRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RecipeStore } from '../../application/recipe.store';
+import { RecipeService } from '../../application/recipe.service';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -11,7 +11,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './recipe-add.component.scss',
 })
 export class RecipeAddComponent {
-  private readonly store = inject(RecipeStore);
+  private readonly store = inject(RecipeService);
   private readonly router = inject(Router);
 
   readonly submitting = signal(false);

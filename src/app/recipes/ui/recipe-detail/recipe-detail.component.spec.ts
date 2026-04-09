@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { provideTranslateService } from '@ngx-translate/core';
 import { RecipeDetailComponent } from './recipe-detail.component';
-import { RecipeStore } from '../../application/recipe.store';
+import { RecipeService } from '../../application/recipe.service';
 import { RecipeRepository } from '../../domain/recipe.repository';
 import { Recipe, RecipeImage } from '../../domain/recipe.model';
 
@@ -45,7 +45,7 @@ describe('RecipeDetailComponent', () => {
         provideRouter([]),
         provideTranslateService({ lang: 'es' }),
         { provide: RecipeRepository, useValue: mockRepository },
-        RecipeStore,
+        RecipeService,
         {
           provide: ActivatedRoute,
           useValue: { snapshot: { paramMap: { get: () => '1' } } },

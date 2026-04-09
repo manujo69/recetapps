@@ -3,13 +3,13 @@ import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { provideTranslateService } from '@ngx-translate/core';
 import { RecipeListComponent } from './recipe-list.component';
-import { RecipeStore } from '../../application/recipe.store';
+import { RecipeService } from '../../application/recipe.service';
 import { RecipeRepository } from '../../domain/recipe.repository';
-import { Recipe } from '../../domain/recipe.model';
+import { RecipeSummary } from '../../domain/recipe.model';
 
-const MOCK_RECIPES: Recipe[] = [
-  { id: 1, title: 'Paella', ingredients: 'arroz', instructions: 'cocer', prepTime: 20, cookTime: 40, servings: 4 },
-  { id: 2, title: 'Tortilla', ingredients: 'huevos', instructions: 'batir', prepTime: 5, cookTime: 10, servings: 2 },
+const MOCK_RECIPES: RecipeSummary[] = [
+  { id: 1, title: 'Paella', firstImageUrl: null, prepTime: 20, cookTime: 40, servings: 4 },
+  { id: 2, title: 'Tortilla', firstImageUrl: null, prepTime: 5, cookTime: 10, servings: 2 },
 ];
 
 describe('RecipeListComponent', () => {
@@ -27,7 +27,7 @@ describe('RecipeListComponent', () => {
         provideRouter([]),
         provideTranslateService({ lang: 'es' }),
         { provide: RecipeRepository, useValue: mockRepository },
-        RecipeStore,
+        RecipeService,
       ],
     }).compileComponents();
   });

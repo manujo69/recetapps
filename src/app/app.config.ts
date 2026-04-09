@@ -13,7 +13,7 @@ import { environment } from '../environments/environment';
 import { RecipeRepository } from './recipes/domain/recipe.repository';
 import { RecipeHttpRepository } from './recipes/infrastructure/recipe-http.repository';
 import { RecipeMockRepository } from './recipes/infrastructure/recipe-mock.repository';
-import { RecipeStore } from './recipes/application/recipe.store';
+import { RecipeService } from './recipes/application/recipe.service';
 
 import { AuthRepository } from './auth/domain/auth.repository';
 import { AuthHttpRepository } from './auth/infrastructure/auth-http.repository';
@@ -30,7 +30,7 @@ providePrimeNG({ theme: { preset: Aura } }),
     provideTranslateService({ lang: 'es' }),
     provideTranslateHttpLoader({ prefix: '/i18n/', suffix: '.json' }),
     { provide: RecipeRepository, useClass: environment.useMockApi ? RecipeMockRepository : RecipeHttpRepository },
-    RecipeStore,
+    RecipeService,
     { provide: AuthRepository, useClass: environment.useMockApi ? AuthMockRepository : AuthHttpRepository },
     AuthService,
   ],

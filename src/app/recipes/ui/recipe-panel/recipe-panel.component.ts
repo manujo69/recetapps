@@ -1,7 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Recipe } from '../../domain/recipe.model';
+import { RecipeSummary } from '../../domain/recipe.model';
 
 @Component({
   selector: 'app-recipe-panel',
@@ -10,10 +10,9 @@ import { Recipe } from '../../domain/recipe.model';
   styleUrl: './recipe-panel.component.scss',
 })
 export class RecipePanelComponent {
-  readonly recipe = input.required<Recipe>();
+  readonly recipe = input.required<RecipeSummary>();
 
-  readonly imageUrl = computed(() => {
-    const images = this.recipe().images;
-    return images && images.length > 0 ? images[0].url : 'images/ingredients-background-010.png';
-  });
+  readonly imageUrl = computed(
+    () => this.recipe().firstImageUrl ?? 'images/ingredients-background-010.png',
+  );
 }

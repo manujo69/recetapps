@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { Recipe, RecipeImage } from '../domain/recipe.model';
+import { Recipe, RecipeImage, RecipeSummary } from '../domain/recipe.model';
 import { RecipeRepository } from '../domain/recipe.repository';
 
 @Injectable()
@@ -12,8 +12,15 @@ export class RecipeHttpRepository extends RecipeRepository {
   private readonly apiUrl = `${environment.apiUrl}/recipes`;
   private readonly baseUrl = environment.apiUrl;
 
-  getAll(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(this.apiUrl).pipe(map((recipes) => recipes.map(this.mapRecipe)));
+  getAll(): Observable<RecipeSummary[]> {
+    return this.http.get<RecipeSummary[]>(this.apiUrl).pipe(
+      map((summaries) =>
+        summaries.map((s) => ({
+          ...s,
+          firstImageUrl: s.firstImageUrl ? this.toAbsoluteUrl(s.firstImageUrl) : null,
+        })),
+      ),
+    );
   }
 
   getById(id: number): Observable<Recipe> {
