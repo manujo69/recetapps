@@ -60,24 +60,24 @@
 
       @if (r.description) {
         <section class="mb-5 bg-white rounded-xl p-4 shadow-sm">
-          <h2 class="m-0 mb-2 text-base font-semibold">{{ 'recipes.detail.description' | translate }}</h2>
+          <h2 class="m-0 mb-3 text-[1rem] font-semibold tracking-tight">{{ 'recipes.detail.description' | translate }}</h2>
           <p class="m-0 text-[0.9rem] text-gray-600 leading-relaxed">{{ r.description }}</p>
         </section>
       }
 
       <div class="flex items-center bg-white rounded-xl p-4 mb-5 shadow-sm">
         <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
-          <span class="text-xs text-gray-400">{{ 'recipes.detail.prep' | translate }}</span>
+          <span class="text-xs text-gray-500 font-medium">{{ 'recipes.detail.prep' | translate }}</span>
           <span class="text-[0.95rem] font-semibold">{{ r.prepTime }} min</span>
         </div>
         <div class="w-px h-8 bg-gray-100"></div>
         <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
-          <span class="text-xs text-gray-400">{{ 'recipes.detail.cook' | translate }}</span>
+          <span class="text-xs text-gray-500 font-medium">{{ 'recipes.detail.cook' | translate }}</span>
           <span class="text-[0.95rem] font-semibold">{{ r.cookTime }} min</span>
         </div>
         <div class="w-px h-8 bg-gray-100"></div>
         <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
-          <span class="text-xs text-gray-400">{{
+          <span class="text-xs text-gray-500 font-medium">{{
             (r.servings === 1 ? 'recipes.detail.servingsSingular' : 'recipes.detail.servings') | translate
           }}</span>
           <span class="text-[0.95rem] font-semibold">{{ r.servings }}</span>

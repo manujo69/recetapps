@@ -14,12 +14,30 @@ export class RecipeInstructionsComponent {
   readonly instructions = input.required<string>();
 
   readonly steps = computed<InstructionStep[]>(() => {
-    const parts = this.instructions().split(/(?=\d+\.\s)/);
+    const text = this.instructions().trim();
+
+    // Splits on:
+    //   - one or more newlines (\n, \r\n, \r)
+    //   - inline step markers preceded by whitespace or start of string:
+    //       N followed by one or more non-alphanumeric, non-space symbols then a space
+    //       e.g. 1.  1-  1.-  1/  1)  1:  (1)
+    // \d+ is greedy so multi-digit numbers (10, 11, …) are matched in full.
+    const STEP_SPLIT = /[\r\n]+|(?<!\S)(?=(?:\(\d+\)|\d+[^\w\s]+)\s)/;
+
+    // Groups: [1] digits from (N) form · [2] digits from N<sym> form · [3] step text
+    const STEP_CAPTURE = /^(?:\((\d+)\)|(\d+)[^\w\s]+)\s*([\s\S]*)/;
+
+    const parts = text.split(STEP_SPLIT).filter((part) => part.trim());
+
     return parts
-      .map((part) => {
-        const match = part.match(/^(\d+\.)\s*([\s\S]*)/);
-        return match ? { number: match[1], text: match[2].trim() } : null;
+      .map((part, i) => {
+        const match = part.match(STEP_CAPTURE);
+        if (match) {
+          const digits = match[1] ?? match[2];
+          return { number: `${digits}.`, text: match[3].trim() };
+        }
+        return { number: `${i + 1}.`, text: part.trim() };
       })
-      .filter((step): step is InstructionStep => step !== null);
+      .filter((step) => step.text.length > 0);
   });
 }

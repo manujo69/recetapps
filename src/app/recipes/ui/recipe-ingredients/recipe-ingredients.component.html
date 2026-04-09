@@ -1,8 +1,18 @@
-<ul class="list-none m-0 p-0 flex flex-col gap-[0.65rem]">
-  @for (item of items(); track item) {
-    <li class="flex items-baseline gap-[0.6rem] leading-relaxed">
-      <span class="shrink-0 w-[7px] h-[7px] rounded-full bg-brand mt-[0.15rem]" aria-hidden="true"></span>
-      <span class="text-[0.9rem] text-gray-600">{{ item }}</span>
-    </li>
+<div class="pb-5">
+  @for (section of sections(); track section.title; let first = $first) {
+    @if (section.title) {
+      <p class="m-0 pt-5 mb-2 pb-1 text-[0.72rem] font-semibold uppercase tracking-wide text-gray-500 border-t border-gray-100"
+        [class.mt-3]="!first">
+        {{ section.title }}
+      </p>
+    }
+    <ul class="list-none m-0 p-0 flex flex-col gap-[0.4rem]">
+      @for (item of section.items; track item) {
+        <li class="flex items-center gap-[0.6rem] leading-relaxed">
+          <span class="shrink-0 w-[6px] h-[6px] rounded-full bg-brand" aria-hidden="true"></span>
+          <span class="text-[0.95rem] text-gray-600 leading-relaxed">{{ item }}</span>
+        </li>
+      }
+    </ul>
   }
-</ul>
+</div>
