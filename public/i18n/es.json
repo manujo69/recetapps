@@ -1,5 +1,6 @@
 {
   "auth": {
+    "logout": "Cerrar sesión",
     "login": {
       "title": "Iniciar sesión",
       "email": "Email",

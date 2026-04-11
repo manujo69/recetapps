@@ -1,5 +1,11 @@
-<header class="sticky top-0 z-[200] bg-white border-b border-gray-200 px-4 py-2 flex items-center">
-  <a class="flex items-center mx-auto" routerLink="/" aria-label="Inicio">
+<header class="app-header sticky top-0 z-[200] bg-white border-b border-gray-200 px-4 py-2 flex items-center">
+  <div class="flex-1"></div>
+  <a class="app-header__logo flex items-center" routerLink="/" aria-label="Inicio">
     <img class="h-20 w-auto block" src="images/logo-recetapps-010.png" alt="Logo" />
   </a>
+  <div class="flex-1 flex justify-end">
+    <button class="app-header__logout" (click)="logout()">
+      {{ 'auth.logout' | translate }}
+    </button>
+  </div>
 </header>

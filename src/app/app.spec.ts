@@ -1,12 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { provideTranslateService } from '@ngx-translate/core';
 import { App } from './app';
+import { AuthService } from './auth/application/auth.service';
 
 describe('App', () => {
   beforeEach(async () => {
+    const mockAuthService = jasmine.createSpyObj('AuthService', ['logout']);
+
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideRouter([])],
+      providers: [
+        provideRouter([]),
+        provideTranslateService({ lang: 'es' }),
+        { provide: AuthService, useValue: mockAuthService },
+      ],
     }).compileComponents();
   });
 
