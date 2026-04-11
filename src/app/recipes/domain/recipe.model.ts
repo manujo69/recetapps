@@ -5,24 +5,23 @@ export interface RecipeImage {
   createdAt?: string;
 }
 
-export interface RecipeSummary {
-  id: number;
+interface RecipeBase {
   title: string;
-  firstImageUrl: string | null;
   prepTime: number;
   cookTime: number;
   servings: number;
 }
 
-export interface Recipe {
+export interface RecipeSummary extends RecipeBase {
+  id: number;
+  firstImageUrl: string | null;
+}
+
+export interface Recipe extends RecipeBase {
   id?: number;
-  title: string;
   description?: string;
   ingredients: string;
   instructions: string;
-  prepTime: number;
-  cookTime: number;
-  servings: number;
   categoryId?: number;
   categoryName?: string;
   userId?: number;
