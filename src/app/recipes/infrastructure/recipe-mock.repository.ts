@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { Recipe, RecipeImage } from '../domain/recipe.model';
+import { Recipe, RecipeImage, RecipeSummary } from '../domain/recipe.model';
 import { RecipeRepository } from '../domain/recipe.repository';
 
 const MOCK_RECIPES: Recipe[] = [
@@ -43,8 +43,17 @@ let nextId = MOCK_RECIPES.length + 1;
 export class RecipeMockRepository extends RecipeRepository {
   private recipes: Recipe[] = [...MOCK_RECIPES];
 
-  getAll(): Observable<Recipe[]> {
-    return of([...this.recipes]);
+  getAll(): Observable<RecipeSummary[]> {
+    return of(
+      this.recipes.map((r) => ({
+        id: r.id!,
+        title: r.title,
+        firstImageUrl: Array.isArray(r.images) && r.images.length > 0 ? r.images[0].url : null,
+        prepTime: r.prepTime,
+        cookTime: r.cookTime,
+        servings: r.servings,
+      })),
+    );
   }
 
   getById(id: number): Observable<Recipe> {

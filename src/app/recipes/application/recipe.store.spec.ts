@@ -2,7 +2,7 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import { RecipeStore } from './recipe.store';
 import { RecipeRepository } from '../domain/recipe.repository';
-import { Recipe, RecipeImage } from '../domain/recipe.model';
+import { Recipe, RecipeImage, RecipeSummary } from '../domain/recipe.model';
 
 const RECIPE_1: Recipe = {
   id: 1,
@@ -19,6 +19,24 @@ const RECIPE_2: Recipe = {
   title: 'Tortilla',
   ingredients: 'huevos, patatas',
   instructions: 'Bata los huevos',
+  prepTime: 10,
+  cookTime: 15,
+  servings: 2,
+};
+
+const RECIPE_SUMMARY_1: RecipeSummary = {
+  id: 1,
+  title: 'Paella',
+  firstImageUrl: null,
+  prepTime: 20,
+  cookTime: 40,
+  servings: 4,
+};
+
+const RECIPE_SUMMARY_2: RecipeSummary = {
+  id: 2,
+  title: 'Tortilla',
+  firstImageUrl: null,
   prepTime: 10,
   cookTime: 15,
   servings: 2,
@@ -82,19 +100,19 @@ describe('RecipeStore', () => {
 
   describe('loadAll()', () => {
     it('should populate recipes and mark as loaded on success', fakeAsync(() => {
-      repositorySpy.getAll.and.returnValue(of([RECIPE_1, RECIPE_2]));
+      repositorySpy.getAll.and.returnValue(of([RECIPE_SUMMARY_1, RECIPE_SUMMARY_2]));
 
       store.loadAll();
       tick();
 
-      expect(store.recipes()).toEqual([RECIPE_1, RECIPE_2]);
+      expect(store.recipes()).toEqual([RECIPE_SUMMARY_1, RECIPE_SUMMARY_2]);
       expect(store.loaded()).toBeTrue();
       expect(store.loading()).toBeFalse();
       expect(store.error()).toBeNull();
     }));
 
     it('should skip the HTTP call when data is already loaded', fakeAsync(() => {
-      repositorySpy.getAll.and.returnValue(of([RECIPE_1]));
+      repositorySpy.getAll.and.returnValue(of([RECIPE_SUMMARY_1]));
       store.loadAll();
       tick();
 
@@ -140,11 +158,12 @@ describe('RecipeStore', () => {
       expect(store.error()).toBeNull();
     }));
 
-    it('should use the cached recipe and skip the HTTP call when already in the list', fakeAsync(() => {
-      repositorySpy.getAll.and.returnValue(of([RECIPE_1, RECIPE_2]));
-      store.loadAll();
+    it('should use the cached recipe and skip the HTTP call on a second loadById call', fakeAsync(() => {
+      repositorySpy.getById.and.returnValue(of(RECIPE_1));
+      store.loadById(1);
       tick();
 
+      repositorySpy.getById.calls.reset();
       store.loadById(1);
       tick();
 
@@ -177,7 +196,7 @@ describe('RecipeStore', () => {
 
   describe('create()', () => {
     it('should set selectedRecipe and invalidate the list cache on success', fakeAsync(() => {
-      repositorySpy.getAll.and.returnValue(of([RECIPE_1]));
+      repositorySpy.getAll.and.returnValue(of([RECIPE_SUMMARY_1]));
       store.loadAll();
       tick();
       expect(store.loaded()).toBeTrue();

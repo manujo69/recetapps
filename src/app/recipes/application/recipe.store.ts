@@ -2,11 +2,11 @@ import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { EMPTY, Observable, pipe, switchMap, tap, catchError, throwError } from 'rxjs';
-import { Recipe, RecipeImage } from '../domain/recipe.model';
+import { Recipe, RecipeImage, RecipeSummary } from '../domain/recipe.model';
 import { RecipeRepository } from '../domain/recipe.repository';
 
 interface RecipeState {
-  recipes: Recipe[];
+  recipes: RecipeSummary[];
   selectedRecipe: Recipe | null;
   loaded: boolean; // ¿se ha cargado la lista completa alguna vez?
   loading: boolean;
@@ -24,6 +24,8 @@ const initialState: RecipeState = {
 export const RecipeStore = signalStore(
   withState(initialState),
   withMethods((store, repository = inject(RecipeRepository)) => {
+    const recipeCache = new Map<number, Recipe>();
+
     // rxMethod privado: ejecuta la llamada HTTP getAll()
     const fetchAll = rxMethod<void>(
       pipe(
@@ -46,7 +48,10 @@ export const RecipeStore = signalStore(
         tap(() => patchState(store, { loading: true, error: null })),
         switchMap((id) =>
           repository.getById(id).pipe(
-            tap((recipe) => patchState(store, { selectedRecipe: recipe, loading: false })),
+            tap((recipe) => {
+              recipeCache.set(recipe.id!, recipe);
+              patchState(store, { selectedRecipe: recipe, loading: false });
+            }),
             catchError((err) => {
               patchState(store, { error: err.message ?? 'Receta no encontrada', loading: false });
               return EMPTY;
@@ -63,9 +68,9 @@ export const RecipeStore = signalStore(
         fetchAll();
       },
 
-      // Carga una receta por id. Si ya está en la lista cacheada, la usa directamente.
+      // Carga una receta por id. Si ya está en caché, la usa sin llamar al backend.
       loadById(id: number): void {
-        const cached = store.recipes().find((r) => r.id === id);
+        const cached = recipeCache.get(id);
         if (cached) {
           patchState(store, { selectedRecipe: cached });
           return;

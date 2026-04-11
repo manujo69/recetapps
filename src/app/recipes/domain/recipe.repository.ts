@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
-import { Recipe, RecipeImage } from './recipe.model';
+import { Recipe, RecipeImage, RecipeSummary } from './recipe.model';
 
 export abstract class RecipeRepository {
-  abstract getAll(): Observable<Recipe[]>;
+  abstract getAll(): Observable<RecipeSummary[]>;
   abstract getById(id: number): Observable<Recipe>;
   abstract create(recipe: Recipe): Observable<Recipe>;
   abstract update(id: number, recipe: Recipe): Observable<Recipe>;

@@ -5,6 +5,15 @@ export interface RecipeImage {
   createdAt?: string;
 }
 
+export interface RecipeSummary {
+  id: number;
+  title: string;
+  firstImageUrl: string | null;
+  prepTime: number;
+  cookTime: number;
+  servings: number;
+}
+
 export interface Recipe {
   id?: number;
   title: string;

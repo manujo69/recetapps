@@ -9,7 +9,8 @@
       "Bash(npm install:*)",
       "Bash(nvm list:*)",
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d['projects'], indent=2\\)\\)\")",
-      "Bash(npx ng:*)"
+      "Bash(npx ng:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

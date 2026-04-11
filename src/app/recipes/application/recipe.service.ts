@@ -1,13 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Recipe, RecipeImage } from '../domain/recipe.model';
+import { Recipe, RecipeImage, RecipeSummary } from '../domain/recipe.model';
 import { RecipeRepository } from '../domain/recipe.repository';
 
 @Injectable()
 export class RecipeService {
   private readonly repository = inject(RecipeRepository);
 
-  getAll(): Observable<Recipe[]> {
+  getAll(): Observable<RecipeSummary[]> {
     return this.repository.getAll();
   }
 
