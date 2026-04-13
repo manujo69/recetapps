@@ -20,6 +20,16 @@ import { AuthHttpRepository } from './auth/infrastructure/auth-http.repository';
 import { AuthMockRepository } from './auth/infrastructure/auth-mock.repository';
 import { AuthService } from './auth/application/auth.service';
 
+import { FavoriteRepository } from './favorites/domain/favorite.repository';
+import { FavoriteHttpRepository } from './favorites/infrastructure/favorite-http.repository';
+import { FavoriteMockRepository } from './favorites/infrastructure/favorite-mock.repository';
+import { FavoriteService } from './favorites/application/favorite.service';
+
+import { CategoryRepository } from './categories/domain/category.repository';
+import { CategoryHttpRepository } from './categories/infrastructure/category-http.repository';
+import { CategoryMockRepository } from './categories/infrastructure/category-mock.repository';
+import { CategoryStore } from './categories/application/category.store';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -33,5 +43,9 @@ providePrimeNG({ theme: { preset: Aura } }),
     RecipeStore,
     { provide: AuthRepository, useClass: environment.useMockApi ? AuthMockRepository : AuthHttpRepository },
     AuthService,
+    { provide: FavoriteRepository, useClass: environment.useMockApi ? FavoriteMockRepository : FavoriteHttpRepository },
+    FavoriteService,
+    { provide: CategoryRepository, useClass: environment.useMockApi ? CategoryMockRepository : CategoryHttpRepository },
+    CategoryStore,
   ],
 };

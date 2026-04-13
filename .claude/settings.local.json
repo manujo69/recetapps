@@ -10,7 +10,9 @@
       "Bash(nvm list:*)",
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d['projects'], indent=2\\)\\)\")",
       "Bash(npx ng:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(curl -s http://localhost:8080/v3/api-docs)",
+      "Bash(python3 -m json.tool)"
     ]
   }
 }

@@ -15,6 +15,7 @@ interface RecipeBase {
 export interface RecipeSummary extends RecipeBase {
   id: number;
   firstImageUrl: string | null;
+  categoryIds?: number[];
 }
 
 export interface Recipe extends RecipeBase {
@@ -22,8 +23,8 @@ export interface Recipe extends RecipeBase {
   description?: string;
   ingredients: string;
   instructions: string;
-  categoryId?: number;
-  categoryName?: string;
+  categoryIds?: number[];
+  categoryNames?: string[];
   userId?: number;
   username?: string;
   images?: RecipeImage[];

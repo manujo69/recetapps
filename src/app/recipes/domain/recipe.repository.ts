@@ -11,4 +11,5 @@ export abstract class RecipeRepository {
   abstract search(keyword: string): Observable<Recipe[]>;
   abstract getByCategory(categoryId: number): Observable<Recipe[]>;
   abstract uploadImage(recipeId: number, file: File): Observable<RecipeImage>;
+  abstract updateCategories(recipeId: number, categoryIds: number[]): Observable<Recipe>;
 }

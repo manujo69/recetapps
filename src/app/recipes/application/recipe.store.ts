@@ -78,6 +78,33 @@ export const RecipeStore = signalStore(
         fetchById(id);
       },
 
+      // Actualiza una receta y refresca el estado del store y la caché.
+      update(id: number, recipe: Recipe): Observable<Recipe> {
+        return repository.update(id, recipe).pipe(
+          tap((updated) => {
+            recipeCache.set(updated.id!, updated);
+            patchState(store, { selectedRecipe: updated });
+          }),
+          catchError((err) => throwError(() => err)),
+        );
+      },
+
+      // Reemplaza las categorías de una receta via PATCH /recipes/{id}/categories.
+      updateCategories(recipeId: number, categoryIds: number[]): Observable<Recipe> {
+        return repository.updateCategories(recipeId, categoryIds).pipe(
+          tap((updated) => {
+            recipeCache.set(updated.id!, updated);
+            patchState(store, {
+              selectedRecipe: updated,
+              recipes: store.recipes().map((r) =>
+                r.id === updated.id ? { ...r, categoryIds: updated.categoryIds ?? [] } : r,
+              ),
+            });
+          }),
+          catchError((err) => throwError(() => err)),
+        );
+      },
+
       // Crea una receta e invalida la caché para forzar reload en el próximo loadAll().
       create(recipe: Recipe): Observable<Recipe> {
         patchState(store, { loading: true, error: null });

@@ -1,0 +1,41 @@
+@if (loading()) {
+  <p class="p-4">Cargando categorías...</p>
+} @else if (error()) {
+  <p class="p-4 text-red-600">{{ error() }}</p>
+} @else {
+  <div
+    class="px-4 pt-4 pb-[calc(1rem+64px)] md:px-8 md:pt-6 md:pb-[calc(1.5rem+64px)] lg:px-12 lg:pt-8 lg:pb-[calc(2rem+64px)] lg:max-w-7xl lg:mx-auto"
+  >
+    <h1 class="mt-0 mb-4 text-xl">Categorías</h1>
+    <div class="flex flex-col gap-3">
+      @for (category of categories(); track category.id) {
+        <a
+          class="flex items-center gap-4 bg-white rounded-xl px-4 py-3 shadow-sm no-underline text-inherit transition-shadow hover:shadow-md"
+          [routerLink]="['/recipes']"
+          [queryParams]="{ categoryId: category.id }"
+        >
+          <span class="flex items-center justify-center w-10 h-10 rounded-full bg-[#9bad7969] text-brand shrink-0">
+            <i class="pi pi-tag text-base"></i>
+          </span>
+          <div class="flex flex-col gap-[2px] min-w-0">
+            <span class="font-semibold text-[0.95rem] leading-tight">{{ category.name }}</span>
+            @if (category.description) {
+              <span class="text-[0.8rem] text-gray-400 truncate">{{ category.description }}</span>
+            }
+          </div>
+          <i class="pi pi-chevron-right text-gray-300 ml-auto shrink-0"></i>
+        </a>
+      }
+    </div>
+  </div>
+
+  <a
+    class="fixed bottom-[76px] left-1/2 -translate-x-1/2 w-[52px] h-[52px] rounded-full bg-brand text-white no-underline flex items-center justify-center z-[101] shadow-[0_4px_12px_rgba(232,160,32,0.4)] text-[1.4rem] lg:bottom-[76px] lg:right-12 lg:left-auto lg:translate-x-0"
+    routerLink="/categories/new"
+    aria-label="Crear categoría"
+  >
+    <i class="pi pi-plus"></i>
+  </a>
+
+  <app-footer />
+}

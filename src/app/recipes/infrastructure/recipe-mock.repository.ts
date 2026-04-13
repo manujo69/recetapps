@@ -14,8 +14,8 @@ const MOCK_RECIPES: Recipe[] = [
     prepTime: 15,
     cookTime: 25,
     servings: 4,
-    categoryId: 1,
-    categoryName: 'Platos principales',
+    categoryIds: [1],
+    categoryNames: ['Platos principales'],
     userId: 1,
     username: 'admin',
   },
@@ -30,8 +30,8 @@ const MOCK_RECIPES: Recipe[] = [
     prepTime: 15,
     cookTime: 0,
     servings: 6,
-    categoryId: 2,
-    categoryName: 'Sopas y cremas',
+    categoryIds: [2],
+    categoryNames: ['Sopas y cremas'],
     userId: 1,
     username: 'admin',
   },
@@ -52,6 +52,7 @@ export class RecipeMockRepository extends RecipeRepository {
         prepTime: r.prepTime,
         cookTime: r.cookTime,
         servings: r.servings,
+        categoryIds: r.categoryIds ?? [],
       })),
     );
   }
@@ -98,7 +99,14 @@ export class RecipeMockRepository extends RecipeRepository {
   }
 
   getByCategory(categoryId: number): Observable<Recipe[]> {
-    return of(this.recipes.filter((r) => r.categoryId === categoryId));
+    return of(this.recipes.filter((r) => r.categoryIds?.includes(categoryId)));
+  }
+
+  updateCategories(recipeId: number, categoryIds: number[]): Observable<Recipe> {
+    const index = this.recipes.findIndex((r) => r.id === recipeId);
+    if (index === -1) return throwError(() => new Error(`Recipe ${recipeId} not found`));
+    this.recipes[index] = { ...this.recipes[index], categoryIds };
+    return of({ ...this.recipes[index] });
   }
 
   uploadImage(recipeId: number, file: File): Observable<RecipeImage> {

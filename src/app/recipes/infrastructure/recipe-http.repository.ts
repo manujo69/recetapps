@@ -57,6 +57,12 @@ export class RecipeHttpRepository extends RecipeRepository {
       .pipe(map((recipes) => recipes.map(this.mapRecipe)));
   }
 
+  updateCategories(recipeId: number, categoryIds: number[]): Observable<Recipe> {
+    return this.http
+      .patch<Recipe>(`${this.apiUrl}/${recipeId}/categories`, categoryIds)
+      .pipe(map(this.mapRecipe));
+  }
+
   uploadImage(recipeId: number, file: File): Observable<RecipeImage> {
     const formData = new FormData();
     formData.append('image', file);

@@ -1,7 +1,12 @@
 <article class="rounded-xl overflow-hidden shadow-md bg-white transition-shadow duration-200 hover:shadow-lg">
   <a class="block no-underline text-inherit" [routerLink]="['/recipes', recipe().id]">
-    <div class="w-full aspect-[4/3] overflow-hidden bg-[#f5f0ea]">
+    <div class="w-full aspect-[4/3] overflow-hidden bg-[#f5f0ea] relative">
       <img class="w-full h-full object-cover block" [src]="imageUrl()" [alt]="recipe().title" />
+      @if (isFavorite()) {
+        <span class="absolute top-2 right-2 w-7 h-7 rounded-full bg-white flex items-center justify-center shadow text-red-500 text-xs">
+          <i class="pi pi-heart-fill"></i>
+        </span>
+      }
     </div>
     <div class="p-3">
       <h3 class="m-0 mb-1 text-[0.95rem] font-semibold">{{ recipe().title }}</h3>

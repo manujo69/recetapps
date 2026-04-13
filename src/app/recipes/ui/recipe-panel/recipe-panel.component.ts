@@ -11,6 +11,7 @@ import { RecipeSummary } from '../../domain/recipe.model';
 })
 export class RecipePanelComponent {
   readonly recipe = input.required<RecipeSummary>();
+  readonly isFavorite = input<boolean>(false);
 
   readonly imageUrl = computed(
     () => this.recipe().firstImageUrl ?? 'images/ingredients-background-010.png',
