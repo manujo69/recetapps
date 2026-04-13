@@ -51,7 +51,9 @@ describe('RecipeListComponent', () => {
     fixture.detectChanges();
     tick();
 
-    expect(fixture.componentInstance.recipes()).toEqual(MOCK_RECIPES);
+    const expectedRecipes = [...MOCK_RECIPES].sort((a, b) => b.id - a.id);
+
+    expect(fixture.componentInstance.recipes()).toEqual(expectedRecipes);
     expect(fixture.componentInstance.loading()).toBeFalse();
     expect(fixture.componentInstance.error()).toBeNull();
   }));

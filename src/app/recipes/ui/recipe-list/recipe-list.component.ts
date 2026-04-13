@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RecipeStore } from '../../application/recipe.store';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -14,7 +14,9 @@ export class RecipeListComponent implements OnInit {
   private readonly store = inject(RecipeStore);
 
   // Alias hacia las signals del store — el template no necesita cambiar
-  readonly recipes = this.store.recipes;
+  readonly recipes = computed(() =>
+    [...this.store.recipes()].sort((a, b) => b.id - a.id)
+);
   readonly loading = this.store.loading;
   readonly error = this.store.error;
 
