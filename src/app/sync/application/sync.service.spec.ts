@@ -8,7 +8,7 @@ import { SyncService } from './sync.service';
 import { DatabaseService } from '../../shared/infrastructure/database.service';
 import { environment } from '../../../environments/environment';
 
-import { RecipeAggregatedRow } from '../../recipes/infrastructure/recipe-sqlite.repository';
+import { RecipeAggregatedRow } from '../../recipes/infrastructure/recipe-sqlite.types';
 import { SQLiteDBConnection } from '@capacitor-community/sqlite';
 
 const SYNC_URL = `${environment.apiUrl}/sync`;

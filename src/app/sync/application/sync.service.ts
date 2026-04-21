@@ -6,143 +6,20 @@ import { Capacitor } from '@capacitor/core';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { DatabaseService } from '../../shared/infrastructure/database.service';
 import { environment } from '../../../environments/environment';
-
-// ── SQLite row types (pending images push) ───────────────────────────────────
-
-interface PendingImageRow {
-  id: number;
-  recipe_client_id: string;
-  filename: string | null;
-  url: string;
-  server_recipe_id: number;
-}
-
-// ── API response types (mirrors openapi.json) ─────────────────────────────────
-
-interface RecipeImageSync {
-  id: number;
-  filename: string;
-  url: string;
-  createdAt?: string;
-}
-
-interface RecipeSync {
-  id?: number | null;
-  clientId?: string;
-  title: string;
-  description?: string;
-  ingredients: string;
-  instructions: string;
-  prepTime: number;
-  cookTime: number;
-  servings: number;
-  userId?: number;
-  username?: string;
-  categoryIds?: number[];
-  images?: RecipeImageSync[];
-  createdAt?: string;
-  updatedAt?: string;
-  deletedAt?: string | null;
-}
-
-interface CategorySync {
-  id?: number | null;
-  clientId?: string;
-  name: string;
-  description?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  deletedAt?: string | null;
-}
-
-interface FavoriteSync {
-  recipeId: number;
-  updatedAt: string;
-  deletedAt: string | null;
-}
-
-interface SyncResponse {
-  recipes: RecipeSync[];
-  categories: CategorySync[];
-  favorites: FavoriteSync[];
-  serverTime: string;
-}
-
-// ── SQLite row types (local DB reads for push) ────────────────────────────────
-
-interface RecipeRow {
-  client_id: string;
-  id: number | null;
-  title: string;
-  description: string | null;
-  ingredients: string;
-  instructions: string;
-  prep_time: number;
-  cook_time: number;
-  servings: number;
-  user_id: number | null;
-  username: string | null;
-  updated_at: string | null;
-  deleted_at: string | null;
-  category_ids: string | null;
-}
-
-interface CategoryRow {
-  client_id: string;
-  id: number | null;
-  name: string;
-  description: string | null;
-  updated_at: string | null;
-  deleted_at: string | null;
-}
-
-interface FavoriteRow {
-  recipe_id: number;
-  updated_at: string | null;
-  deleted_at: string | null;
-}
-
-// ── Push request types ────────────────────────────────────────────────────────
-
-interface RecipePushItem {
-  clientId?: string;
-  id?: number | null;
-  title: string;
-  description?: string;
-  ingredients: string;
-  instructions: string;
-  prepTime: number;
-  cookTime: number;
-  servings: number;
-  categoryIds?: number[];
-  updatedAt?: string;
-  deletedAt?: string | null;
-}
-
-interface CategoryPushItem {
-  clientId?: string;
-  id?: number | null;
-  name: string;
-  description?: string;
-  updatedAt?: string;
-  deletedAt?: string | null;
-}
-
-interface FavoritePushItem {
-  recipeId: number;
-  updatedAt?: string;
-  deletedAt?: string | null;
-}
-
-interface IdMapping {
-  clientId: string;
-  serverId: number;
-}
-
-interface SyncPushResponse {
-  recipes: IdMapping[];
-  categories: IdMapping[];
-}
+import { RecipeImage } from '../../recipes/domain/recipe.model';
+import { RecipeAggregatedRow, PendingImageRow } from '../../recipes/infrastructure/recipe-sqlite.types';
+import { CategoryRow } from '../../categories/infrastructure/category-sqlite.types';
+import { FavoriteRow } from '../../favorites/infrastructure/favorite-sqlite.types';
+import {
+  RecipeSync,
+  CategorySync,
+  FavoriteSync,
+  SyncResponse,
+  RecipePushItem,
+  CategoryPushItem,
+  FavoritePushItem,
+  SyncPushResponse,
+} from './sync.types';
 
 // ── Service ───────────────────────────────────────────────────────────────────
 
@@ -198,7 +75,7 @@ export class SyncService {
       db.query(`SELECT * FROM favorites WHERE pending_sync = 1`),
     ]);
 
-    const recipes: RecipePushItem[] = (pendingRecipes.values as RecipeRow[] ?? []).map(this.toRecipePushItem);
+    const recipes: RecipePushItem[] = (pendingRecipes.values as RecipeAggregatedRow[] ?? []).map(this.toRecipePushItem);
     const categories: CategoryPushItem[] = (pendingCategories.values as CategoryRow[] ?? []).map(this.toCategoryPushItem);
     const favorites: FavoritePushItem[] = (pendingFavorites.values as FavoriteRow[] ?? []).map(this.toFavoritePushItem);
 
@@ -379,7 +256,7 @@ export class SyncService {
 
   // ── Push helpers ─────────────────────────────────────────────────────────────
 
-  private toRecipePushItem = (row: RecipeRow): RecipePushItem => ({
+  private toRecipePushItem = (row: RecipeAggregatedRow): RecipePushItem => ({
     clientId: row.client_id,
     id: row.id ?? null,
     title: row.title,
@@ -470,7 +347,7 @@ export class SyncService {
         formData.append('image', blob, row.filename ?? `image.${ext}`);
 
         const imageResponse = await firstValueFrom(
-          this.http.post<RecipeImageSync>(
+          this.http.post<RecipeImage>(
             `${environment.apiUrl}/recipes/${row.server_recipe_id}/images`,
             formData,
           ),

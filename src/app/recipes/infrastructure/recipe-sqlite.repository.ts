@@ -6,49 +6,13 @@ import { Directory, Filesystem } from '@capacitor/filesystem';
 import { DatabaseService } from '../../shared/infrastructure/database.service';
 import { RecipeRepository } from '../domain/recipe.repository';
 import { Recipe, RecipeImage, RecipeSummary } from '../domain/recipe.model';
-
-// ───────────────────────────────────────────────────────────────────────────────
-// DB ROW TYPES
-// ───────────────────────────────────────────────────────────────────────────────
-
-export interface RecipeRow {
-  rowid?: number;
-  id?: number;
-  client_id: string;
-  title: string;
-  description?: string | null;
-  ingredients: string;
-  instructions: string;
-  prep_time: number;
-  cook_time: number;
-  servings: number;
-  user_id?: number | null;
-  username?: string | null;
-  created_at?: string;
-  updated_at?: string;
-  deleted_at?: string;
-  pending_sync?: number | boolean;
-}
-
-export interface RecipeAggregatedRow extends RecipeRow {
-  category_ids?: string | null;
-  first_image_url?: string | null;
-}
-
-export interface RecipeCategoryRow {
-  category_id: number;
-}
-
-export interface RecipeImageRow {
-  id: number;
-  filename: string;
-  url: string;
-  created_at: string;
-}
-
-interface QueryResult<T> {
-  values?: T[];
-}
+import {
+  RecipeRow,
+  RecipeAggregatedRow,
+  RecipeCategoryRow,
+  RecipeImageRow,
+  QueryResult,
+} from './recipe-sqlite.types';
 
 // ───────────────────────────────────────────────────────────────────────────────
 

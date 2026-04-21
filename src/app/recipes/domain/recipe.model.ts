@@ -19,7 +19,7 @@ export interface RecipeSummary extends RecipeBase {
 }
 
 export interface Recipe extends RecipeBase {
-  id?: number;
+  id?: number | null;
   clientId?: string;
   description?: string;
   ingredients: string;
@@ -31,6 +31,6 @@ export interface Recipe extends RecipeBase {
   images?: RecipeImage[];
   createdAt?: string;
   updatedAt?: string;
-  deletedAt?: string;
+  deletedAt?: string | null;
   pendingSync?: boolean;
 }

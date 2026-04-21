@@ -4,18 +4,7 @@ import { SQLiteDBConnection } from '@capacitor-community/sqlite';
 import { DatabaseService } from '../../shared/infrastructure/database.service';
 import { CategoryRepository } from '../domain/category.repository';
 import { Category } from '../domain/category.model';
-
-interface CategoryRow  {
-  id?: number,
-  client_id: string;
-  name: string;
-  description?: string | null;
-  created_at?: string;
-  updated_at?: string;
-  deleted_at?: string;
-  pending_sync?: number | boolean;
-  rowid?: number;
-};
+import { CategoryRow } from './category-sqlite.types';
 
 
 @Injectable()

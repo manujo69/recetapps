@@ -5,14 +5,13 @@ import { DatabaseService } from '../../shared/infrastructure/database.service';
 import { FavoriteRepository } from '../domain/favorite.repository';
 import { RecipeSummary } from '../../recipes/domain/recipe.model';
 
-export interface FavoriteRow
-{
+interface FavoriteDisplayRow {
   id: number;
   title: string;
   first_image_url?: string;
   prep_time: number;
-  cook_time: number,
-  servings: number
+  cook_time: number;
+  servings: number;
   category_ids?: string;
 }
 @Injectable()
@@ -87,7 +86,7 @@ export class FavoriteSqliteRepository extends FavoriteRepository {
       : [];
   }
 
-  private rowToSummary = (row: FavoriteRow): RecipeSummary => ({
+  private rowToSummary = (row: FavoriteDisplayRow): RecipeSummary => ({
     id: row['id'],
     title: row['title'],
     firstImageUrl: row['first_image_url'] ?? null,
