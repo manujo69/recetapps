@@ -102,6 +102,11 @@ export class RecipeMockRepository extends RecipeRepository {
     return of(this.recipes.filter((r) => r.categoryIds?.includes(categoryId)));
   }
 
+  getFavorites(): Observable<Recipe[]> {
+    // Para el mock, simplemente devolvemos las recetas con ID impar como favoritas
+    return of(this.recipes.filter((r) => r.id! % 2 === 1));
+  }
+
   updateCategories(recipeId: number, categoryIds: number[]): Observable<Recipe> {
     const index = this.recipes.findIndex((r) => r.id === recipeId);
     if (index === -1) return throwError(() => new Error(`Recipe ${recipeId} not found`));

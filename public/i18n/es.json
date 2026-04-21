@@ -19,6 +19,10 @@
       "login_link": "Inicia sesión"
     }
   },
+  "favorites": {
+    "title": "Favoritos",
+    "reset": "Mostrar todo"
+  },
   "recipes": {
     "list": {
       "title": "Listado de recetas",

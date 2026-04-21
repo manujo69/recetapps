@@ -57,6 +57,12 @@ export class RecipeHttpRepository extends RecipeRepository {
       .pipe(map((recipes) => recipes.map(this.mapRecipe)));
   }
 
+  getFavorites(): Observable<Recipe[]> {
+    return this.http
+      .get<Recipe[]>(`${this.apiUrl}/favorites`)
+      .pipe(map((recipes) => recipes.map(this.mapRecipe)));
+  }
+
   updateCategories(recipeId: number, categoryIds: number[]): Observable<Recipe> {
     return this.http
       .patch<Recipe>(`${this.apiUrl}/${recipeId}/categories`, categoryIds)

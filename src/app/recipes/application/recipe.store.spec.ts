@@ -62,6 +62,7 @@ describe('RecipeStore', () => {
       'getByUser',
       'search',
       'getByCategory',
+      'getFavorites',
       'uploadImage',
     ]);
 

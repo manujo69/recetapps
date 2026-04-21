@@ -21,6 +21,10 @@
             "description": "Category management APIs"
         },
         {
+            "name": "Sync",
+            "description": "Offline sync APIs"
+        },
+        {
             "name": "Authentication",
             "description": "Authentication management APIs"
         },
@@ -113,7 +117,7 @@
                 "tags": [
                     "Recipes"
                 ],
-                "summary": "Delete a recipe",
+                "summary": "Soft-delete a recipe",
                 "operationId": "deleteRecipe",
                 "parameters": [
                     {
@@ -208,7 +212,7 @@
                 "tags": [
                     "Categories"
                 ],
-                "summary": "Delete a category",
+                "summary": "Soft-delete a category",
                 "operationId": "deleteCategory",
                 "parameters": [
                     {
@@ -228,12 +232,73 @@
                 }
             }
         },
+        "/sync": {
+            "get": {
+                "tags": [
+                    "Sync"
+                ],
+                "summary": "Pull changes from server. Omit 'since' for full dataset.",
+                "operationId": "pull",
+                "parameters": [
+                    {
+                        "name": "since",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SyncResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Sync"
+                ],
+                "summary": "Push local changes to server",
+                "operationId": "push",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SyncPushRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SyncPushResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/recipes": {
             "get": {
                 "tags": [
                     "Recipes"
                 ],
-                "summary": "Get all recipes",
+                "summary": "Get all recipes for the authenticated user",
                 "operationId": "getAllRecipes",
                 "responses": {
                     "200": {
@@ -421,7 +486,7 @@
                 "tags": [
                     "Categories"
                 ],
-                "summary": "Get all categories",
+                "summary": "Get all categories for the authenticated user",
                 "operationId": "getAllCategories",
                 "responses": {
                     "200": {
@@ -531,12 +596,58 @@
                 }
             }
         },
+        "/recipes/{id}/categories": {
+            "patch": {
+                "tags": [
+                    "Recipes"
+                ],
+                "summary": "Update categories of a recipe",
+                "operationId": "updateCategories",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecipeDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/me/favorites": {
             "get": {
                 "tags": [
                     "Favorites"
                 ],
-                "summary": "Get current user's favorite recipes",
+                "summary": "Get current user's favorites",
                 "operationId": "getMyFavorites",
                 "responses": {
                     "200": {
@@ -546,7 +657,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/RecipeSummaryDTO"
+                                        "$ref": "#/components/schemas/FavoriteDTO"
                                     }
                                 }
                             }
@@ -623,41 +734,6 @@
                 "responses": {
                     "200": {
                         "description": "OK"
-                    }
-                }
-            }
-        },
-        "/recipes/user/{userId}": {
-            "get": {
-                "tags": [
-                    "Recipes"
-                ],
-                "summary": "Get recipes by user",
-                "operationId": "getRecipesByUser",
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/RecipeSummaryDTO"
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -854,6 +930,12 @@
                         "description": "Last update timestamp",
                         "format": "date-time",
                         "readOnly": true
+                    },
+                    "deletedAt": {
+                        "type": "string",
+                        "description": "Soft delete timestamp, null if active",
+                        "format": "date-time",
+                        "readOnly": true
                     }
                 },
                 "description": "Recipe data including ingredients, instructions and metadata"
@@ -917,6 +999,169 @@
                     "updatedAt": {
                         "type": "string",
                         "format": "date-time"
+                    },
+                    "deletedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "CategoryPushItem": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "clientId": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deletedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "FavoritePushItem": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "clientId": {
+                        "type": "string"
+                    },
+                    "recipeId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deletedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "RecipePushItem": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "clientId": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "ingredients": {
+                        "type": "string"
+                    },
+                    "instructions": {
+                        "type": "string"
+                    },
+                    "prepTime": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "cookTime": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "servings": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "categoryIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deletedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "SyncPushRequest": {
+                "type": "object",
+                "properties": {
+                    "recipes": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RecipePushItem"
+                        }
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CategoryPushItem"
+                        }
+                    },
+                    "favorites": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FavoritePushItem"
+                        }
+                    }
+                }
+            },
+            "IdMapping": {
+                "type": "object",
+                "properties": {
+                    "clientId": {
+                        "type": "string"
+                    },
+                    "serverId": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "SyncPushResponse": {
+                "type": "object",
+                "properties": {
+                    "recipeMappings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/IdMapping"
+                        }
+                    },
+                    "categoryMappings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/IdMapping"
+                        }
+                    },
+                    "favoriteMappings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/IdMapping"
+                        }
                     }
                 }
             },
@@ -1009,6 +1254,54 @@
                 },
                 "description": "Credentials for user authentication"
             },
+            "FavoriteDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "recipeId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deletedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "SyncResponse": {
+                "type": "object",
+                "properties": {
+                    "recipes": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RecipeDTO"
+                        }
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Category"
+                        }
+                    },
+                    "favorites": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FavoriteDTO"
+                        }
+                    },
+                    "serverTime": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
             "RecipeSummaryDTO": {
                 "type": "object",
                 "properties": {
@@ -1058,6 +1351,16 @@
                             "description": "IDs of the categories this recipe belongs to",
                             "format": "int64"
                         }
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "Last update timestamp",
+                        "format": "date-time"
+                    },
+                    "deletedAt": {
+                        "type": "string",
+                        "description": "Soft delete timestamp, null if active",
+                        "format": "date-time"
                     }
                 },
                 "description": "Recipe summary for list views"

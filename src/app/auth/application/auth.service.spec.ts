@@ -3,6 +3,7 @@ import { of, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { AuthRepository } from '../domain/auth.repository';
 import { AuthRequest, AuthResponse, LoginRequest } from '../domain/auth.model';
+import { SyncService } from '../../sync/application/sync.service';
 
 const mockResponse: AuthResponse = {
   token: 'test-token',
@@ -19,10 +20,14 @@ describe('AuthService', () => {
   beforeEach(() => {
     repositorySpy = jasmine.createSpyObj<AuthRepository>('AuthRepository', ['login', 'register']);
 
+    const syncServiceSpy = jasmine.createSpyObj<SyncService>('SyncService', ['syncOnLogin']);
+    syncServiceSpy.syncOnLogin.and.resolveTo();
+
     TestBed.configureTestingModule({
       providers: [
         AuthService,
         { provide: AuthRepository, useValue: repositorySpy },
+        { provide: SyncService, useValue: syncServiceSpy },
       ],
     });
 
@@ -190,5 +195,30 @@ describe('AuthService', () => {
 
       expect(service.getToken()).toBe('test-token');
     });
+  });
+
+  describe('restoreSession()', () => {
+      it('should set currentUser from localStorage', () => {
+        localStorage.setItem('currentUser', JSON.stringify(mockResponse));
+
+        service.restoreSession();
+
+        expect(service.currentUser()).toEqual(mockResponse);
+      });
+
+      it('should not set currentUser if localStorage is empty', () => {
+        service.restoreSession();
+
+        expect(service.currentUser()).toBeNull();
+      });
+
+      it('should remove invalid JSON from localStorage', () => {
+        localStorage.setItem('currentUser', 'invalid-json');
+
+        service.restoreSession();
+
+        expect(service.currentUser()).toBeNull();
+        expect(localStorage.getItem('currentUser')).toBeNull();
+      });
   });
 });

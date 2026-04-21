@@ -117,3 +117,11 @@ npm run build      # Build de producción
 npm test           # Tests unitarios (Karma)
 npm run watch      # Build en modo watch
 ```
+
+## Build Android (Capacitor)
+
+```bash
+npm run build && npx cap sync android
+```
+
+Esto compila la app Angular en modo producción y sincroniza el resultado con el proyecto Android nativo. Después abre Android Studio para generar el APK o lanzar la app en un dispositivo.

@@ -12,7 +12,9 @@ export class FavoriteHttpRepository extends FavoriteRepository {
   private readonly apiUrl = environment.apiUrl;
 
   getMyFavorites(): Observable<RecipeSummary[]> {
-    return this.http.get<RecipeSummary[]>(`${this.apiUrl}/users/me/favorites`);
+    return this.http
+      .get<{ id: number; recipeId: number }[]>(`${this.apiUrl}/users/me/favorites`)
+      .pipe(map((items) => items.map((item) => ({ id: item.recipeId }) as RecipeSummary)));
   }
 
   isFavorite(recipeId: number): Observable<boolean> {

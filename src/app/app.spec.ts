@@ -3,10 +3,13 @@ import { provideRouter } from '@angular/router';
 import { provideTranslateService } from '@ngx-translate/core';
 import { App } from './app';
 import { AuthService } from './auth/application/auth.service';
+import { NetworkService } from './shared/infrastructure/network.service';
 
 describe('App', () => {
   beforeEach(async () => {
     const mockAuthService = jasmine.createSpyObj('AuthService', ['logout']);
+    const mockNetworkService = jasmine.createSpyObj<NetworkService>('NetworkService', ['initialize']);
+    mockNetworkService.initialize.and.resolveTo();
 
     await TestBed.configureTestingModule({
       imports: [App],
@@ -14,6 +17,7 @@ describe('App', () => {
         provideRouter([]),
         provideTranslateService({ lang: 'es' }),
         { provide: AuthService, useValue: mockAuthService },
+        { provide: NetworkService, useValue: mockNetworkService },
       ],
     }).compileComponents();
   });

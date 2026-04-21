@@ -26,7 +26,7 @@ export class RecipeDetailComponent implements OnInit {
   readonly categories = this.categoryStore.categories;
 
   readonly uploading = signal(false);
-  readonly isFavorite = signal(false);
+  readonly isFavorite = computed(() => this.favoriteService.isFavorite(this.recipeId()));
   readonly showCategoryPanel = signal(false);
   readonly selectedCategoryIds = signal(new Set<number>());
   readonly savingCategory = signal(false);
@@ -50,10 +50,7 @@ export class RecipeDetailComponent implements OnInit {
     const id = this.recipeId();
     this.store.loadById(id);
     this.categoryStore.loadAll();
-    this.favoriteService.isFavorite(id).subscribe({
-      next: (isFav) => this.isFavorite.set(isFav),
-      error: () => { /* empty */ },
-    });
+    this.favoriteService.loadFavorites().subscribe();
     this.selectedCategoryIds.set(new Set(this.recipe()?.categoryIds ?? []));
   }
 
@@ -109,12 +106,10 @@ export class RecipeDetailComponent implements OnInit {
 
   toggleFavorite(): void {
     const id = this.recipeId();
-    const current = this.isFavorite();
-    this.isFavorite.set(!current);
-    const action$ = current
+    const action$ = this.isFavorite()
       ? this.favoriteService.removeFavorite(id)
       : this.favoriteService.addFavorite(id);
-    action$.subscribe({ error: () => this.isFavorite.set(current) });
+    action$.subscribe({ error: (err) => console.error('Error toggling favorite', err) });
   }
 
   onFileSelected(event: Event): void {

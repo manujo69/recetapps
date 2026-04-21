@@ -12,7 +12,14 @@
       "Bash(npx ng:*)",
       "Bash(npx tsc:*)",
       "Bash(curl -s http://localhost:8080/v3/api-docs)",
-      "Bash(python3 -m json.tool)"
+      "Bash(python3 -m json.tool)",
+      "Bash(ls capacitor.config*)",
+      "Bash(node -e \"require\\('@capacitor/core'\\)\")",
+      "Bash(node -e \"const p = require\\('./node_modules/@capacitor/core/package.json'\\); console.log\\(p.version\\)\")",
+      "Bash(node -e \"const p = require\\('./node_modules/@capacitor-community/sqlite/package.json'\\); console.log\\(p.version\\)\")",
+      "Bash(python3 -c ':*)",
+      "Bash(npx cap:*)",
+      "Bash(node -e ' *)"
     ]
   }
 }

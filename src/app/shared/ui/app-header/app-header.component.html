@@ -1,5 +1,13 @@
 <header class="app-header sticky top-0 z-[200] bg-white border-b border-gray-200 px-4 py-2 flex items-center">
-  <div class="flex-1"></div>
+  <div class="flex-1">
+    <button class="app-header__favorites" (click)="getFavorites()">
+      @if (showFavoritesLink()) {
+        {{ 'favorites.title' | translate }}
+      } @else {
+        {{ 'favorites.reset' | translate }}
+      }
+    </button>
+  </div>
   <a class="app-header__logo flex items-center" routerLink="/" aria-label="Inicio">
     <img class="h-20 w-auto block" src="images/logo-recetapps-010.png" alt="Logo" />
   </a>

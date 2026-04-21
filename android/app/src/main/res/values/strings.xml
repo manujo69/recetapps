@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">RecetApps</string>
+    <string name="title_activity_main">RecetApps</string>
+    <string name="package_name">com.recetapps.app</string>
+    <string name="custom_url_scheme">com.recetapps.app</string>
+</resources>

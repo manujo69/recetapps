@@ -8,7 +8,7 @@ The file `openapi.json` (project root) is the authoritative reference for the ba
 
 ## Project Overview
 
-Angular 20 application (recipe-app). Uses standalone components, Angular Router, and Zone.js-based change detection.
+Angular 20 hybrid application (web + Android). Uses standalone components, Angular Router, Zone.js-based change detection, and Capacitor 8 for native mobile support.
 
 ## Tech Stack
 
@@ -17,9 +17,14 @@ Angular 20 application (recipe-app). Uses standalone components, Angular Router,
 - **Change detection**: Zone.js (`provideZoneChangeDetection`)
 - **Routing**: Angular Router
 - **Forms**: Angular Forms
+- **State management**: `@ngrx/signals` v20 (`signalStore`) for feature stores; `signal()` / `computed()` for local component state
+- **UI components**: PrimeNG 20 (Aura theme) + Tailwind CSS 4
+- **i18n**: `ngx-translate` v17. Default language: `es`
+- **Mobile**: Capacitor 8 (`@capacitor/core`, `@capacitor/android`)
+- **Local DB**: `@capacitor-community/sqlite` (native only)
 - **Testing**: Karma + Jasmine
 - **Build**: Angular CLI / esbuild (`@angular/build:application`)
-- **Formatting**: Prettier (printWidth: 100, singleQuote: true)
+- **Formatting**: Prettier (printWidth: 100, singleQuote: true). Config in `package.json`
 
 ## Commands
 
@@ -28,16 +33,18 @@ npm start          # Dev server (ng serve)
 npm run build      # Production build
 npm test           # Unit tests (Karma)
 npm run watch      # Build in watch mode (development)
+npx cap sync       # Sync web build to native platforms
+npx cap open android  # Open Android project in Android Studio
 ```
 
 ## Conventions
 
 - **Components**: Standalone, class name matches selector in PascalCase (e.g. `app-recipe-card` → `RecipeCard`)
 - **Files**: Angular naming convention — `feature-name.component.ts`, `feature-name.service.ts`, etc.
-- **State**: Prefer Angular `signal()` over class properties for reactive state
-- **Formatting**: Run Prettier before committing. Config is in `package.json`
+- **State**: Use `@ngrx/signals` `signalStore` for feature-level reactive state; prefer `signal()` and `computed()` for local component state; use RxJS for async/HTTP flows
+- **Formatting**: Run Prettier before committing
 - **Imports**: Use `@angular/core`, `@angular/common`, etc. — no barrel files unless already present
-- **Translations**: Use `ngx-translate` v17. Translation files live in `public/i18n/<lang>.json`. Use the `translate` pipe in templates (`{{ 'key' | translate }}`) or `TranslateService` in TS. Default language is `es`.
+- **Translations**: Use the `translate` pipe in templates (`{{ 'key' | translate }}`) or `TranslateService` in TS. Translation files live in `public/i18n/<lang>.json`
 - **CSS**: Use BEM (Block Element Modifier) methodology for all class names
   - Block: `.recipe-card`
   - Element: `.recipe-card__title`, `.recipe-card__image`
@@ -50,18 +57,23 @@ npm run watch      # Build in watch mode (development)
 src/
   app/
     app.ts              # Root component
-    app.config.ts       # App-level providers
+    app.config.ts       # App-level providers (adapter selection, app initializer)
     app.routes.ts       # Route definitions
     <feature>/
       domain/           # Models + ports (abstract classes)
-      application/      # Use cases (services)
-      infrastructure/   # Adapters (HTTP, mock, etc.)
+      application/      # Use cases (service or signalStore)
+      infrastructure/   # Adapters (HTTP, SQLite, mock)
       ui/               # Standalone components
     shared/
+      infrastructure/   # Cross-cutting services (NetworkService, DatabaseService)
       ui/               # Reusable components with no feature dependency
+    sync/
+      application/      # SyncService (no domain/infrastructure layers — cross-cutting)
   main.ts
   styles.css
-public/               # Static assets
+public/               # Static assets (i18n/, images/)
+android/              # Capacitor Android project
+capacitor.config.ts   # Capacitor config (appId: com.recetapps.app)
 ```
 
 ## Hexagonal Architecture (Ports & Adapters)
@@ -75,28 +87,57 @@ Every feature follows a strict four-layer structure. All layers are inside `src/
 - `<feature>.repository.ts` — the **port**: an `abstract class` that defines the contract between application and infrastructure. Components and services only ever reference this abstract class, never a concrete implementation.
 
 **2. Application** (`application/`)
-- `<feature>.service.ts` — **use case orchestrator**. Injected with the port via `inject(FeatureRepository)`. Coordinates domain logic, applies side effects (e.g. `tap` for storing tokens), and exposes reactive state via `signal()` / `computed()` when needed. Never imports from `infrastructure/` or `ui/`.
+
+Two patterns are used depending on feature complexity:
+
+- `<feature>.service.ts` — **use case orchestrator** (`@Injectable`). Injected with the port via `inject(FeatureRepository)`. Used for auth, favorites.
+- `<feature>.store.ts` — **signal store** created with `signalStore` from `@ngrx/signals`. Exposes reactive state as signals and async methods via `withMethods`. Used for recipes, categories.
+
+Neither pattern may import from `infrastructure/` or `ui/`.
 
 **3. Infrastructure** (`infrastructure/`)
-- `<feature>-http.repository.ts` — production adapter. Extends the abstract repository and calls the real HTTP API.
-- `<feature>-mock.repository.ts` — development/test adapter. Extends the same abstract repository and returns in-memory data.
-- Other adapters (WebSocket, localStorage, etc.) follow the same `<feature>-<transport>.repository.ts` naming.
+
+Three adapter types per feature:
+
+- `<feature>-mock.repository.ts` — dev/test adapter with in-memory data
+- `<feature>-http.repository.ts` — web production adapter (REST API calls)
+- `<feature>-sqlite.repository.ts` — native/Android production adapter (Capacitor SQLite)
+
+All extend the same abstract repository from `domain/`.
 
 **4. UI** (`ui/`)
 - One subfolder per component (`ui/<feature-screen>/`).
-- Components inject the **application service**, never the repository or infrastructure directly.
-- Local state uses `signal()` and `computed()`; async flows use RxJS (`Observable` returned by the service).
+- Components inject the **application service or store**, never the repository or infrastructure directly.
+- Local state uses `signal()` and `computed()`; async flows use RxJS (`Observable` returned by the service/store).
 
 ### Dependency Injection wiring
 
-Adapters are registered in `app.config.ts` using the `useClass` token:
+Adapters are selected in `app.config.ts` via factory functions that check `environment.useMockApi` and `Capacitor.isNativePlatform()`:
 
 ```typescript
-{ provide: RecipeRepository, useClass: environment.useMockApi ? RecipeMockRepository : RecipeHttpRepository },
-RecipeService,
+function recipeAdapter() {
+  if (environment.useMockApi) return RecipeMockRepository;
+  return native ? RecipeSqliteRepository : RecipeHttpRepository;
+}
+
+// In providers:
+{ provide: RecipeRepository, useClass: recipeAdapter() },
+RecipeStore,
 ```
 
-This is the only place in the codebase that knows which adapter is active. Swapping from HTTP to mock (or any future transport) requires changing only this one line.
+- `useMockApi = true` → mock (in-memory)
+- Native platform (Android) → SQLite adapter
+- Otherwise → HTTP adapter
+
+`AuthRepository` has no SQLite adapter — it always uses mock or HTTP.
+
+This is the only place in the codebase that knows which adapter is active.
+
+### App initializer
+
+`app.config.ts` registers a `provideAppInitializer` that runs on startup:
+1. Restores the auth session from `localStorage` (`authService.restoreSession()`)
+2. On native platforms, if authenticated, pulls incremental sync from the server (`syncService.pull(since)`)
 
 ### Dependency rules (strict)
 
@@ -107,22 +148,30 @@ This is the only place in the codebase that knows which adapter is active. Swapp
 | Infrastructure | Domain | Application, UI |
 | UI | Application, Domain (models only) | Infrastructure |
 
+### Cross-cutting services (exceptions to the feature pattern)
+
+- **`sync/application/SyncService`** — no domain/infrastructure layers. Handles full pull/push sync with the server and local SQLite DB. Called by `AuthService` after login and by `NetworkService` on reconnect.
+- **`shared/infrastructure/NetworkService`** — monitors network connectivity via `@capacitor/network`. Triggers `SyncService.push()` on reconnect (native only).
+- **`shared/infrastructure/DatabaseService`** — manages the SQLite connection lifecycle via `@capacitor-community/sqlite`. Used by all SQLite adapters and `SyncService`.
+
 ### Adding a new feature — checklist
 
 1. Create `src/app/<feature>/domain/<feature>.model.ts` with interfaces.
 2. Create `src/app/<feature>/domain/<feature>.repository.ts` as an `abstract class`.
-3. Create `src/app/<feature>/application/<feature>.service.ts` injecting the abstract class.
-4. Create at least one adapter in `infrastructure/` that `extends` the abstract class.
-5. Register the chosen adapter in `app.config.ts` via `{ provide: FeatureRepository, useClass: ... }`.
-6. Build UI components under `ui/` that inject only the application service.
-7. Write unit tests for the service and each adapter independently.
+3. Create application layer: `<feature>.service.ts` (simple) or `<feature>.store.ts` (`signalStore`) injecting the abstract class.
+4. Create adapters in `infrastructure/`: `-mock`, `-http`, and `-sqlite` if needed.
+5. Add a factory function in `app.config.ts` and register the provider.
+6. Build UI components under `ui/` that inject only the application service/store.
+7. Write unit tests for the service/store and each adapter independently.
 
 ## Guidelines for Agents
 
 - Do not switch to zoneless change detection without explicit instruction.
 - Do not introduce NgModules — this project uses standalone components exclusively.
 - Do not add dependencies without confirming with the user.
-- Keep components small and focused. Extract services for business logic.
+- Keep components small and focused. Extract services/stores for business logic.
 - Write unit tests for new services and components using Jasmine/Karma.
 - Do not modify `angular.json` or `tsconfig*.json` without explicit instruction.
-- Prefer `signal()` and `computed()` over RxJS for local component state; use RxJS for async/HTTP flows.
+- Do not modify `capacitor.config.ts` or the `android/` project without explicit instruction.
+- Prefer `signalStore` (`@ngrx/signals`) for feature-level state. Use `signal()` / `computed()` for local component state. Use RxJS for async/HTTP flows only.
+- When writing tests for services that depend on `SyncService` or `NetworkService`, always provide spies for them — they have deep dependency chains that must not be instantiated in tests.

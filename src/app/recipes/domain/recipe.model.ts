@@ -20,6 +20,7 @@ export interface RecipeSummary extends RecipeBase {
 
 export interface Recipe extends RecipeBase {
   id?: number;
+  clientId?: string;
   description?: string;
   ingredients: string;
   instructions: string;
@@ -30,4 +31,6 @@ export interface Recipe extends RecipeBase {
   images?: RecipeImage[];
   createdAt?: string;
   updatedAt?: string;
+  deletedAt?: string;
+  pendingSync?: boolean;
 }

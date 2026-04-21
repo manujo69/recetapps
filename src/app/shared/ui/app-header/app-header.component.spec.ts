@@ -61,5 +61,29 @@ describe('AppHeaderComponent', () => {
 
       expect(callOrder).toEqual(['logout', 'navigate']);
     });
+
+    it('should navigate to /favorites when showFavoritesLink is true', () => {
+      spyOn(router, 'navigate');
+      const fixture = TestBed.createComponent(AppHeaderComponent);
+      spyOn(fixture.componentInstance, 'showFavoritesLink').and.returnValue(true);
+
+      fixture.componentInstance.getFavorites();
+
+      expect(router.navigate).toHaveBeenCalledWith(['/recipes'], { queryParams: { favorites: true } });
+    });
+
+    it('should navigate without queryParams when showFavoritesLink is false', () => {
+      spyOn(router, 'navigate');
+      const fixture = TestBed.createComponent(AppHeaderComponent);
+      spyOn(fixture.componentInstance, 'showFavoritesLink').and.returnValue(false);
+
+      fixture.componentInstance.getFavorites();
+
+      expect(router.navigate).toHaveBeenCalledWith(
+        ['/recipes'],
+        { queryParams: {} }
+      );
+    });
+
   });
 });

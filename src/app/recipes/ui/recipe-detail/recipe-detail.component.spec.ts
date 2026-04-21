@@ -6,7 +6,7 @@ import { provideTranslateService } from '@ngx-translate/core';
 import { RecipeDetailComponent } from './recipe-detail.component';
 import { RecipeStore } from '../../application/recipe.store';
 import { RecipeRepository } from '../../domain/recipe.repository';
-import { Recipe, RecipeImage } from '../../domain/recipe.model';
+import { Recipe, RecipeImage, RecipeSummary } from '../../domain/recipe.model';
 import { FavoriteRepository } from '../../../favorites/domain/favorite.repository';
 import { FavoriteService } from '../../../favorites/application/favorite.service';
 import { CategoryRepository } from '../../../categories/domain/category.repository';
@@ -71,7 +71,7 @@ describe('RecipeDetailComponent', () => {
     ]);
 
     // Default stubs so ngOnInit never throws
-    mockFavoriteRepository.isFavorite.and.returnValue(of(false));
+    mockFavoriteRepository.getMyFavorites.and.returnValue(of([]));
     mockCategoryRepository.getAll.and.returnValue(of(MOCK_CATEGORIES));
 
     await TestBed.configureTestingModule({
@@ -136,7 +136,7 @@ describe('RecipeDetailComponent', () => {
 
   it('should set isFavorite based on service response', fakeAsync(() => {
     mockRecipeRepository.getById.and.returnValue(of(MOCK_RECIPE));
-    mockFavoriteRepository.isFavorite.and.returnValue(of(true));
+    mockFavoriteRepository.getMyFavorites.and.returnValue(of([{ id: 1 } as RecipeSummary]));
     const fixture = TestBed.createComponent(RecipeDetailComponent);
     fixture.detectChanges();
     tick();
@@ -187,7 +187,6 @@ describe('RecipeDetailComponent', () => {
   describe('toggleFavorite()', () => {
     it('should call addFavorite and set isFavorite to true when not a favorite', fakeAsync(() => {
       mockRecipeRepository.getById.and.returnValue(of(MOCK_RECIPE));
-      mockFavoriteRepository.isFavorite.and.returnValue(of(false));
       mockFavoriteRepository.addFavorite.and.returnValue(of(undefined));
       const fixture = TestBed.createComponent(RecipeDetailComponent);
       fixture.detectChanges();
@@ -202,7 +201,7 @@ describe('RecipeDetailComponent', () => {
 
     it('should call removeFavorite and set isFavorite to false when already a favorite', fakeAsync(() => {
       mockRecipeRepository.getById.and.returnValue(of(MOCK_RECIPE));
-      mockFavoriteRepository.isFavorite.and.returnValue(of(true));
+      mockFavoriteRepository.getMyFavorites.and.returnValue(of([{ id: 1 } as RecipeSummary]));
       mockFavoriteRepository.removeFavorite.and.returnValue(of(undefined));
       const fixture = TestBed.createComponent(RecipeDetailComponent);
       fixture.detectChanges();
@@ -217,7 +216,6 @@ describe('RecipeDetailComponent', () => {
 
     it('should revert isFavorite on error', fakeAsync(() => {
       mockRecipeRepository.getById.and.returnValue(of(MOCK_RECIPE));
-      mockFavoriteRepository.isFavorite.and.returnValue(of(false));
       mockFavoriteRepository.addFavorite.and.returnValue(throwError(() => new Error('Server error')));
       const fixture = TestBed.createComponent(RecipeDetailComponent);
       fixture.detectChanges();

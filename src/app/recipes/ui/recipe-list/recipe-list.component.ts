@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -24,13 +24,18 @@ export class RecipeListComponent implements OnInit {
 
   readonly loading = this.store.loading;
   readonly error = this.store.error;
-  readonly favoriteIds = signal(new Set<number>());
+  readonly favoriteIds = this.favoriteService.favoriteIds;
 
   readonly activeCategoryId = toSignal(
     this.route.queryParamMap.pipe(
       map((params) => (params.get('categoryId') ? Number(params.get('categoryId')) : null)),
     ),
     { initialValue: null },
+  );
+
+  readonly favoritesOnly = toSignal(
+    this.route.queryParamMap.pipe(map((params) => params.get('favorites') === 'true')),
+    { initialValue: false },
   );
 
   readonly activeCategory = computed(() => {
@@ -41,6 +46,9 @@ export class RecipeListComponent implements OnInit {
   readonly recipes = computed(() => {
     const all = [...this.store.recipes()].sort((a, b) => b.id - a.id);
     const catId = this.activeCategoryId();
+    if (this.favoritesOnly()) {
+      return all.filter((r) => this.favoriteIds().has(r.id));
+    }
     if (!catId) return all;
     return all.filter((r) => r.categoryIds?.includes(catId));
   });
@@ -48,9 +56,8 @@ export class RecipeListComponent implements OnInit {
   ngOnInit(): void {
     this.store.loadAll();
     this.categoryStore.loadAll();
-    this.favoriteService.getMyFavorites().subscribe({
-      next: (favorites) => this.favoriteIds.set(new Set(favorites.map((f) => f.id))),
-      error: () => { console.error('Error al cargar favoritos'); },
+    this.favoriteService.loadFavorites().subscribe({
+      error: () => console.error('Error al cargar favoritos'),
     });
   }
 
