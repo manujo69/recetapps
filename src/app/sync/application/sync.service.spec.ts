@@ -360,7 +360,7 @@ describe('SyncService', () => {
 
       expect(mockDb.run).toHaveBeenCalledWith(
         jasmine.stringContaining('INSERT INTO favorites'),
-        [5, '2026-01-01', null],
+        [5, '2026-01-01T00:00:00.000Z', null],
         false,
       );
     });
@@ -419,7 +419,7 @@ describe('SyncService', () => {
       service.push().catch((e) => console.error('push error in test', e));
       flushMicrotasks();
 
-      httpTesting.expectOne(SYNC_URL).flush({ recipes: [{ clientId: 'c1', serverId: 42 }], categories: [] });
+      httpTesting.expectOne(SYNC_URL).flush({ recipeMappings: [{ clientId: 'c1', serverId: 42 }], categoryMappings: [] });
       flushMicrotasks();
 
       expect(mockDb.run).toHaveBeenCalledWith(
@@ -510,7 +510,7 @@ describe('SyncService', () => {
       service.push().catch((e) => console.error('push error in test', e));
       flushMicrotasks();
 
-      httpTesting.expectOne(SYNC_URL).flush({ recipes: [], categories: [{ clientId: 'cat1', serverId: 99 }] });
+      httpTesting.expectOne(SYNC_URL).flush({ recipeMappings: [], categoryMappings: [{ clientId: 'cat1', serverId: 99 }] });
       flushMicrotasks();
 
       expect(mockDb.run).toHaveBeenCalledWith(
@@ -528,7 +528,7 @@ describe('SyncService', () => {
       service.push().catch((e) => (caughtError = e));
       flushMicrotasks();
 
-      httpTesting.expectOne(SYNC_URL).flush({ recipes: [{ clientId: 'c1', serverId: 1 }], categories: [] });
+      httpTesting.expectOne(SYNC_URL).flush({ recipeMappings: [{ clientId: 'c1', serverId: 1 }], categoryMappings: [] });
       flushMicrotasks();
 
       expect(caughtError?.message).toBe('DB write error');

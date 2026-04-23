@@ -22,9 +22,10 @@
       <img class="w-full h-full object-cover block rounded-2xl" [src]="imageUrl()" [alt]="r.title" />
       <input #fileInput type="file" accept="image/*" class="hidden" (change)="onFileSelected($event)" />
       <button
-        class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white border-0 shadow-md flex items-center justify-center cursor-pointer text-base transition-shadow hover:shadow-lg"
+        class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white border-0 shadow-md flex items-center justify-center cursor-pointer text-base transition-shadow hover:shadow-lg disabled:opacity-40 disabled:cursor-default"
         type="button"
         aria-label="Añadir a favoritos"
+        [disabled]="favoritesLoading()"
         (click)="toggleFavorite()"
         [class.text-red-500]="isFavorite()"
         [class.text-gray-400]="!isFavorite()"

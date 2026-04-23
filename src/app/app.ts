@@ -1,7 +1,6 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AppHeaderComponent } from './shared/ui/app-header/app-header.component';
-import { NetworkService } from './shared/infrastructure/network.service';
 
 @Component({
   selector: 'app-root',
@@ -9,12 +8,6 @@ import { NetworkService } from './shared/infrastructure/network.service';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App implements OnInit {
+export class App {
   protected readonly title = signal('recetapps');
-
-  private readonly networkService = inject(NetworkService);
-
-  ngOnInit(): void {
-    this.networkService.initialize();
-  }
 }

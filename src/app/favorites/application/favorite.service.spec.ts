@@ -1,7 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
+import { signal, WritableSignal } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
 import { FavoriteService } from './favorite.service';
 import { FavoriteRepository } from '../domain/favorite.repository';
+import { NetworkService } from '../../shared/infrastructure/network.service';
+import { SyncService } from '../../sync/application/sync.service';
 import { RecipeSummary } from '../../recipes/domain/recipe.model';
 
 const MOCK_SUMMARIES: RecipeSummary[] = [
@@ -12,16 +16,27 @@ const MOCK_SUMMARIES: RecipeSummary[] = [
 describe('FavoriteService', () => {
   let service: FavoriteService;
   let repositorySpy: jasmine.SpyObj<FavoriteRepository>;
+  let mockSyncService: jasmine.SpyObj<SyncService>;
+  let pullCompletedAt: WritableSignal<number>;
+  let isOnline: WritableSignal<boolean>;
 
   beforeEach(() => {
     repositorySpy = jasmine.createSpyObj<FavoriteRepository>('FavoriteRepository', [
       'getMyFavorites', 'isFavorite', 'addFavorite', 'removeFavorite',
     ]);
 
+    mockSyncService = jasmine.createSpyObj('SyncService', ['push']);
+    mockSyncService.push.and.returnValue(Promise.resolve());
+
+    pullCompletedAt = signal(0);
+    isOnline = signal(true);
+
     TestBed.configureTestingModule({
       providers: [
         FavoriteService,
         { provide: FavoriteRepository, useValue: repositorySpy },
+        { provide: NetworkService, useValue: { pullCompletedAt, isOnline } },
+        { provide: SyncService, useValue: mockSyncService },
       ],
     });
 
@@ -35,6 +50,26 @@ describe('FavoriteService', () => {
 
     it('isFavorite() should return false for any id before loading', () => {
       expect(service.isFavorite(1)).toBeFalse();
+    });
+  });
+
+  describe('pullCompletedAt effect', () => {
+    it('should reload favorites when pullCompletedAt increases', () => {
+      repositorySpy.getMyFavorites.and.returnValue(of(MOCK_SUMMARIES));
+
+      pullCompletedAt.set(1);
+      TestBed.flushEffects();
+
+      expect(repositorySpy.getMyFavorites).toHaveBeenCalledTimes(1);
+      expect(service.favoriteIds()).toEqual(new Set([1, 3]));
+    });
+
+    it('should not reload favorites when pullCompletedAt is 0', () => {
+      repositorySpy.getMyFavorites.and.returnValue(of(MOCK_SUMMARIES));
+
+      TestBed.flushEffects();
+
+      expect(repositorySpy.getMyFavorites).not.toHaveBeenCalled();
     });
   });
 
@@ -163,6 +198,49 @@ describe('FavoriteService', () => {
       service.removeFavorite(1).subscribe({ error: () => { console.warn('Error removing favorite'); } });
 
       expect(service.isFavorite(1)).toBeTrue();
+    });
+  });
+
+  describe('pushIfOnline()', () => {
+    it('should not push on web platform', () => {
+      spyOn(Capacitor, 'isNativePlatform').and.returnValue(false);
+      repositorySpy.addFavorite.and.returnValue(of(undefined));
+
+      service.addFavorite(1).subscribe();
+
+      expect(mockSyncService.push).not.toHaveBeenCalled();
+    });
+
+    it('should not push when native platform and offline', () => {
+      spyOn(Capacitor, 'isNativePlatform').and.returnValue(true);
+      isOnline.set(false);
+      repositorySpy.addFavorite.and.returnValue(of(undefined));
+
+      service.addFavorite(1).subscribe();
+
+      expect(mockSyncService.push).not.toHaveBeenCalled();
+    });
+
+    it('should push when native platform and online', () => {
+      spyOn(Capacitor, 'isNativePlatform').and.returnValue(true);
+      isOnline.set(true);
+      repositorySpy.addFavorite.and.returnValue(of(undefined));
+
+      service.addFavorite(1).subscribe();
+
+      expect(mockSyncService.push).toHaveBeenCalledTimes(1);
+    });
+
+    it('should push via removeFavorite when native and online', () => {
+      spyOn(Capacitor, 'isNativePlatform').and.returnValue(true);
+      isOnline.set(true);
+      repositorySpy.getMyFavorites.and.returnValue(of(MOCK_SUMMARIES));
+      service.loadFavorites().subscribe();
+      repositorySpy.removeFavorite.and.returnValue(of(undefined));
+
+      service.removeFavorite(1).subscribe();
+
+      expect(mockSyncService.push).toHaveBeenCalledTimes(1);
     });
   });
 });

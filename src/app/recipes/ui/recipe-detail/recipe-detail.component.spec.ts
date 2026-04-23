@@ -2,6 +2,7 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
+import { signal } from '@angular/core';
 import { provideTranslateService } from '@ngx-translate/core';
 import { RecipeDetailComponent } from './recipe-detail.component';
 import { RecipeStore } from '../../application/recipe.store';
@@ -9,6 +10,8 @@ import { RecipeRepository } from '../../domain/recipe.repository';
 import { Recipe, RecipeImage, RecipeSummary } from '../../domain/recipe.model';
 import { FavoriteRepository } from '../../../favorites/domain/favorite.repository';
 import { FavoriteService } from '../../../favorites/application/favorite.service';
+import { NetworkService } from '../../../shared/infrastructure/network.service';
+import { SyncService } from '../../../sync/application/sync.service';
 import { CategoryRepository } from '../../../categories/domain/category.repository';
 import { CategoryStore } from '../../../categories/application/category.store';
 import { Category } from '../../../categories/domain/category.model';
@@ -55,6 +58,7 @@ describe('RecipeDetailComponent', () => {
   let mockRecipeRepository: jasmine.SpyObj<RecipeRepository>;
   let mockFavoriteRepository: jasmine.SpyObj<FavoriteRepository>;
   let mockCategoryRepository: jasmine.SpyObj<CategoryRepository>;
+  let mockSyncService: jasmine.SpyObj<SyncService>;
 
   beforeEach(async () => {
     mockRecipeRepository = jasmine.createSpyObj('RecipeRepository', [
@@ -70,6 +74,11 @@ describe('RecipeDetailComponent', () => {
       'getAll', 'getById', 'create', 'update', 'delete',
     ]);
 
+    mockSyncService = jasmine.createSpyObj('SyncService', ['push']);
+    mockSyncService.push.and.returnValue(Promise.resolve());
+
+    const mockNetworkService = { pullCompletedAt: signal(0), isOnline: signal(true) };
+
     // Default stubs so ngOnInit never throws
     mockFavoriteRepository.getMyFavorites.and.returnValue(of([]));
     mockCategoryRepository.getAll.and.returnValue(of(MOCK_CATEGORIES));
@@ -82,6 +91,8 @@ describe('RecipeDetailComponent', () => {
         { provide: RecipeRepository, useValue: mockRecipeRepository },
         RecipeStore,
         { provide: FavoriteRepository, useValue: mockFavoriteRepository },
+        { provide: NetworkService, useValue: mockNetworkService },
+        { provide: SyncService, useValue: mockSyncService },
         FavoriteService,
         { provide: CategoryRepository, useValue: mockCategoryRepository },
         CategoryStore,

@@ -51,6 +51,7 @@ export interface IdMapping {
 }
 
 export interface SyncPushResponse {
-  recipes: IdMapping[];
-  categories: IdMapping[];
+  recipeMappings: IdMapping[];
+  categoryMappings: IdMapping[];
+  favoriteMappings: IdMapping[];
 }

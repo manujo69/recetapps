@@ -21,7 +21,10 @@
       "Bash(npx cap:*)",
       "Bash(node -e ' *)",
       "Bash(sed -n '1,20p' /home/manu/Projects/recetapps/src/app/categories/infrastructure/category-sqlite.repository.ts)",
-      "Bash(sed -n '1,20p' /home/manu/Projects/recetapps/src/app/favorites/infrastructure/favorite-sqlite.repository.ts)"
+      "Bash(sed -n '1,20p' /home/manu/Projects/recetapps/src/app/favorites/infrastructure/favorite-sqlite.repository.ts)",
+      "Bash(mvn compile *)",
+      "Bash(mvn -f \"/home/manu/Projects/recipes-back/pom.xml\" compile -q)",
+      "Bash(python3 -c ' *)"
     ]
   }
 }

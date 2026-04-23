@@ -26,6 +26,7 @@ export class RecipeDetailComponent implements OnInit {
   readonly categories = this.categoryStore.categories;
 
   readonly uploading = signal(false);
+  readonly favoritesLoading = signal(true);
   readonly isFavorite = computed(() => this.favoriteService.isFavorite(this.recipeId()));
   readonly showCategoryPanel = signal(false);
   readonly selectedCategoryIds = signal(new Set<number>());
@@ -50,7 +51,10 @@ export class RecipeDetailComponent implements OnInit {
     const id = this.recipeId();
     this.store.loadById(id);
     this.categoryStore.loadAll();
-    this.favoriteService.loadFavorites().subscribe();
+    this.favoriteService.loadFavorites().subscribe({
+      next: () => this.favoritesLoading.set(false),
+      error: () => this.favoritesLoading.set(false),
+    });
     this.selectedCategoryIds.set(new Set(this.recipe()?.categoryIds ?? []));
   }
 

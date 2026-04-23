@@ -50,7 +50,7 @@ export class SyncService {
     try {
       await this.upsertCategories(db, response.categories);
       await this.upsertRecipes(db, response.recipes);
-      await this.upsertFavorites(db, response.favorites);
+      await this.upsertFavorites(db, response.favorites, !since);
       await this.saveLastSyncAt(db, response.serverTime);
       await db.commitTransaction();
     } catch (err) {
@@ -106,6 +106,13 @@ export class SyncService {
 
   // ── Pull helpers ─────────────────────────────────────────────────────────────
 
+  /** Normalizes any ISO-8601 string to UTC ("Z") format so SQLite text comparisons are consistent. */
+  private toUtc(ts: string | null | undefined): string | null {
+    if (!ts) return null;
+    const d = new Date(ts);
+    return isNaN(d.getTime()) ? null : d.toISOString();
+  }
+
   private async upsertRecipes(db: SQLiteDBConnection, recipes: RecipeSync[]): Promise<void> {
     for (const r of recipes) {
       // Prefer the clientId from the server response. If absent, look up the
@@ -140,7 +147,7 @@ export class SyncService {
            updated_at  = excluded.updated_at,
            deleted_at  = excluded.deleted_at,
            pending_sync = 0
-         WHERE excluded.updated_at > recipes.updated_at OR recipes.pending_sync = 0`,
+         WHERE excluded.updated_at >= recipes.updated_at`,
         [
           r.id ?? null,
           clientId,
@@ -153,9 +160,9 @@ export class SyncService {
           r.servings,
           r.userId ?? null,
           r.username ?? null,
-          r.createdAt ?? null,
-          r.updatedAt ?? null,
-          r.deletedAt ?? null,
+          this.toUtc(r.createdAt),
+          this.toUtc(r.updatedAt),
+          this.toUtc(r.deletedAt),
         ],
         false,
       );
@@ -215,22 +222,39 @@ export class SyncService {
            updated_at  = excluded.updated_at,
            deleted_at  = excluded.deleted_at,
            pending_sync = 0
-         WHERE excluded.updated_at > categories.updated_at OR categories.pending_sync = 0`,
+         WHERE excluded.updated_at >= categories.updated_at`,
         [
           c.id ?? null,
           clientId,
           c.name,
           c.description ?? null,
-          c.createdAt ?? null,
-          c.updatedAt ?? null,
-          c.deletedAt ?? null,
+          this.toUtc(c.createdAt),
+          this.toUtc(c.updatedAt),
+          this.toUtc(c.deletedAt),
         ],
         false,
       );
     }
   }
 
-  private async upsertFavorites(db: SQLiteDBConnection, favorites: FavoriteSync[]): Promise<void> {
+  private async upsertFavorites(db: SQLiteDBConnection, favorites: FavoriteSync[], isFullPull: boolean): Promise<void> {
+    if (isFullPull) {
+      await db.run(`DELETE FROM favorites WHERE pending_sync = 0`, [], false);
+      for (const f of favorites) {
+        await db.run(
+          `INSERT INTO favorites (recipe_id, updated_at, deleted_at, pending_sync)
+           VALUES (?, ?, ?, 0)
+           ON CONFLICT(recipe_id) DO UPDATE SET
+             updated_at  = excluded.updated_at,
+             deleted_at  = excluded.deleted_at,
+             pending_sync = 0
+           WHERE excluded.updated_at >= favorites.updated_at`,
+          [f.recipeId, this.toUtc(f.updatedAt), this.toUtc(f.deletedAt)],
+          false,
+        );
+      }
+      return;
+    }
     for (const f of favorites) {
       await db.run(
         `INSERT INTO favorites (recipe_id, updated_at, deleted_at, pending_sync)
@@ -239,8 +263,8 @@ export class SyncService {
            updated_at  = excluded.updated_at,
            deleted_at  = excluded.deleted_at,
            pending_sync = 0
-         WHERE excluded.updated_at > favorites.updated_at OR favorites.pending_sync = 0`,
-        [f.recipeId, f.updatedAt, f.deletedAt ?? null],
+         WHERE excluded.updated_at >= favorites.updated_at`,
+        [f.recipeId, this.toUtc(f.updatedAt), this.toUtc(f.deletedAt)],
         false,
       );
     }
@@ -289,7 +313,7 @@ export class SyncService {
   });
 
   private async applyIdMappings(db: SQLiteDBConnection, response: SyncPushResponse): Promise<void> {
-    for (const { clientId, serverId } of response.recipes) {
+    for (const { clientId, serverId } of response.recipeMappings ?? []) {
       await db.run(
         `UPDATE recipes SET id = ?, pending_sync = 0 WHERE client_id = ?`,
         [serverId, clientId],
@@ -297,7 +321,7 @@ export class SyncService {
       );
     }
 
-    for (const { clientId, serverId } of response.categories) {
+    for (const { clientId, serverId } of response.categoryMappings ?? []) {
       await db.run(
         `UPDATE categories SET id = ?, pending_sync = 0 WHERE client_id = ?`,
         [serverId, clientId],

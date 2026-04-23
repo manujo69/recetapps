@@ -58,4 +58,37 @@ describe('CategoryStore', () => {
       done();
     });
   });
+
+  it('should not call the repository again when already loaded', fakeAsync(() => {
+    repositorySpy.getAll.and.returnValue(of([CATEGORY_1]));
+
+    store.loadAll();
+    tick();
+
+    store.loadAll();
+
+    expect(repositorySpy.getAll).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should use the fallback message when the error has no message', fakeAsync(() => {
+    repositorySpy.getAll.and.returnValue(throwError(() => ({})));
+
+    store.loadAll();
+    tick();
+
+    expect(store.error()).toBe('Error al cargar categorías');
+    expect(store.loading()).toBeFalse();
+  }));
+
+  it('should propagate the error when create fails', (done) => {
+    const error = new Error('Create failed');
+    repositorySpy.create.and.returnValue(throwError(() => error));
+
+    store.create({ name: 'New Category' }).subscribe({
+      error: (err) => {
+        expect(err).toBe(error);
+        done();
+      },
+    });
+  });
 });

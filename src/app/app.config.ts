@@ -75,13 +75,16 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(async () => {
       const authService = inject(AuthService);
       const syncService = inject(SyncService);
+      const networkService = inject(NetworkService);
 
       authService.restoreSession();
 
       if (Capacitor.isNativePlatform() && authService.isAuthenticated()) {
-        const since = await syncService.getLastSyncAt();
-        await syncService.pull(since).catch(() => { console.warn('Error al sincronizar datos al iniciar la app'); });
+        try { await syncService.push(); } catch { /* no-op: sync failures at startup are non-fatal */ }
+        try { await syncService.pull(); } catch { /* no-op: sync failures at startup are non-fatal */ }
       }
+
+      await networkService.initialize();
     }),
   ],
 };
