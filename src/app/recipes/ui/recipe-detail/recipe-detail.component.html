@@ -16,11 +16,13 @@
       <span class="w-9"></span>
     </header>
 
-    <div
-      class="mx-4 rounded-2xl aspect-[4/3] bg-[#e8ddd0] relative md:mx-8 md:mt-8 md:aspect-[16/7] lg:max-w-[860px] lg:mx-auto"
+    <app-recipe-image
+      [imageUrl]="imageUrl()"
+      [alt]="r.title"
+      [uploadVisible]="isPlaceholderImage()"
+      [uploading]="uploading()"
+      (fileSelected)="onFileSelected($event)"
     >
-      <img class="w-full h-full object-cover block rounded-2xl" [src]="imageUrl()" [alt]="r.title" />
-      <input #fileInput type="file" accept="image/*" class="hidden" (change)="onFileSelected($event)" />
       <button
         class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white border-0 shadow-md flex items-center justify-center cursor-pointer text-base transition-shadow hover:shadow-lg disabled:opacity-40 disabled:cursor-default"
         type="button"
@@ -32,35 +34,34 @@
       >
         <i [class]="isFavorite() ? 'pi pi-heart-fill' : 'pi pi-heart'"></i>
       </button>
-      @if (isPlaceholderImage()) {
-        <button
-          class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white border-0 shadow-md flex items-center justify-center cursor-pointer text-brand text-base transition-shadow hover:shadow-lg"
-          type="button"
-          aria-label="Subir imagen"
-          [disabled]="uploading()"
-          (click)="openFilePicker()"
-        >
-          <i [class]="uploading() ? 'pi pi-spin pi-spinner' : 'pi pi-upload'"></i>
-        </button>
-      }
-    </div>
+    </app-recipe-image>
 
     <div class="px-4 pt-5 md:px-8 md:pt-6 lg:max-w-[860px] lg:mx-auto lg:px-0 lg:pt-6">
 
       <div class="flex items-center justify-between gap-3 mb-3 relative">
         <h1 class="m-0 text-[1.4rem] font-bold">{{ r.title }}</h1>
-        <button
-          class="flex items-center justify-center w-9 h-9 rounded-full border-0 cursor-pointer shrink-0 transition-colors text-base"
-          [class.bg-brand]="showCategoryPanel()"
-          [class.text-white]="showCategoryPanel()"
-          [class.bg-[#9bad7969]]="!showCategoryPanel()"
-          [class.text-brand]="!showCategoryPanel()"
-          type="button"
-          aria-label="Gestionar categorías"
-          (click)="toggleCategoryPanel()"
-        >
-          <i class="pi pi-tag"></i>
-        </button>
+        <div class="flex items-center gap-2 shrink-0">
+          <button
+            class="flex items-center justify-center w-9 h-9 rounded-full border-0 cursor-pointer transition-colors text-base bg-[#9bad7969] text-red-400 hover:bg-red-50 hover:text-red-500"
+            type="button"
+            aria-label="Eliminar receta"
+            (click)="showDeleteConfirm.set(true)"
+          >
+            <i class="pi pi-trash"></i>
+          </button>
+          <button
+            class="flex items-center justify-center w-9 h-9 rounded-full border-0 cursor-pointer transition-colors text-base"
+            [class.bg-brand]="showCategoryPanel()"
+            [class.text-white]="showCategoryPanel()"
+            [class.bg-[#9bad7969]]="!showCategoryPanel()"
+            [class.text-brand]="!showCategoryPanel()"
+            type="button"
+            aria-label="Gestionar categorías"
+            (click)="toggleCategoryPanel()"
+          >
+            <i class="pi pi-tag"></i>
+          </button>
+        </div>
 
         @if (showCategoryPanel()) {
           <div class="absolute top-full right-0 z-20 bg-white rounded-xl shadow-lg w-56 mt-1 overflow-hidden">
@@ -164,4 +165,44 @@
     </div>
   </div>
   <app-footer />
+
+  @if (showDeleteConfirm()) {
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+      tabindex="0"
+      (click)="$event.target === $event.currentTarget && showDeleteConfirm.set(false)"
+      (keydown.escape)="showDeleteConfirm.set(false)"
+    >
+      <div
+        class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6"
+      >
+        <h3 class="m-0 mb-2 text-lg font-bold">Eliminar receta</h3>
+        <p class="m-0 mb-6 text-sm text-gray-600">
+          ¿Seguro que quieres eliminar <strong>{{ r.title }}</strong>? Esta acción no se puede deshacer.
+        </p>
+        <div class="flex gap-3">
+          <button
+            class="flex-1 py-2.5 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-50 transition-colors"
+            type="button"
+            [disabled]="deleting()"
+            (click)="showDeleteConfirm.set(false)"
+          >
+            Cancelar
+          </button>
+          <button
+            class="flex-1 py-2.5 rounded-xl border-0 bg-red-500 text-white text-sm font-semibold cursor-pointer hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-default flex items-center justify-center gap-2"
+            type="button"
+            [disabled]="deleting()"
+            (click)="deleteRecipe()"
+          >
+            @if (deleting()) {
+              <i class="pi pi-spin pi-spinner"></i>
+            } @else {
+              Eliminar
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 }

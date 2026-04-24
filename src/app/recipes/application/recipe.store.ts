@@ -125,21 +125,30 @@ export const RecipeStore = signalStore(
 
       // Sube una imagen y actualiza la receta seleccionada en el store.
       uploadImage(recipeId: number, file: File): Observable<RecipeImage> {
-        patchState(store, { loading: true });
         return repository.uploadImage(recipeId, file).pipe(
           tap((image) => {
             const current = store.selectedRecipe();
+            if (current) {
+              const updated = { ...current, images: [image, ...(current.images ?? [])] };
+              recipeCache.set(current.id!, updated);
+              patchState(store, { selectedRecipe: updated });
+            }
+          }),
+          catchError((err) => throwError(() => err)),
+        );
+      },
+
+      delete(id: number): Observable<void> {
+        return repository.delete(id).pipe(
+          tap(() => {
+            recipeCache.delete(id);
             patchState(store, {
-              loading: false,
-              ...(current && {
-                selectedRecipe: { ...current, images: [image, ...(current.images ?? [])] },
-              }),
+              selectedRecipe: null,
+              recipes: store.recipes().filter((r) => r.id !== id),
+              loaded: false,
             });
           }),
-          catchError((err) => {
-            patchState(store, { loading: false });
-            return throwError(() => err);
-          }),
+          catchError((err) => throwError(() => err)),
         );
       },
 

@@ -1,0 +1,16 @@
+<div class="mx-4 rounded-2xl aspect-[4/3] bg-[#e8ddd0] relative md:mx-8 md:mt-8 md:aspect-[16/7] lg:max-w-[860px] lg:mx-auto">
+  <img class="w-full h-full object-cover block rounded-2xl" [src]="imageUrl()" [alt]="alt()" />
+  <input #fileInput type="file" accept="image/*" class="hidden" (change)="onFileChange($event)" />
+  <ng-content />
+  @if (uploadVisible()) {
+    <button
+      class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white border-0 shadow-md flex items-center justify-center cursor-pointer text-brand text-base transition-shadow hover:shadow-lg disabled:opacity-40 disabled:cursor-default"
+      type="button"
+      aria-label="Subir imagen"
+      [disabled]="uploading()"
+      (click)="openFilePicker()"
+    >
+      <i [class]="uploading() ? 'pi pi-spin pi-spinner' : 'pi pi-upload'"></i>
+    </button>
+  }
+</div>

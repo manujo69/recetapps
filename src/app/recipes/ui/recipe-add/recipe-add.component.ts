@@ -1,12 +1,13 @@
-import { Component, computed, inject, signal, viewChild, ElementRef } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RecipeStore } from '../../application/recipe.store';
 import { TranslatePipe } from '@ngx-translate/core';
+import { RecipeImageComponent } from '../recipe-image/recipe-image.component';
 
 @Component({
   selector: 'app-recipe-add',
-  imports: [TranslatePipe, RouterLink, ReactiveFormsModule],
+  imports: [TranslatePipe, RouterLink, ReactiveFormsModule, RecipeImageComponent],
   templateUrl: './recipe-add.component.html',
   styleUrl: './recipe-add.component.scss',
 })
@@ -18,8 +19,6 @@ export class RecipeAddComponent {
   readonly error = signal<string | null>(null);
   readonly selectedImage = signal<File | null>(null);
   readonly previewUrl = signal<string | null>(null);
-
-  private readonly fileInput = viewChild.required<ElementRef<HTMLInputElement>>('fileInput');
 
   readonly imageUrl = computed(() => this.previewUrl() ?? 'images/ingredients-background-010.png');
 
@@ -42,13 +41,7 @@ export class RecipeAddComponent {
     instructions: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
   });
 
-  openFilePicker(): void {
-    this.fileInput().nativeElement.click();
-  }
-
-  onFileSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
+  onFileSelected(file: File): void {
     this.selectedImage.set(file);
     this.previewUrl.set(URL.createObjectURL(file));
   }

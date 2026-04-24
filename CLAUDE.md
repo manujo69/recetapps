@@ -35,7 +35,12 @@ npm test           # Unit tests (Karma)
 npm run watch      # Build in watch mode (development)
 npx cap sync       # Sync web build to native platforms
 npx cap open android  # Open Android project in Android Studio
+npx @capacitor/assets generate --android  # Regenerate Android icons from resources/icon.png
 ```
+
+### Regenerating Android icons
+
+Place a square PNG (≥ 1024×1024 px, no transparency) at `resources/icon.png` in the project root, then run `npx @capacitor/assets generate --android`. This overwrites all `mipmap-*/ic_launcher*.png` files in `android/app/src/main/res/`.
 
 ## Conventions
 
@@ -154,6 +159,15 @@ This is the only place in the codebase that knows which adapter is active.
 - **`shared/infrastructure/NetworkService`** — monitors network connectivity via `@capacitor/network`. Triggers `SyncService.push()` on reconnect (native only).
 - **`shared/infrastructure/DatabaseService`** — manages the SQLite connection lifecycle via `@capacitor-community/sqlite`. Used by all SQLite adapters and `SyncService`.
 
+### AuthService post-auth flow (`syncAfterAuth`)
+
+After every `login()` or `register()`, `AuthService` runs `syncAfterAuth()` before emitting the result:
+
+- **Web**: resets `RecipeStore` and `CategoryStore` immediately (no sync).
+- **Native**: calls `syncService.syncOnLogin()` (wipes local user data, then does a full pull). Sync errors are caught and silenced so the login observable always completes. Stores are reset after sync regardless of outcome.
+
+This is why `AuthService` injects `RecipeStore` and `CategoryStore` — do not remove those dependencies.
+
 ### Adding a new feature — checklist
 
 1. Create `src/app/<feature>/domain/<feature>.model.ts` with interfaces.
@@ -175,3 +189,28 @@ This is the only place in the codebase that knows which adapter is active.
 - Do not modify `capacitor.config.ts` or the `android/` project without explicit instruction.
 - Prefer `signalStore` (`@ngrx/signals`) for feature-level state. Use `signal()` / `computed()` for local component state. Use RxJS for async/HTTP flows only.
 - When writing tests for services that depend on `SyncService` or `NetworkService`, always provide spies for them — they have deep dependency chains that must not be instantiated in tests.
+
+### Unit test dependency map
+
+Services have non-obvious transitive dependencies that must be mocked explicitly:
+
+| Service under test | Required spies |
+|---|---|
+| `AuthService` | `AuthRepository` (`login`, `register`), `SyncService` (`syncOnLogin`), `RecipeStore` (`reset`), `CategoryStore` (`reset`) |
+| `SyncService` | `DatabaseService` (`getDb`, `clearUserData`), `HttpClient` (via `provideHttpClient` + `provideHttpClientTesting`) |
+
+### fakeAsync and HTTP timing
+
+When a service `await`s a non-HTTP async call **before** making an HTTP request, `httpTesting.expectOne()` will fail because the request hasn't been queued yet. Use `fakeAsync` + `flushMicrotasks()` to control execution order:
+
+```typescript
+it('example', fakeAsync(() => {
+  service.methodThatAwaitsBeforeHttp().catch(() => {});
+  flushMicrotasks(); // resolves preceding awaits, queues the HTTP request
+  httpTesting.expectOne(URL).flush(response);
+  flushMicrotasks(); // resolves the rest of the async chain
+  expect(...);
+}));
+```
+
+This pattern is required for `syncOnLogin()` tests because it awaits `clearUserData()` before calling `pull()` (which makes the HTTP request).

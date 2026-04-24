@@ -379,38 +379,8 @@ describe('RecipeDetailComponent', () => {
     }));
   });
 
-  describe('openFilePicker()', () => {
-    it('should trigger click on the hidden file input', fakeAsync(() => {
-      mockRecipeRepository.getById.and.returnValue(of(MOCK_RECIPE));
-      const fixture = TestBed.createComponent(RecipeDetailComponent);
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-
-      const input = fixture.nativeElement.querySelector('input[type="file"]') as HTMLInputElement;
-      const clickSpy = spyOn(input, 'click');
-
-      fixture.componentInstance.openFilePicker();
-
-      expect(clickSpy).toHaveBeenCalled();
-    }));
-  });
-
   describe('onFileSelected()', () => {
-    it('should do nothing when no file is present', fakeAsync(() => {
-      mockRecipeRepository.getById.and.returnValue(of(MOCK_RECIPE));
-      const fixture = TestBed.createComponent(RecipeDetailComponent);
-      fixture.detectChanges();
-      tick();
-
-      const event = { target: { files: [] } } as unknown as Event;
-      fixture.componentInstance.onFileSelected(event);
-
-      expect(mockRecipeRepository.uploadImage).not.toHaveBeenCalled();
-      expect(fixture.componentInstance.uploading()).toBeFalse();
-    }));
-
-    it('should set uploading to false and update recipe images after successful upload', fakeAsync(() => {
+    it('should set uploading to false and update localUploadedUrl after successful upload', fakeAsync(() => {
       mockRecipeRepository.getById.and.returnValue(of(MOCK_RECIPE));
       mockRecipeRepository.uploadImage.and.returnValue(of(MOCK_IMAGE));
       const fixture = TestBed.createComponent(RecipeDetailComponent);
@@ -418,13 +388,11 @@ describe('RecipeDetailComponent', () => {
       tick();
 
       const mockFile = new File([''], 'test.jpg', { type: 'image/jpeg' });
-      const event = { target: { files: [mockFile] } } as unknown as Event;
-
-      fixture.componentInstance.onFileSelected(event);
+      fixture.componentInstance.onFileSelected(mockFile);
       tick();
 
       expect(fixture.componentInstance.uploading()).toBeFalse();
-      expect(fixture.componentInstance.recipe()?.images?.[0]).toEqual(MOCK_IMAGE);
+      expect(fixture.componentInstance.imageUrl()).toBe(MOCK_IMAGE.url);
     }));
 
     it('should call repository.uploadImage with the correct arguments', fakeAsync(() => {
@@ -435,9 +403,7 @@ describe('RecipeDetailComponent', () => {
       tick();
 
       const mockFile = new File([''], 'test.jpg', { type: 'image/jpeg' });
-      const event = { target: { files: [mockFile] } } as unknown as Event;
-
-      fixture.componentInstance.onFileSelected(event);
+      fixture.componentInstance.onFileSelected(mockFile);
 
       expect(mockRecipeRepository.uploadImage).toHaveBeenCalledOnceWith(1, mockFile);
     }));
@@ -450,9 +416,7 @@ describe('RecipeDetailComponent', () => {
       tick();
 
       const mockFile = new File([''], 'test.jpg', { type: 'image/jpeg' });
-      const event = { target: { files: [mockFile] } } as unknown as Event;
-
-      fixture.componentInstance.onFileSelected(event);
+      fixture.componentInstance.onFileSelected(mockFile);
       tick();
 
       expect(fixture.componentInstance.uploading()).toBeFalse();

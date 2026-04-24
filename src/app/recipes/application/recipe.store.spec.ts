@@ -64,6 +64,7 @@ describe('RecipeStore', () => {
       'getByCategory',
       'getFavorites',
       'uploadImage',
+      'updateCategories',
     ]);
 
     TestBed.configureTestingModule({
@@ -279,6 +280,149 @@ describe('RecipeStore', () => {
     }));
   });
 
+  // ─── update() ─────────────────────────────────────────────────────────────
+
+  describe('update()', () => {
+    it('should update selectedRecipe on success', fakeAsync(() => {
+      repositorySpy.getById.and.returnValue(of(RECIPE_1));
+      store.loadById(1);
+      tick();
+
+      const updated = { ...RECIPE_1, title: 'Paella actualizada' };
+      repositorySpy.update.and.returnValue(of(updated));
+      store.update(1, updated).subscribe();
+      tick();
+
+      expect(store.selectedRecipe()).toEqual(updated);
+    }));
+
+    it('should use the updated recipe from cache on next loadById', fakeAsync(() => {
+      repositorySpy.getById.and.returnValue(of(RECIPE_1));
+      store.loadById(1);
+      tick();
+
+      const updated = { ...RECIPE_1, title: 'Paella actualizada' };
+      repositorySpy.update.and.returnValue(of(updated));
+      store.update(1, updated).subscribe();
+      tick();
+
+      repositorySpy.getById.calls.reset();
+      store.loadById(1);
+      tick();
+
+      expect(repositorySpy.getById).not.toHaveBeenCalled();
+      expect(store.selectedRecipe()).toEqual(updated);
+    }));
+
+    it('should rethrow the error on failure', fakeAsync(() => {
+      const error = new Error('Error al actualizar');
+      repositorySpy.update.and.returnValue(throwError(() => error));
+      let caughtError: unknown;
+
+      store.update(1, RECIPE_1).subscribe({ error: (e) => (caughtError = e) });
+      tick();
+
+      expect(caughtError).toBe(error);
+    }));
+  });
+
+  // ─── updateCategories() ───────────────────────────────────────────────────
+
+  describe('updateCategories()', () => {
+    it('should update selectedRecipe and the recipes list on success', fakeAsync(() => {
+      repositorySpy.getAll.and.returnValue(of([RECIPE_SUMMARY_1, RECIPE_SUMMARY_2]));
+      store.loadAll();
+      tick();
+
+      repositorySpy.getById.and.returnValue(of(RECIPE_1));
+      store.loadById(1);
+      tick();
+
+      const updated = { ...RECIPE_1, categoryIds: [3, 7] };
+      repositorySpy.updateCategories.and.returnValue(of(updated));
+      store.updateCategories(1, [3, 7]).subscribe();
+      tick();
+
+      expect(store.selectedRecipe()).toEqual(updated);
+      const summary = store.recipes().find((r) => r.id === 1);
+      expect(summary?.categoryIds).toEqual([3, 7]);
+    }));
+
+    it('should rethrow the error on failure', fakeAsync(() => {
+      const error = new Error('Error al actualizar categorías');
+      repositorySpy.updateCategories.and.returnValue(throwError(() => error));
+      let caughtError: unknown;
+
+      store.updateCategories(1, [3]).subscribe({ error: (e) => (caughtError = e) });
+      tick();
+
+      expect(caughtError).toBe(error);
+    }));
+  });
+
+  // ─── delete() ─────────────────────────────────────────────────────────────
+
+  describe('delete()', () => {
+    it('should clear selectedRecipe and remove the recipe from the list on success', fakeAsync(() => {
+      repositorySpy.getAll.and.returnValue(of([RECIPE_SUMMARY_1, RECIPE_SUMMARY_2]));
+      store.loadAll();
+      tick();
+
+      repositorySpy.getById.and.returnValue(of(RECIPE_1));
+      store.loadById(1);
+      tick();
+
+      repositorySpy.delete.and.returnValue(of(undefined));
+      store.delete(1).subscribe();
+      tick();
+
+      expect(store.selectedRecipe()).toBeNull();
+      expect(store.recipes().find((r) => r.id === 1)).toBeUndefined();
+      expect(store.recipes().length).toBe(1);
+    }));
+
+    it('should invalidate the list cache (loaded = false) on success', fakeAsync(() => {
+      repositorySpy.getAll.and.returnValue(of([RECIPE_SUMMARY_1]));
+      store.loadAll();
+      tick();
+      expect(store.loaded()).toBeTrue();
+
+      repositorySpy.delete.and.returnValue(of(undefined));
+      store.delete(1).subscribe();
+      tick();
+
+      expect(store.loaded()).toBeFalse();
+    }));
+
+    it('should remove the recipe from cache so next loadById hits the repository', fakeAsync(() => {
+      repositorySpy.getById.and.returnValue(of(RECIPE_1));
+      store.loadById(1);
+      tick();
+
+      repositorySpy.delete.and.returnValue(of(undefined));
+      store.delete(1).subscribe();
+      tick();
+
+      repositorySpy.getById.calls.reset();
+      repositorySpy.getById.and.returnValue(of(RECIPE_1));
+      store.loadById(1);
+      tick();
+
+      expect(repositorySpy.getById).toHaveBeenCalledOnceWith(1);
+    }));
+
+    it('should rethrow the error on failure', fakeAsync(() => {
+      const error = new Error('Error al eliminar');
+      repositorySpy.delete.and.returnValue(throwError(() => error));
+      let caughtError: unknown;
+
+      store.delete(1).subscribe({ error: (e) => (caughtError = e) });
+      tick();
+
+      expect(caughtError).toBe(error);
+    }));
+  });
+
   // ─── clearSelected() ──────────────────────────────────────────────────────
 
   describe('clearSelected()', () => {
@@ -290,6 +434,43 @@ describe('RecipeStore', () => {
       store.clearSelected();
 
       expect(store.selectedRecipe()).toBeNull();
+    }));
+  });
+
+  // ─── reset() ──────────────────────────────────────────────────────────────
+
+  describe('reset()', () => {
+    it('should restore the initial state', fakeAsync(() => {
+      repositorySpy.getAll.and.returnValue(of([RECIPE_SUMMARY_1]));
+      store.loadAll();
+      tick();
+
+      repositorySpy.getById.and.returnValue(of(RECIPE_1));
+      store.loadById(1);
+      tick();
+
+      store.reset();
+
+      expect(store.recipes()).toEqual([]);
+      expect(store.selectedRecipe()).toBeNull();
+      expect(store.loaded()).toBeFalse();
+      expect(store.loading()).toBeFalse();
+      expect(store.error()).toBeNull();
+    }));
+
+    it('should clear the recipe cache so next loadById hits the repository', fakeAsync(() => {
+      repositorySpy.getById.and.returnValue(of(RECIPE_1));
+      store.loadById(1);
+      tick();
+
+      store.reset();
+
+      repositorySpy.getById.calls.reset();
+      repositorySpy.getById.and.returnValue(of(RECIPE_1));
+      store.loadById(1);
+      tick();
+
+      expect(repositorySpy.getById).toHaveBeenCalledOnceWith(1);
     }));
   });
 });
