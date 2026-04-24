@@ -44,6 +44,7 @@ describe('SyncService', () => {
   let service: SyncService;
   let httpTesting: HttpTestingController;
   let mockDb: { beginTransaction: jasmine.Spy; commitTransaction: jasmine.Spy; rollbackTransaction: jasmine.Spy; query: jasmine.Spy; run: jasmine.Spy };
+  let mockDatabaseService: jasmine.SpyObj<DatabaseService>;
 
   beforeEach(() => {
     mockDb = {
@@ -54,8 +55,9 @@ describe('SyncService', () => {
       run: jasmine.createSpy('run').and.resolveTo(),
     };
 
-    const mockDatabaseService = jasmine.createSpyObj<DatabaseService>('DatabaseService', ['getDb']);
+    mockDatabaseService = jasmine.createSpyObj<DatabaseService>('DatabaseService', ['getDb', 'clearUserData']);
     mockDatabaseService.getDb.and.resolveTo(mockDb as unknown as SQLiteDBConnection);
+    mockDatabaseService.clearUserData.and.resolveTo();
 
     TestBed.configureTestingModule({
       providers: [
@@ -79,23 +81,30 @@ describe('SyncService', () => {
   // ───────────────────────────────────────────────────────────────
 
   describe('syncOnLogin()', () => {
-    it('should call pull then push', async () => {
-      const promise = service.syncOnLogin();
+    it('should call clearUserData then pull', fakeAsync(() => {
+      service.syncOnLogin().catch(() => { console.error('syncOnLogin error in test'); });
+
+      flushMicrotasks(); // resolves clearUserData, queues the HTTP request
 
       httpTesting.expectOne(SYNC_URL).flush(emptySyncResponse);
-      await promise;
+      flushMicrotasks(); // resolves pull
 
-      expect(mockDb.query).toHaveBeenCalled();
-    });
+      expect(mockDatabaseService.clearUserData).toHaveBeenCalled();
+      expect(mockDb.commitTransaction).toHaveBeenCalled();
+    }));
 
-    it('should not call push when pull fails', async () => {
-      const promise = service.syncOnLogin();
+    it('should reject and not commit when pull fails', fakeAsync(() => {
+      let rejected = false;
+      service.syncOnLogin().catch(() => (rejected = true));
+
+      flushMicrotasks(); // resolves clearUserData, queues the HTTP request
 
       httpTesting.expectOne(SYNC_URL).flush('Server Error', { status: 500, statusText: 'Server Error' });
+      flushMicrotasks(); // rejects pull
 
-      await expectAsync(promise).toBeRejected();
-      expect(mockDb.query).not.toHaveBeenCalled();
-    });
+      expect(rejected).toBeTrue();
+      expect(mockDb.commitTransaction).not.toHaveBeenCalled();
+    }));
   });
 
   // ───────────────────────────────────────────────────────────────

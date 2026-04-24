@@ -51,6 +51,10 @@ export const CategoryStore = signalStore(
           catchError((err) => throwError(() => err)),
         );
       },
+
+      reset(): void {
+        patchState(store, initialState);
+      },
     };
   }),
 );

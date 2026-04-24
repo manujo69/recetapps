@@ -30,11 +30,12 @@ export class SyncService {
   private readonly syncUrl = `${environment.apiUrl}/sync`;
 
   /**
-   * Called after login/register: full pull from server then push local pending.
+   * Called after login/register: wipes local user data first to prevent mixing
+   * data from different users, then does a full pull from the server.
    */
   async syncOnLogin(): Promise<void> {
+    await this.db.clearUserData();
     await this.pull();
-    await this.push();
   }
 
   /**

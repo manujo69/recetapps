@@ -4,6 +4,8 @@ import { AuthService } from './auth.service';
 import { AuthRepository } from '../domain/auth.repository';
 import { AuthRequest, AuthResponse, LoginRequest } from '../domain/auth.model';
 import { SyncService } from '../../sync/application/sync.service';
+import { RecipeStore } from '../../recipes/application/recipe.store';
+import { CategoryStore } from '../../categories/application/category.store';
 
 const mockResponse: AuthResponse = {
   token: 'test-token',
@@ -28,6 +30,8 @@ describe('AuthService', () => {
         AuthService,
         { provide: AuthRepository, useValue: repositorySpy },
         { provide: SyncService, useValue: syncServiceSpy },
+        { provide: RecipeStore, useValue: jasmine.createSpyObj('RecipeStore', ['reset']) },
+        { provide: CategoryStore, useValue: jasmine.createSpyObj('CategoryStore', ['reset']) },
       ],
     });
 

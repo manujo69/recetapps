@@ -146,6 +146,11 @@ export const RecipeStore = signalStore(
       clearSelected(): void {
         patchState(store, { selectedRecipe: null });
       },
+
+      reset(): void {
+        recipeCache.clear();
+        patchState(store, initialState);
+      },
     };
   }),
 );

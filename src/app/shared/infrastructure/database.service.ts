@@ -98,4 +98,20 @@ export class DatabaseService {
 
     return this.connection;
   }
+
+  async clearUserData(): Promise<void> {
+    const db = await this.getDb();
+
+    const statements = [
+      { statement: 'DELETE FROM favorites;', values: [] },
+      { statement: 'DELETE FROM recipe_images;', values: [] },
+      { statement: 'DELETE FROM recipe_categories;', values: [] },
+      { statement: 'DELETE FROM recipes;', values: [] },
+      { statement: 'DELETE FROM categories;', values: [] },
+      { statement: 'DELETE FROM sync_meta;', values: [] }
+    ];
+
+    await db.executeSet(statements);
+  }
+
 }

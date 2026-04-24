@@ -4,11 +4,15 @@ import { Capacitor } from '@capacitor/core';
 import { AuthRepository } from '../domain/auth.repository';
 import { AuthRequest, AuthResponse, LoginRequest } from '../domain/auth.model';
 import { SyncService } from '../../sync/application/sync.service';
+import { RecipeStore } from '../../recipes/application/recipe.store';
+import { CategoryStore } from '../../categories/application/category.store';
 
 @Injectable()
 export class AuthService {
   private readonly repository = inject(AuthRepository);
   private readonly syncService = inject(SyncService);
+  private readonly recipeStore = inject(RecipeStore);
+  private readonly categoryStore = inject(CategoryStore);
 
   readonly currentUser = signal<AuthResponse | null>(null);
   readonly isAuthenticated = computed(() => this.currentUser() !== null);
@@ -39,11 +43,20 @@ export class AuthService {
   }
 
   private syncAfterAuth(response: AuthResponse): Observable<AuthResponse> {
-    if (!Capacitor.isNativePlatform()) return of(response);
+    if (!Capacitor.isNativePlatform()) {
+      this.resetStores();
+      return of(response);
+    }
     return from(this.syncService.syncOnLogin()).pipe(
       catchError(() => of(null)),
+      tap(() => this.resetStores()),
       map(() => response),
     );
+  }
+
+  private resetStores(): void {
+    this.recipeStore.reset();
+    this.categoryStore.reset();
   }
 
   logout(): void {
