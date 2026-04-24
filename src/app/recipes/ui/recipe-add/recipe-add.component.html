@@ -31,39 +31,6 @@
       [placeholder]="'recipes.add.namePlaceholder' | translate"
     />
 
-    <div class="flex flex-wrap gap-y-3 gap-x-5 mb-5 items-center">
-      <span class="flex items-center gap-[0.35rem] text-[0.85rem] text-gray-600">
-        <i class="pi pi-clock text-brand text-[0.9rem]"></i>
-        <input
-          class="w-12 border-b border-gray-200 bg-transparent text-[0.85rem] text-gray-600 text-center outline-none py-0.5 focus:border-brand"
-          type="number"
-          formControlName="prepTime"
-          min="0"
-          aria-label="Tiempo de preparación"
-        />
-        <span>+</span>
-        <input
-          class="w-12 border-b border-gray-200 bg-transparent text-[0.85rem] text-gray-600 text-center outline-none py-0.5 focus:border-brand"
-          type="number"
-          formControlName="cookTime"
-          min="0"
-          aria-label="Tiempo de cocción"
-        />
-        min
-      </span>
-      <span class="flex items-center gap-[0.35rem] text-[0.85rem] text-gray-600">
-        <i class="pi pi-users text-brand text-[0.9rem]"></i>
-        <input
-          class="w-12 border-b border-gray-200 bg-transparent text-[0.85rem] text-gray-600 text-center outline-none py-0.5 focus:border-brand"
-          type="number"
-          formControlName="servings"
-          min="1"
-          aria-label="Raciones"
-        />
-        {{ 'recipes.detail.servings' | translate }}
-      </span>
-    </div>
-
     <section class="mb-5 bg-white rounded-xl p-4 shadow-sm">
       <h2 class="m-0 mb-2 text-base font-semibold">{{ 'recipes.detail.description' | translate }}</h2>
       <textarea
