@@ -1,0 +1,121 @@
+@if (isEditMode() && loading()) {
+  <p class="p-4">{{ 'recipes.detail.loading' | translate }}</p>
+} @else {
+  <div class="min-h-dvh bg-[#9bad7969] pb-8">
+
+    <header class="flex items-center justify-between px-4 pt-4 pb-3 bg-[#faf9f7] sticky top-0 z-10">
+      <a
+        class="flex items-center justify-center w-9 h-9 rounded-full bg-white shadow text-gray-800 no-underline shrink-0"
+        [routerLink]="isEditMode() ? ['/recipes', editId()] : '/recipes'"
+        aria-label="Volver"
+      >
+        <i class="pi pi-arrow-left"></i>
+      </a>
+      <span class="font-semibold text-base">
+        {{ (isEditMode() ? 'recipes.edit.title' : 'recipes.add.title') | translate }}
+      </span>
+      <span class="w-9"></span>
+    </header>
+
+    <app-recipe-image
+      [imageUrl]="imageUrl()"
+      alt="Imagen de la receta"
+      (fileSelected)="onFileSelected($event)"
+    />
+
+    <form
+      class="px-4 pt-5 md:px-8 md:pt-6 lg:max-w-[860px] lg:mx-auto lg:px-0 lg:pt-6"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+    >
+
+      <input
+        class="block w-full mb-3 text-[1.4rem] font-bold border-b-2 border-gray-200 bg-transparent outline-none py-1 focus:border-brand placeholder:text-gray-200 placeholder:font-normal"
+        type="text"
+        formControlName="title"
+        [placeholder]="'recipes.add.namePlaceholder' | translate"
+      />
+
+      <section class="mb-5 bg-white rounded-xl p-4 shadow-sm">
+        <h2 class="m-0 mb-2 text-base font-semibold">{{ 'recipes.detail.description' | translate }}</h2>
+        <textarea
+          class="block w-full text-[0.9rem] text-gray-600 leading-relaxed border border-gray-100 rounded-lg p-2 resize-y outline-none focus:border-brand placeholder:text-gray-300"
+          formControlName="description"
+          rows="3"
+          [placeholder]="'recipes.add.descriptionPlaceholder' | translate"
+        ></textarea>
+      </section>
+
+      <div class="flex items-center bg-white rounded-xl p-4 mb-5 shadow-sm">
+        <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
+          <span class="text-xs text-gray-400">{{ 'recipes.detail.prep' | translate }}</span>
+          <input
+            class="w-14 text-[0.95rem] font-semibold border-b border-gray-200 bg-transparent text-center outline-none py-0.5 focus:border-brand"
+            type="number"
+            formControlName="prepTime"
+            min="0"
+          />
+          <span class="text-[0.7rem] text-gray-300">min</span>
+        </div>
+        <div class="w-px h-8 bg-gray-100"></div>
+        <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
+          <span class="text-xs text-gray-400">{{ 'recipes.detail.cook' | translate }}</span>
+          <input
+            class="w-14 text-[0.95rem] font-semibold border-b border-gray-200 bg-transparent text-center outline-none py-0.5 focus:border-brand"
+            type="number"
+            formControlName="cookTime"
+            min="0"
+          />
+          <span class="text-[0.7rem] text-gray-300">min</span>
+        </div>
+        <div class="w-px h-8 bg-gray-100"></div>
+        <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
+          <span class="text-xs text-gray-400">{{ 'recipes.detail.servings' | translate }}</span>
+          <input
+            class="w-14 text-[0.95rem] font-semibold border-b border-gray-200 bg-transparent text-center outline-none py-0.5 focus:border-brand"
+            type="number"
+            formControlName="servings"
+            min="1"
+          />
+        </div>
+      </div>
+
+      <section class="mb-5 bg-white rounded-xl p-4 shadow-sm">
+        <h2 class="m-0 mb-2 text-base font-semibold">{{ 'recipes.detail.ingredients' | translate }}</h2>
+        <textarea
+          class="block w-full text-[0.9rem] text-gray-600 leading-relaxed border border-gray-100 rounded-lg p-2 resize-y outline-none focus:border-brand placeholder:text-gray-300"
+          formControlName="ingredients"
+          rows="5"
+          [placeholder]="'recipes.add.ingredientsPlaceholder' | translate"
+        ></textarea>
+      </section>
+
+      <section class="mb-5 bg-white rounded-xl p-4 shadow-sm">
+        <h2 class="m-0 mb-2 text-base font-semibold">{{ 'recipes.detail.instructions' | translate }}</h2>
+        <textarea
+          class="block w-full text-[0.9rem] text-gray-600 leading-relaxed border border-gray-100 rounded-lg p-2 resize-y outline-none focus:border-brand placeholder:text-gray-300"
+          formControlName="instructions"
+          rows="7"
+          [placeholder]="'recipes.add.instructionsPlaceholder' | translate"
+        ></textarea>
+      </section>
+
+      @if (error()) {
+        <p class="text-red-600 text-[0.85rem] mb-4">{{ error() }}</p>
+      }
+
+      <button
+        class="flex items-center justify-center gap-2 w-full py-3.5 bg-brand text-white border-0 rounded-xl text-base font-semibold cursor-pointer transition-opacity enabled:hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+        type="submit"
+        [disabled]="form.invalid || submitting()"
+      >
+        @if (submitting()) {
+          <i class="pi pi-spin pi-spinner"></i>
+        } @else {
+          {{ (isEditMode() ? 'recipes.edit.submit' : 'recipes.add.submit') | translate }}
+        }
+      </button>
+
+    </form>
+  </div>
+}

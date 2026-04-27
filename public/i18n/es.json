@@ -38,6 +38,10 @@
       "instructionsPlaceholder": "1. Primer paso\n2. Segundo paso...",
       "submit": "Guardar receta"
     },
+    "edit": {
+      "title": "Editar receta",
+      "submit": "Guardar cambios"
+    },
     "detail": {
       "loading": "Cargando receta...",
       "meta": "Preparación: {{prep}} min · Cocción: {{cook}} min · {{servings}} personas",

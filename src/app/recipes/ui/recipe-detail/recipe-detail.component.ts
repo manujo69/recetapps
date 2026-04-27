@@ -1,6 +1,7 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { RecipeStore } from '../../application/recipe.store';
+import { latestImage } from '../../domain/recipe.model';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RecipeInstructionsComponent } from '../recipe-instructions/recipe-instructions.component';
 import { RecipeIngredientsComponent } from '../recipe-ingredients/recipe-ingredients.component';
@@ -49,7 +50,7 @@ export class RecipeDetailComponent implements OnInit {
     if (local) return local;
     return this.isPlaceholderImage()
       ? 'images/ingredients-background-010.png'
-      : this.recipe()!.images![0].url;
+      : latestImage(this.recipe()!.images)!.url;
   });
 
   private readonly recipeId = computed(() => Number(this.route.snapshot.paramMap.get('id')));

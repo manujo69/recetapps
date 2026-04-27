@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { Recipe, RecipeImage, RecipeSummary } from '../domain/recipe.model';
+import { latestImage, Recipe, RecipeImage, RecipeSummary } from '../domain/recipe.model';
 import { RecipeRepository } from '../domain/recipe.repository';
 
 const MOCK_RECIPES: Recipe[] = [
@@ -48,7 +48,7 @@ export class RecipeMockRepository extends RecipeRepository {
       this.recipes.map((r) => ({
         id: r.id!,
         title: r.title,
-        firstImageUrl: Array.isArray(r.images) && r.images.length > 0 ? r.images[0].url : null,
+        firstImageUrl: latestImage(r.images)?.url ?? null,
         prepTime: r.prepTime,
         cookTime: r.cookTime,
         servings: r.servings,

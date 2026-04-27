@@ -41,6 +41,13 @@
       <div class="flex items-center justify-between gap-3 mb-3 relative">
         <h1 class="m-0 text-[1.4rem] font-bold">{{ r.title }}</h1>
         <div class="flex items-center gap-2 shrink-0">
+          <a
+            class="flex items-center justify-center w-9 h-9 rounded-full border-0 cursor-pointer transition-colors text-base bg-[#9bad7969] text-gray-600 hover:bg-gray-200 no-underline"
+            [routerLink]="['/recipes', r.id, 'edit']"
+            aria-label="Editar receta"
+          >
+            <i class="pi pi-pencil"></i>
+          </a>
           <button
             class="flex items-center justify-center w-9 h-9 rounded-full border-0 cursor-pointer transition-colors text-base bg-[#9bad7969] text-red-400 hover:bg-red-50 hover:text-red-500"
             type="button"

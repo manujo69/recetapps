@@ -18,7 +18,13 @@ export const routes: Routes = [
     path: 'recipes/new',
     canActivate: [authGuard],
     loadComponent: () =>
-      import('./recipes/ui/recipe-add/recipe-add.component').then((m) => m.RecipeAddComponent),
+      import('./recipes/ui/recipe-form/recipe-form.component').then((m) => m.RecipeFormComponent),
+  },
+  {
+    path: 'recipes/:id/edit',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./recipes/ui/recipe-form/recipe-form.component').then((m) => m.RecipeFormComponent),
   },
   {
     path: 'recipes/:id',

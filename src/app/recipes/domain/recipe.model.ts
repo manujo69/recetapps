@@ -1,3 +1,8 @@
+export function latestImage(images: RecipeImage[] | undefined): RecipeImage | undefined {
+  if (!images || images.length === 0) return undefined;
+  return images.reduce((best, img) => (img.id > best.id ? img : best));
+}
+
 export interface RecipeImage {
   id: number;
   filename: string;

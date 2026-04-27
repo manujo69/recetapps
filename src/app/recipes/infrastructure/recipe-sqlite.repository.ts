@@ -27,7 +27,7 @@ export class RecipeSqliteRepository extends RecipeRepository {
                 GROUP_CONCAT(rc.category_id) as category_ids,
                 (SELECT url FROM recipe_images
                  WHERE recipe_client_id = r.client_id
-                 ORDER BY id ASC LIMIT 1) as first_image_url
+                 ORDER BY id DESC LIMIT 1) as first_image_url
          FROM recipes r
          LEFT JOIN recipe_categories rc ON rc.recipe_client_id = r.client_id
          WHERE r.deleted_at IS NULL

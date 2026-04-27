@@ -185,13 +185,30 @@ describe('RecipeDetailComponent', () => {
       expect(fixture.componentInstance.imageUrl()).toBe('images/ingredients-background-010.png');
     }));
 
-    it('should return first image url when recipe has images', fakeAsync(() => {
+    it('should return the url of the image with the highest id when recipe has one image', fakeAsync(() => {
       mockRecipeRepository.getById.and.returnValue(of(MOCK_RECIPE_WITH_IMAGES));
       const fixture = TestBed.createComponent(RecipeDetailComponent);
       fixture.detectChanges();
       tick();
 
       expect(fixture.componentInstance.imageUrl()).toBe('/uploads/paella.jpg');
+    }));
+
+    it('should return the url of the image with the highest id when recipe has multiple images', fakeAsync(() => {
+      const recipeWithMultipleImages = {
+        ...MOCK_RECIPE,
+        images: [
+          { id: 5, filename: 'old.jpg', url: '/uploads/old.jpg' },
+          { id: 32, filename: 'mid.jpg', url: '/uploads/mid.jpg' },
+          { id: 33, filename: 'newest.jpg', url: '/uploads/newest.jpg' },
+        ],
+      };
+      mockRecipeRepository.getById.and.returnValue(of(recipeWithMultipleImages));
+      const fixture = TestBed.createComponent(RecipeDetailComponent);
+      fixture.detectChanges();
+      tick();
+
+      expect(fixture.componentInstance.imageUrl()).toBe('/uploads/newest.jpg');
     }));
   });
 

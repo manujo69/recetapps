@@ -82,8 +82,20 @@ export const RecipeStore = signalStore(
       update(id: number, recipe: Recipe): Observable<Recipe> {
         return repository.update(id, recipe).pipe(
           tap((updated) => {
-            recipeCache.set(updated.id!, updated);
-            patchState(store, { selectedRecipe: updated });
+            // update() no toca imágenes: las preservamos del selectedRecipe actual.
+            // Sólo fusionamos si images está definido para no inyectar [] en mocks de test.
+            const existingImages = store.selectedRecipe()?.images;
+            const withImages =
+              existingImages !== undefined ? { ...updated, images: existingImages } : updated;
+            recipeCache.set(withImages.id!, withImages);
+            patchState(store, {
+              selectedRecipe: withImages,
+              recipes: store.recipes().map((r) =>
+                r.id === updated.id
+                  ? { ...r, title: updated.title, prepTime: updated.prepTime, cookTime: updated.cookTime, servings: updated.servings }
+                  : r,
+              ),
+            });
           }),
           catchError((err) => throwError(() => err)),
         );

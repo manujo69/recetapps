@@ -314,6 +314,37 @@ describe('RecipeStore', () => {
       expect(store.selectedRecipe()).toEqual(updated);
     }));
 
+    it('should update the matching entry in the recipes list on success', fakeAsync(() => {
+      repositorySpy.getAll.and.returnValue(of([RECIPE_SUMMARY_1, RECIPE_SUMMARY_2]));
+      store.loadAll();
+      tick();
+
+      const updated = { ...RECIPE_1, title: 'Paella renovada', prepTime: 25, cookTime: 45, servings: 6 };
+      repositorySpy.update.and.returnValue(of(updated));
+      store.update(1, updated).subscribe();
+      tick();
+
+      const summary = store.recipes().find((r) => r.id === 1);
+      expect(summary?.title).toBe('Paella renovada');
+      expect(summary?.prepTime).toBe(25);
+      expect(summary?.cookTime).toBe(45);
+      expect(summary?.servings).toBe(6);
+    }));
+
+    it('should leave other entries in the recipes list unchanged on success', fakeAsync(() => {
+      repositorySpy.getAll.and.returnValue(of([RECIPE_SUMMARY_1, RECIPE_SUMMARY_2]));
+      store.loadAll();
+      tick();
+
+      const updated = { ...RECIPE_1, title: 'Paella renovada' };
+      repositorySpy.update.and.returnValue(of(updated));
+      store.update(1, updated).subscribe();
+      tick();
+
+      const unchanged = store.recipes().find((r) => r.id === 2);
+      expect(unchanged).toEqual(RECIPE_SUMMARY_2);
+    }));
+
     it('should rethrow the error on failure', fakeAsync(() => {
       const error = new Error('Error al actualizar');
       repositorySpy.update.and.returnValue(throwError(() => error));
