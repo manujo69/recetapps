@@ -1,4 +1,15 @@
 {
+  "common": {
+    "back_aria": "Volver",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "save": "Guardar",
+    "unit_min": "min"
+  },
+  "nav": {
+    "home": "Inicio",
+    "categories": "Categorías"
+  },
   "auth": {
     "logout": "Cerrar sesión",
     "login": {
@@ -23,10 +34,31 @@
     "title": "Favoritos",
     "reset": "Mostrar todo"
   },
+  "categories": {
+    "list": {
+      "title": "Categorías",
+      "loading": "Cargando categorías...",
+      "delete_aria": "Eliminar categoría",
+      "create_aria": "Crear categoría",
+      "delete": {
+        "title": "Eliminar categoría",
+        "message": "¿Seguro que quieres eliminar la categoría {{name}}? Esta acción no se puede deshacer."
+      }
+    },
+    "add": {
+      "title": "Nueva categoría",
+      "name_placeholder": "Nombre de la categoría",
+      "description_title": "Descripción",
+      "description_placeholder": "Describe brevemente esta categoría (opcional)",
+      "submit": "Guardar categoría"
+    }
+  },
   "recipes": {
     "list": {
       "title": "Listado de recetas",
       "loading": "Cargando recetas...",
+      "remove_filter": "Quitar filtro",
+      "create_aria": "Crear receta",
       "meta": "Tiempo/Raciones: {{time}} min · {{servings}} raciones",
       "metaSingular": "Tiempo/Raciones: {{time}} min · 1 ración"
     },
@@ -42,6 +74,10 @@
       "title": "Editar receta",
       "submit": "Guardar cambios"
     },
+    "form": {
+      "image_alt": "Imagen de la receta",
+      "create_aria": "Crear receta"
+    },
     "detail": {
       "loading": "Cargando receta...",
       "meta": "Preparación: {{prep}} min · Cocción: {{cook}} min · {{servings}} personas",
@@ -52,7 +88,17 @@
       "prep": "Preparación",
       "cook": "Cocción",
       "servings": "Raciones",
-      "servingsSingular": "Ración"
+      "servingsSingular": "Ración",
+      "add_favorite_aria": "Añadir a favoritos",
+      "edit_aria": "Editar receta",
+      "delete_aria": "Eliminar receta",
+      "manage_categories_aria": "Gestionar categorías",
+      "no_categories": "Sin categorías",
+      "save_categories": "Guardar",
+      "delete": {
+        "title": "Eliminar receta",
+        "message": "¿Seguro que quieres eliminar {{name}}? Esta acción no se puede deshacer."
+      }
     }
   },
   "errors": {

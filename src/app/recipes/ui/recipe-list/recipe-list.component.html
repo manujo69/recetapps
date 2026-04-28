@@ -1,14 +1,14 @@
 @if (loading()) {
   <p class="p-4">{{ 'recipes.list.loading' | translate }}</p>
 } @else if (error()) {
-  <p class="p-4 text-red-600">Error: {{ error() }}</p>
+  <p class="p-4 text-red-600">{{ error() }}</p>
 } @else {
   <div
     class="px-4 pt-4 pb-[calc(1rem+64px)] md:px-8 md:pt-6 md:pb-[calc(1.5rem+64px)] lg:px-12 lg:pt-8 lg:pb-[calc(2rem+64px)] lg:max-w-7xl lg:mx-auto"
   >
     <div class="flex items-center gap-3 mb-4">
       <h1 class="mt-0 mb-0 text-xl">
-        {{ activeCategory() ? activeCategory()!.name : 'Listado de recetas' }}
+        {{ activeCategory() ? activeCategory()!.name : ('recipes.list.title' | translate) }}
       </h1>
       @if (activeCategory()) {
         <button
@@ -17,7 +17,7 @@
           (click)="clearFilter()"
         >
           <i class="pi pi-times" style="font-size: 0.6rem"></i>
-          Quitar filtro
+          {{ 'recipes.list.remove_filter' | translate }}
         </button>
       }
     </div>
@@ -33,7 +33,7 @@
   <a
     class="fixed bottom-[76px] left-1/2 -translate-x-1/2 w-[52px] h-[52px] rounded-full bg-brand text-white no-underline flex items-center justify-center z-[101] shadow-[0_4px_12px_rgba(232,160,32,0.4)] text-[1.4rem] lg:bottom-[76px] lg:right-12 lg:left-auto lg:translate-x-0"
     routerLink="/recipes/new"
-    aria-label="Crear receta"
+    [attr.aria-label]="'recipes.list.create_aria' | translate"
   >
     <i class="pi pi-plus"></i>
   </a>

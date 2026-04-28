@@ -7,7 +7,7 @@
       <a
         class="flex items-center justify-center w-9 h-9 rounded-full bg-white shadow text-gray-800 no-underline shrink-0"
         [routerLink]="isEditMode() ? ['/recipes', editId()] : '/recipes'"
-        aria-label="Volver"
+        [attr.aria-label]="'common.back_aria' | translate"
       >
         <i class="pi pi-arrow-left"></i>
       </a>
@@ -19,7 +19,7 @@
 
     <app-recipe-image
       [imageUrl]="imageUrl()"
-      alt="Imagen de la receta"
+      [alt]="'recipes.form.image_alt' | translate"
       (fileSelected)="onFileSelected($event)"
     />
 
@@ -55,7 +55,7 @@
             formControlName="prepTime"
             min="0"
           />
-          <span class="text-[0.7rem] text-gray-300">min</span>
+          <span class="text-[0.7rem] text-gray-300">{{ 'common.unit_min' | translate }}</span>
         </div>
         <div class="w-px h-8 bg-gray-100"></div>
         <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
@@ -66,7 +66,7 @@
             formControlName="cookTime"
             min="0"
           />
-          <span class="text-[0.7rem] text-gray-300">min</span>
+          <span class="text-[0.7rem] text-gray-300">{{ 'common.unit_min' | translate }}</span>
         </div>
         <div class="w-px h-8 bg-gray-100"></div>
         <div class="flex-1 flex flex-col items-center gap-[0.2rem]">

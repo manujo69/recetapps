@@ -468,6 +468,61 @@ describe('RecipeStore', () => {
     }));
   });
 
+  // ─── removeCategoryFromAll() ──────────────────────────────────────────────
+
+  describe('removeCategoryFromAll()', () => {
+    const SUMMARY_WITH_CAT: RecipeSummary = { ...RECIPE_SUMMARY_1, categoryIds: [3, 5] };
+    const SUMMARY_WITHOUT_CAT: RecipeSummary = { ...RECIPE_SUMMARY_2, categoryIds: [7] };
+
+    it('should remove the categoryId from all recipes in the list', fakeAsync(() => {
+      repositorySpy.getAll.and.returnValue(of([SUMMARY_WITH_CAT, SUMMARY_WITHOUT_CAT]));
+      store.loadAll();
+      tick();
+
+      store.removeCategoryFromAll(3);
+
+      expect(store.recipes().find((r) => r.id === 1)?.categoryIds).toEqual([5]);
+      expect(store.recipes().find((r) => r.id === 2)?.categoryIds).toEqual([7]);
+    }));
+
+    it('should not modify recipes that do not have the categoryId', fakeAsync(() => {
+      repositorySpy.getAll.and.returnValue(of([SUMMARY_WITH_CAT, SUMMARY_WITHOUT_CAT]));
+      store.loadAll();
+      tick();
+
+      store.removeCategoryFromAll(3);
+
+      expect(store.recipes().find((r) => r.id === 2)).toEqual(SUMMARY_WITHOUT_CAT);
+    }));
+
+    it('should remove the categoryId from selectedRecipe', fakeAsync(() => {
+      const recipeWithCat: Recipe = { ...RECIPE_1, categoryIds: [3, 5] };
+      repositorySpy.getById.and.returnValue(of(recipeWithCat));
+      store.loadById(1);
+      tick();
+
+      store.removeCategoryFromAll(3);
+
+      expect(store.selectedRecipe()?.categoryIds).toEqual([5]);
+    }));
+
+    it('should leave selectedRecipe unchanged when it does not have the categoryId', fakeAsync(() => {
+      const recipeWithOtherCat: Recipe = { ...RECIPE_1, categoryIds: [7] };
+      repositorySpy.getById.and.returnValue(of(recipeWithOtherCat));
+      store.loadById(1);
+      tick();
+
+      store.removeCategoryFromAll(3);
+
+      expect(store.selectedRecipe()?.categoryIds).toEqual([7]);
+    }));
+
+    it('should do nothing when selectedRecipe is null', () => {
+      expect(() => store.removeCategoryFromAll(3)).not.toThrow();
+      expect(store.selectedRecipe()).toBeNull();
+    });
+  });
+
   // ─── reset() ──────────────────────────────────────────────────────────────
 
   describe('reset()', () => {

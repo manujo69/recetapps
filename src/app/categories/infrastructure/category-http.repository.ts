@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Category } from '../domain/category.model';
 import { CategoryRepository } from '../domain/category.repository';
@@ -11,7 +11,9 @@ export class CategoryHttpRepository extends CategoryRepository {
   private readonly apiUrl = `${environment.apiUrl}/categories`;
 
   getAll(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.apiUrl);
+    return this.http.get<Category[]>(this.apiUrl).pipe(
+      map((categories) => categories.filter((c) => !c.deletedAt)),
+    );
   }
 
   getById(id: number): Observable<Category> {

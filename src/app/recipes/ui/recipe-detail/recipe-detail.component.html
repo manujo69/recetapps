@@ -9,7 +9,7 @@
       <a
         class="flex items-center justify-center w-9 h-9 rounded-full bg-white shadow text-gray-800 no-underline shrink-0"
         routerLink="/recipes"
-        aria-label="Volver"
+        [attr.aria-label]="'common.back_aria' | translate"
       >
         <i class="pi pi-arrow-left"></i>
       </a>
@@ -26,7 +26,7 @@
       <button
         class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white border-0 shadow-md flex items-center justify-center cursor-pointer text-base transition-shadow hover:shadow-lg disabled:opacity-40 disabled:cursor-default"
         type="button"
-        aria-label="Añadir a favoritos"
+        [attr.aria-label]="'recipes.detail.add_favorite_aria' | translate"
         [disabled]="favoritesLoading()"
         (click)="toggleFavorite()"
         [class.text-red-500]="isFavorite()"
@@ -44,14 +44,14 @@
           <a
             class="flex items-center justify-center w-9 h-9 rounded-full border-0 cursor-pointer transition-colors text-base bg-[#9bad7969] text-gray-600 hover:bg-gray-200 no-underline"
             [routerLink]="['/recipes', r.id, 'edit']"
-            aria-label="Editar receta"
+            [attr.aria-label]="'recipes.detail.edit_aria' | translate"
           >
             <i class="pi pi-pencil"></i>
           </a>
           <button
             class="flex items-center justify-center w-9 h-9 rounded-full border-0 cursor-pointer transition-colors text-base bg-[#9bad7969] text-red-400 hover:bg-red-50 hover:text-red-500"
             type="button"
-            aria-label="Eliminar receta"
+            [attr.aria-label]="'recipes.detail.delete_aria' | translate"
             (click)="showDeleteConfirm.set(true)"
           >
             <i class="pi pi-trash"></i>
@@ -63,7 +63,7 @@
             [class.bg-[#9bad7969]]="!showCategoryPanel()"
             [class.text-brand]="!showCategoryPanel()"
             type="button"
-            aria-label="Gestionar categorías"
+            [attr.aria-label]="'recipes.detail.manage_categories_aria' | translate"
             (click)="toggleCategoryPanel()"
           >
             <i class="pi pi-tag"></i>
@@ -72,9 +72,9 @@
 
         @if (showCategoryPanel()) {
           <div class="absolute top-full right-0 z-20 bg-white rounded-xl shadow-lg w-56 mt-1 overflow-hidden">
-            <div class="px-3 pt-3 pb-1 text-[0.7rem] font-semibold text-gray-400 uppercase tracking-wide">Categorías</div>
+            <div class="px-3 pt-3 pb-1 text-[0.7rem] font-semibold text-gray-400 uppercase tracking-wide">{{ 'nav.categories' | translate }}</div>
             @if (categories().length === 0) {
-              <p class="px-3 py-2 text-[0.85rem] text-gray-400">Sin categorías</p>
+              <p class="px-3 py-2 text-[0.85rem] text-gray-400">{{ 'recipes.detail.no_categories' | translate }}</p>
             }
             @for (cat of categories(); track cat.id) {
               <button
@@ -105,7 +105,7 @@
                 @if (savingCategory()) {
                   <i class="pi pi-spin pi-spinner"></i>
                 } @else {
-                  Guardar
+                  {{ 'recipes.detail.save_categories' | translate }}
                 }
               </button>
             </div>
@@ -116,7 +116,7 @@
       <div class="flex flex-wrap gap-y-3 gap-x-5 mb-5">
         <span class="flex items-center gap-[0.35rem] text-[0.85rem] text-gray-600">
           <i class="pi pi-clock text-brand text-[0.9rem]"></i>
-          {{ r.prepTime + r.cookTime }} min
+          {{ r.prepTime + r.cookTime }} {{ 'common.unit_min' | translate }}
         </span>
         <span class="flex items-center gap-[0.35rem] text-[0.85rem] text-gray-600">
           <i class="pi pi-users text-brand text-[0.9rem]"></i>
@@ -143,12 +143,12 @@
       <div class="flex items-center bg-white rounded-xl p-4 mb-5 shadow-sm">
         <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
           <span class="text-xs text-gray-500 font-medium">{{ 'recipes.detail.prep' | translate }}</span>
-          <span class="text-[0.95rem] font-semibold">{{ r.prepTime }} min</span>
+          <span class="text-[0.95rem] font-semibold">{{ r.prepTime }} {{ 'common.unit_min' | translate }}</span>
         </div>
         <div class="w-px h-8 bg-gray-100"></div>
         <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
           <span class="text-xs text-gray-500 font-medium">{{ 'recipes.detail.cook' | translate }}</span>
-          <span class="text-[0.95rem] font-semibold">{{ r.cookTime }} min</span>
+          <span class="text-[0.95rem] font-semibold">{{ r.cookTime }} {{ 'common.unit_min' | translate }}</span>
         </div>
         <div class="w-px h-8 bg-gray-100"></div>
         <div class="flex-1 flex flex-col items-center gap-[0.2rem]">
@@ -180,12 +180,10 @@
       (click)="$event.target === $event.currentTarget && showDeleteConfirm.set(false)"
       (keydown.escape)="showDeleteConfirm.set(false)"
     >
-      <div
-        class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6"
-      >
-        <h3 class="m-0 mb-2 text-lg font-bold">Eliminar receta</h3>
+      <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
+        <h3 class="m-0 mb-2 text-lg font-bold">{{ 'recipes.detail.delete.title' | translate }}</h3>
         <p class="m-0 mb-6 text-sm text-gray-600">
-          ¿Seguro que quieres eliminar <strong>{{ r.title }}</strong>? Esta acción no se puede deshacer.
+          {{ 'recipes.detail.delete.message' | translate: { name: r.title } }}
         </p>
         <div class="flex gap-3">
           <button
@@ -194,7 +192,7 @@
             [disabled]="deleting()"
             (click)="showDeleteConfirm.set(false)"
           >
-            Cancelar
+            {{ 'common.cancel' | translate }}
           </button>
           <button
             class="flex-1 py-2.5 rounded-xl border-0 bg-red-500 text-white text-sm font-semibold cursor-pointer hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-default flex items-center justify-center gap-2"
@@ -205,7 +203,7 @@
             @if (deleting()) {
               <i class="pi pi-spin pi-spinner"></i>
             } @else {
-              Eliminar
+              {{ 'common.delete' | translate }}
             }
           </button>
         </div>

@@ -1,30 +1,40 @@
 @if (loading()) {
-  <p class="p-4">Cargando categorías...</p>
+  <p class="p-4">{{ 'categories.list.loading' | translate }}</p>
 } @else if (error()) {
   <p class="p-4 text-red-600">{{ error() }}</p>
 } @else {
   <div
     class="px-4 pt-4 pb-[calc(1rem+64px)] md:px-8 md:pt-6 md:pb-[calc(1.5rem+64px)] lg:px-12 lg:pt-8 lg:pb-[calc(2rem+64px)] lg:max-w-7xl lg:mx-auto"
   >
-    <h1 class="mt-0 mb-4 text-xl">Categorías</h1>
+    <h1 class="mt-0 mb-4 text-xl">{{ 'categories.list.title' | translate }}</h1>
     <div class="flex flex-col gap-3">
       @for (category of categories(); track category.id) {
-        <a
-          class="flex items-center gap-4 bg-white rounded-xl px-4 py-3 shadow-sm no-underline text-inherit transition-shadow hover:shadow-md"
-          [routerLink]="['/recipes']"
-          [queryParams]="{ categoryId: category.id }"
-        >
-          <span class="flex items-center justify-center w-10 h-10 rounded-full bg-[#9bad7969] text-brand shrink-0">
-            <i class="pi pi-tag text-base"></i>
-          </span>
-          <div class="flex flex-col gap-[2px] min-w-0">
-            <span class="font-semibold text-[0.95rem] leading-tight">{{ category.name }}</span>
-            @if (category.description) {
-              <span class="text-[0.8rem] text-gray-400 truncate">{{ category.description }}</span>
-            }
-          </div>
-          <i class="pi pi-chevron-right text-gray-300 ml-auto shrink-0"></i>
-        </a>
+        <div class="category-list__item flex items-center gap-2">
+          <a
+            class="category-list__link flex flex-1 items-center gap-4 bg-white rounded-xl px-4 py-3 shadow-sm no-underline text-inherit transition-shadow hover:shadow-md min-w-0"
+            [routerLink]="['/recipes']"
+            [queryParams]="{ categoryId: category.id }"
+          >
+            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-[#9bad7969] text-brand shrink-0">
+              <i class="pi pi-tag text-base"></i>
+            </span>
+            <div class="flex flex-col gap-[2px] min-w-0">
+              <span class="font-semibold text-[0.95rem] leading-tight">{{ category.name }}</span>
+              @if (category.description) {
+                <span class="text-[0.8rem] text-gray-400 truncate">{{ category.description }}</span>
+              }
+            </div>
+            <i class="pi pi-chevron-right text-gray-300 ml-auto shrink-0"></i>
+          </a>
+          <button
+            class="category-list__delete-btn flex items-center justify-center w-10 h-10 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0"
+            type="button"
+            [attr.aria-label]="'categories.list.delete_aria' | translate"
+            (click)="requestDelete(category)"
+          >
+            <i class="pi pi-trash text-base"></i>
+          </button>
+        </div>
       }
     </div>
   </div>
@@ -32,10 +42,48 @@
   <a
     class="fixed bottom-[76px] left-1/2 -translate-x-1/2 w-[52px] h-[52px] rounded-full bg-brand text-white no-underline flex items-center justify-center z-[101] shadow-[0_4px_12px_rgba(232,160,32,0.4)] text-[1.4rem] lg:bottom-[76px] lg:right-12 lg:left-auto lg:translate-x-0"
     routerLink="/categories/new"
-    aria-label="Crear categoría"
+    [attr.aria-label]="'categories.list.create_aria' | translate"
   >
     <i class="pi pi-plus"></i>
   </a>
 
   <app-footer />
+}
+
+@if (categoryToDelete(); as category) {
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+    tabindex="0"
+    (click)="$event.target === $event.currentTarget && cancelDelete()"
+    (keydown.escape)="cancelDelete()"
+  >
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
+      <h3 class="m-0 mb-2 text-lg font-bold">{{ 'categories.list.delete.title' | translate }}</h3>
+      <p class="m-0 mb-6 text-sm text-gray-600">
+        {{ 'categories.list.delete.message' | translate: { name: category.name } }}
+      </p>
+      <div class="flex gap-3">
+        <button
+          class="flex-1 py-2.5 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-50 transition-colors"
+          type="button"
+          [disabled]="deleting()"
+          (click)="cancelDelete()"
+        >
+          {{ 'common.cancel' | translate }}
+        </button>
+        <button
+          class="flex-1 py-2.5 rounded-xl border-0 bg-red-500 text-white text-sm font-semibold cursor-pointer hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-default flex items-center justify-center gap-2"
+          type="button"
+          [disabled]="deleting()"
+          (click)="confirmDelete()"
+        >
+          @if (deleting()) {
+            <i class="pi pi-spin pi-spinner"></i>
+          } @else {
+            {{ 'common.delete' | translate }}
+          }
+        </button>
+      </div>
+    </div>
+  </div>
 }

@@ -25,7 +25,10 @@
       "Bash(mvn compile *)",
       "Bash(mvn -f \"/home/manu/Projects/recipes-back/pom.xml\" compile -q)",
       "Bash(python3 -c ' *)",
-      "Bash(grep -v '^\\\\s*$')"
+      "Bash(grep -v '^\\\\s*$')",
+      "Bash(grep -E \"\\\\.\\(ts\\)$\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('categories', {}\\), indent=2\\)\\)\")",
+      "Bash(npm test *)"
     ]
   }
 }

@@ -64,6 +64,7 @@ export class CategorySqliteRepository extends CategoryRepository {
 
   delete(id: number): Observable<void> {
     return this.query(async (db) => {
+      await db.run(`DELETE FROM recipe_categories WHERE category_id = ?`, [id], true);
       const now = new Date().toISOString();
       await db.run(
         `UPDATE categories SET deleted_at = ?, updated_at = ?, pending_sync = 1 WHERE id = ?`,

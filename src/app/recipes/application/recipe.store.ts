@@ -164,6 +164,20 @@ export const RecipeStore = signalStore(
         );
       },
 
+      removeCategoryFromAll(categoryId: number): void {
+        const removeFrom = (ids: number[] | undefined) => ids?.filter((id) => id !== categoryId);
+        const selected = store.selectedRecipe();
+        patchState(store, {
+          recipes: store.recipes().map((r) =>
+            r.categoryIds?.includes(categoryId) ? { ...r, categoryIds: removeFrom(r.categoryIds) } : r,
+          ),
+          selectedRecipe:
+            selected?.categoryIds?.includes(categoryId)
+              ? { ...selected, categoryIds: removeFrom(selected.categoryIds) }
+              : selected,
+        });
+      },
+
       clearSelected(): void {
         patchState(store, { selectedRecipe: null });
       },
