@@ -251,6 +251,24 @@ describe('RecipeStore', () => {
       expect(store.loading()).toBeFalse();
     }));
 
+    it('should update firstImageUrl in the recipes list for the uploaded recipe', fakeAsync(() => {
+      repositorySpy.getAll.and.returnValue(of([RECIPE_SUMMARY_1, RECIPE_SUMMARY_2]));
+      store.loadAll();
+      tick();
+
+      repositorySpy.getById.and.returnValue(of(RECIPE_1));
+      store.loadById(1);
+      tick();
+
+      const image: RecipeImage = { id: 10, filename: 'photo.jpg', url: 'blob:photo' };
+      repositorySpy.uploadImage.and.returnValue(of(image));
+      store.uploadImage(1, new File([''], 'photo.jpg', { type: 'image/jpeg' })).subscribe();
+      tick();
+
+      expect(store.recipes().find((r) => r.id === 1)?.firstImageUrl).toBe('blob:photo');
+      expect(store.recipes().find((r) => r.id === 2)?.firstImageUrl).toBeNull();
+    }));
+
     it('should stop loading and rethrow the error on failure', fakeAsync(() => {
       repositorySpy.getById.and.returnValue(of(RECIPE_1));
       store.loadById(1);

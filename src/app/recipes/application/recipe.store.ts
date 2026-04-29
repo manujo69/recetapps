@@ -143,7 +143,12 @@ export const RecipeStore = signalStore(
             if (current) {
               const updated = { ...current, images: [image, ...(current.images ?? [])] };
               recipeCache.set(current.id!, updated);
-              patchState(store, { selectedRecipe: updated });
+              patchState(store, {
+                selectedRecipe: updated,
+                recipes: store.recipes().map((r) =>
+                  r.id === recipeId ? { ...r, firstImageUrl: image.url } : r,
+                ),
+              });
             }
           }),
           catchError((err) => throwError(() => err)),

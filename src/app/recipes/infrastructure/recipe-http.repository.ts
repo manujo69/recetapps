@@ -1,14 +1,16 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Recipe, RecipeImage, RecipeSummary } from '../domain/recipe.model';
 import { RecipeRepository } from '../domain/recipe.repository';
+import { ImageCacheService } from '../../shared/infrastructure/image-cache.service';
 
 @Injectable()
 export class RecipeHttpRepository extends RecipeRepository {
   private readonly http = inject(HttpClient);
+  private readonly imageCache = inject(ImageCacheService);
   private readonly apiUrl = `${environment.apiUrl}/recipes`;
   private readonly baseUrl = environment.apiUrl;
 
@@ -20,11 +22,15 @@ export class RecipeHttpRepository extends RecipeRepository {
           firstImageUrl: s.firstImageUrl ? this.toAbsoluteUrl(s.firstImageUrl) : null,
         })),
       ),
+      switchMap((summaries) => from(this.resolveSummaryImages(summaries))),
     );
   }
 
   getById(id: number): Observable<Recipe> {
-    return this.http.get<Recipe>(`${this.apiUrl}/${id}`).pipe(map(this.mapRecipe));
+    return this.http.get<Recipe>(`${this.apiUrl}/${id}`).pipe(
+      map(this.mapRecipe),
+      switchMap((recipe) => from(this.resolveRecipeImages(recipe))),
+    );
   }
 
   create(recipe: Recipe): Observable<Recipe> {
@@ -74,7 +80,10 @@ export class RecipeHttpRepository extends RecipeRepository {
     formData.append('image', file);
     return this.http
       .post<RecipeImage>(`${this.apiUrl}/${recipeId}/images`, formData)
-      .pipe(map(this.mapImage));
+      .pipe(
+        map(this.mapImage),
+        switchMap((image) => from(this.resolveImageUrl(image))),
+      );
   }
 
   private readonly mapImage = (image: RecipeImage): RecipeImage => ({
@@ -90,5 +99,30 @@ export class RecipeHttpRepository extends RecipeRepository {
   private toAbsoluteUrl(url: string): string {
     if (!url || url.startsWith('http://') || url.startsWith('https://')) return url;
     return `${this.baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+  }
+
+  private async resolveSummaryImages(summaries: RecipeSummary[]): Promise<RecipeSummary[]> {
+    return Promise.all(
+      summaries.map(async (s) => {
+        if (!s.firstImageUrl) return s;
+        const cached = await this.imageCache.getCachedUrl(s.firstImageUrl);
+        if (cached) return { ...s, firstImageUrl: cached };
+        const blobUrl = await this.imageCache.fetchAndCache(s.firstImageUrl).catch(() => s.firstImageUrl!);
+        return { ...s, firstImageUrl: blobUrl };
+      }),
+    );
+  }
+
+  private async resolveRecipeImages(recipe: Recipe): Promise<Recipe> {
+    if (!recipe.images?.length) return recipe;
+    const images = await Promise.all(recipe.images.map((img) => this.resolveImageUrl(img)));
+    return { ...recipe, images };
+  }
+
+  private async resolveImageUrl(image: RecipeImage): Promise<RecipeImage> {
+    const cached = await this.imageCache.getCachedUrl(image.url);
+    if (cached) return { ...image, url: cached };
+    const blobUrl = await this.imageCache.fetchAndCache(image.url).catch(() => image.url);
+    return { ...image, url: blobUrl };
   }
 }

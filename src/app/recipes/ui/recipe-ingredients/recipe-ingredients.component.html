@@ -7,7 +7,7 @@
       </p>
     }
     <ul class="list-none m-0 p-0 flex flex-col gap-[0.4rem]">
-      @for (item of section.items; track item) {
+      @for (item of section.items; track $index) {
         <li class="flex items-center gap-[0.6rem] leading-relaxed">
           <span class="shrink-0 w-[6px] h-[6px] rounded-full bg-brand" aria-hidden="true"></span>
           <span class="text-[0.95rem] text-gray-600 leading-relaxed">{{ item }}</span>
