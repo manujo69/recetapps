@@ -60,7 +60,7 @@ describe('DatabaseService', () => {
       'recetapps',
       false,
       'no-encryption',
-      2,
+      3,
       false
     );
 
@@ -101,9 +101,26 @@ describe('DatabaseService', () => {
       {
         toVersion: 2,
         statements: [
-          'ALTER TABLE recipe_images ADD COLUMN pending_sync INTEGER NOT NULL DEFAULT 0;'
-        ]
-      }
+          'ALTER TABLE recipe_images ADD COLUMN pending_sync INTEGER NOT NULL DEFAULT 0;',
+        ],
+      },
+      {
+        toVersion: 3,
+        statements: [
+          `CREATE TABLE recipe_images_new (
+             id               INTEGER NOT NULL,
+             recipe_client_id TEXT NOT NULL,
+             filename         TEXT,
+             url              TEXT,
+             created_at       TEXT,
+             pending_sync     INTEGER NOT NULL DEFAULT 0,
+             PRIMARY KEY (recipe_client_id, id)
+           );`,
+          `INSERT OR IGNORE INTO recipe_images_new SELECT id, recipe_client_id, filename, url, created_at, pending_sync FROM recipe_images;`,
+          `DROP TABLE recipe_images;`,
+          `ALTER TABLE recipe_images_new RENAME TO recipe_images;`,
+        ],
+      },
     ]);
   });
 });

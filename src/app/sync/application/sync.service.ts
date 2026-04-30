@@ -179,7 +179,7 @@ export class SyncService {
         }
       }
 
-      if (r.images?.length) {
+      if (r.images?.length && !r.deletedAt) {
         await db.run(`DELETE FROM recipe_images WHERE recipe_client_id = ?`, [clientId], false);
         for (const img of r.images) {
           const remoteUrl = img.url?.startsWith('http') ? img.url : `${environment.apiUrl}${img.url}`;

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
+import { Directory, Filesystem } from '@capacitor/filesystem';
 
 const DB_NAME = 'recetapps';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 
 const SCHEMA = `
   CREATE TABLE IF NOT EXISTS recipes (
@@ -30,12 +31,13 @@ const SCHEMA = `
   );
 
   CREATE TABLE IF NOT EXISTS recipe_images (
-    id               INTEGER PRIMARY KEY,
+    id               INTEGER NOT NULL,
     recipe_client_id TEXT NOT NULL,
     filename         TEXT,
     url              TEXT,
     created_at       TEXT,
-    pending_sync     INTEGER NOT NULL DEFAULT 0
+    pending_sync     INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (recipe_client_id, id)
   );
 
   CREATE TABLE IF NOT EXISTS categories (
@@ -83,6 +85,23 @@ export class DatabaseService {
           'ALTER TABLE recipe_images ADD COLUMN pending_sync INTEGER NOT NULL DEFAULT 0;',
         ],
       },
+      {
+        toVersion: 3,
+        statements: [
+          `CREATE TABLE recipe_images_new (
+             id               INTEGER NOT NULL,
+             recipe_client_id TEXT NOT NULL,
+             filename         TEXT,
+             url              TEXT,
+             created_at       TEXT,
+             pending_sync     INTEGER NOT NULL DEFAULT 0,
+             PRIMARY KEY (recipe_client_id, id)
+           );`,
+          `INSERT OR IGNORE INTO recipe_images_new SELECT id, recipe_client_id, filename, url, created_at, pending_sync FROM recipe_images;`,
+          `DROP TABLE recipe_images;`,
+          `ALTER TABLE recipe_images_new RENAME TO recipe_images;`,
+        ],
+      },
     ]);
 
     const isConsistent = await this.sqlite.checkConnectionsConsistency();
@@ -112,6 +131,15 @@ export class DatabaseService {
     ];
 
     await db.executeSet(statements);
+    await this.clearImageCache();
+  }
+
+  private async clearImageCache(): Promise<void> {
+    try {
+      await Filesystem.rmdir({ path: 'recipe_images', directory: Directory.Data, recursive: true });
+    } catch {
+      // Directory may not exist yet on first login
+    }
   }
 
 }
