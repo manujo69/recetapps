@@ -15,8 +15,7 @@ export class RecipeHttpRepository extends RecipeRepository {
   private readonly baseUrl = environment.apiUrl;
 
   getAll(): Observable<RecipeSummary[]> {
-    const url = this.userRecipesUrl();
-    return this.http.get<RecipeSummary[]>(url).pipe(
+    return this.http.get<RecipeSummary[]>(this.apiUrl).pipe(
       map((summaries) =>
         summaries.map((s) => ({
           ...s,
@@ -25,12 +24,6 @@ export class RecipeHttpRepository extends RecipeRepository {
       ),
       switchMap((summaries) => from(this.resolveSummaryImages(summaries))),
     );
-  }
-
-  private userRecipesUrl(): string {
-    const stored = localStorage.getItem('currentUser');
-    const userId: number | null = stored ? JSON.parse(stored).id : null;
-    return userId != null ? `${this.apiUrl}/user/${userId}` : this.apiUrl;
   }
 
   getById(id: number): Observable<Recipe> {

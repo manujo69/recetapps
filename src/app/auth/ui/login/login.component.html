@@ -13,7 +13,6 @@
         pInputText
         type="email"
         name="email"
-        autocomplete="email"
         [(ngModel)]="credentials.email"
         [placeholder]="'auth.login.email' | translate"
         class="w-full"
@@ -28,7 +27,6 @@
           [(ngModel)]="credentials.password"
           [feedback]="false"
           [fluid]="true"
-          autocomplete="current-password"
           required
         />
       </div>

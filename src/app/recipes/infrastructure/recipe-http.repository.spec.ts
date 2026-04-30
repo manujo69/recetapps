@@ -8,8 +8,6 @@ import { environment } from '../../../environments/environment';
 import { RecipeSummary, Recipe, RecipeImage } from '../domain/recipe.model';
 
 const API_URL = `${environment.apiUrl}/recipes`;
-const USER_ID = 7;
-const USER_RECIPES_URL = `${API_URL}/user/${USER_ID}`;
 
 const REMOTE_IMAGE_URL = `${environment.apiUrl}/recipes/1/images/photo.jpg`;
 const BLOB_URL = 'blob:mock-photo';
@@ -49,8 +47,6 @@ describe('RecipeHttpRepository (image cache)', () => {
   let imageCacheSpy: jasmine.SpyObj<ImageCacheService>;
 
   beforeEach(() => {
-    localStorage.setItem('currentUser', JSON.stringify({ id: USER_ID }));
-
     imageCacheSpy = jasmine.createSpyObj<ImageCacheService>('ImageCacheService', [
       'getCachedUrl',
       'fetchAndCache',
@@ -70,10 +66,7 @@ describe('RecipeHttpRepository (image cache)', () => {
     httpTesting = TestBed.inject(HttpTestingController);
   });
 
-  afterEach(() => {
-    httpTesting.verify();
-    localStorage.removeItem('currentUser');
-  });
+  afterEach(() => httpTesting.verify());
 
   // ── getAll() ─────────────────────────────────────────────────────────────────
 
@@ -83,7 +76,7 @@ describe('RecipeHttpRepository (image cache)', () => {
       let result: RecipeSummary[] | undefined;
 
       repository.getAll().subscribe((r) => (result = r));
-      httpTesting.expectOne(USER_RECIPES_URL).flush([SUMMARY_WITH_IMAGE]);
+      httpTesting.expectOne(API_URL).flush([SUMMARY_WITH_IMAGE]);
       flushMicrotasks();
 
       expect(result?.[0].firstImageUrl).toBe(BLOB_URL);
@@ -95,7 +88,7 @@ describe('RecipeHttpRepository (image cache)', () => {
       let result: RecipeSummary[] | undefined;
 
       repository.getAll().subscribe((r) => (result = r));
-      httpTesting.expectOne(USER_RECIPES_URL).flush([SUMMARY_WITH_IMAGE]);
+      httpTesting.expectOne(API_URL).flush([SUMMARY_WITH_IMAGE]);
       flushMicrotasks();
 
       expect(imageCacheSpy.fetchAndCache).toHaveBeenCalledWith(REMOTE_IMAGE_URL);
@@ -108,7 +101,7 @@ describe('RecipeHttpRepository (image cache)', () => {
       let result: RecipeSummary[] | undefined;
 
       repository.getAll().subscribe((r) => (result = r));
-      httpTesting.expectOne(USER_RECIPES_URL).flush([SUMMARY_WITH_IMAGE]);
+      httpTesting.expectOne(API_URL).flush([SUMMARY_WITH_IMAGE]);
       flushMicrotasks();
 
       expect(result?.[0].firstImageUrl).toBe(REMOTE_IMAGE_URL);
@@ -118,10 +111,12 @@ describe('RecipeHttpRepository (image cache)', () => {
       const absoluteUrl = 'https://cdn.example.com/photo.jpg';
       imageCacheSpy.getCachedUrl.and.returnValue(Promise.resolve(null));
       imageCacheSpy.fetchAndCache.and.returnValue(Promise.resolve(BLOB_URL));
+      let result: RecipeSummary[] | undefined;
+      console.log(result);
 
-      repository.getAll().subscribe();
+      repository.getAll().subscribe((r) => (result = r));
       httpTesting
-        .expectOne(USER_RECIPES_URL)
+        .expectOne(API_URL)
         .flush([{ ...SUMMARY_WITH_IMAGE, firstImageUrl: absoluteUrl }]);
       flushMicrotasks();
 
@@ -132,7 +127,7 @@ describe('RecipeHttpRepository (image cache)', () => {
       let result: RecipeSummary[] | undefined;
 
       repository.getAll().subscribe((r) => (result = r));
-      httpTesting.expectOne(USER_RECIPES_URL).flush([SUMMARY_NO_IMAGE]);
+      httpTesting.expectOne(API_URL).flush([SUMMARY_NO_IMAGE]);
       flushMicrotasks();
 
       expect(imageCacheSpy.getCachedUrl).not.toHaveBeenCalled();
