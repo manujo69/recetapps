@@ -165,7 +165,7 @@ export class RecipeSqliteRepository extends RecipeRepository {
     });
   }
 
-  getByUser(_userId: number): Observable<Recipe[]> {
+  getByUser(): Observable<Recipe[]> {
     return this.query(async (db) => {
       const result = (await db.query(
         `SELECT r.rowid, r.*, GROUP_CONCAT(rc.category_id) as category_ids
