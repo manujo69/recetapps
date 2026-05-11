@@ -4,7 +4,7 @@
     "hash": "fc9af192c9f6ba178804915c26d2f4c9"
   },
   "/home/manu/Projects/recetapps/capacitor.config.ts": {
-    "mtime": 1777548617.6677768,
+    "mtime": 1778513400.762667,
     "hash": "364be1124b3620377fd124be37f4c15f"
   },
   "/home/manu/Projects/recetapps/karma.conf.js": {
@@ -12,23 +12,23 @@
     "hash": "d49a362eb0e3c90736e6ff80f0cedc2a"
   },
   "/home/manu/Projects/recetapps/android/settings.gradle": {
-    "mtime": 1774458162.0,
+    "mtime": 1778513400.7623842,
     "hash": "f6cd925b3f859e23c3d819fe2459e0e4"
   },
   "/home/manu/Projects/recetapps/android/variables.gradle": {
-    "mtime": 1774458162.0,
+    "mtime": 1778513400.7624648,
     "hash": "4b3fce8ea2a515a9d2e47e74757172ec"
   },
   "/home/manu/Projects/recetapps/android/capacitor.settings.gradle": {
-    "mtime": 1777567191.0316663,
+    "mtime": 1778513400.761535,
     "hash": "21beefc715f5a29e944d9fc1d94699f5"
   },
   "/home/manu/Projects/recetapps/android/gradlew": {
-    "mtime": 1774458162.0,
+    "mtime": 1778513400.7622,
     "hash": "794669d78aef1dd5c7d889ef618b311a"
   },
   "/home/manu/Projects/recetapps/android/build.gradle": {
-    "mtime": 1776964831.1420808,
+    "mtime": 1778513400.761463,
     "hash": "4df552d5792feb5fb93d0ca8dda2563f"
   },
   "/home/manu/Projects/recetapps/android/capacitor-cordova-android-plugins/cordova.variables.gradle": {
@@ -40,15 +40,15 @@
     "hash": "2af61653d70c95d20802c8b5c433ba90"
   },
   "/home/manu/Projects/recetapps/android/app/capacitor.build.gradle": {
-    "mtime": 1777567191.0316663,
+    "mtime": 1778513400.748642,
     "hash": "9e6e9aa90f6511f6c619ea1768a09862"
   },
   "/home/manu/Projects/recetapps/android/app/build.gradle": {
-    "mtime": 1776187389.8601499,
+    "mtime": 1778513400.748642,
     "hash": "d32674ca7a981f0a137ad94dfd6f2c96"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/java/com/recetapps/app/MainActivity.java": {
-    "mtime": 1777565902.732666,
+    "mtime": 1778513400.7501175,
     "hash": "16a7d799436ef8f46a0c807bb4563d17"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/assets/public/chunk-B63EOVRG.js": {
@@ -180,23 +180,23 @@
     "hash": "7ef15e246c4bba5a5286ceb6a2ee9f92"
   },
   "/home/manu/Projects/recetapps/android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java": {
-    "mtime": 1774458162.0,
+    "mtime": 1778513400.7497962,
     "hash": "fbaf7cc870c663eb52dcf218531c439d"
   },
   "/home/manu/Projects/recetapps/android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java": {
-    "mtime": 1774458162.0,
+    "mtime": 1778513400.7613418,
     "hash": "e91b4501c14da821682fa5c26a16d616"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/sorter.js": {
-    "mtime": 1778167407.0849924,
+    "mtime": 1778513320.2012043,
     "hash": "e2f5129270684bf835820ca4433b4abb"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/block-navigation.js": {
-    "mtime": 1778167407.0849924,
+    "mtime": 1778513320.2012043,
     "hash": "13c8dd65c9b9571b0b4960aeaf3fab0a"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/prettify.js": {
-    "mtime": 1778167407.0849924,
+    "mtime": 1778513320.2012043,
     "hash": "6051903a2f7363ee232a01bd32f60b6a"
   },
   "/home/manu/Projects/recetapps/src/main.ts": {
@@ -204,127 +204,127 @@
     "hash": "ac0b277dca1867b341af9e2d25224ae9"
   },
   "/home/manu/Projects/recetapps/src/app/app.routes.ts": {
-    "mtime": 1777050197.6906059,
-    "hash": "55eebc9ed9a7df61e741c6c1a394890d"
+    "mtime": 1778515080.5767875,
+    "hash": "72e1099523a849bdc43a78f1341ff47a"
   },
   "/home/manu/Projects/recetapps/src/app/app.ts": {
-    "mtime": 1776853577.6897767,
+    "mtime": 1778513400.7943456,
     "hash": "8b25a7f477372b4ad27f214b18c605b2"
   },
   "/home/manu/Projects/recetapps/src/app/app.config.ts": {
-    "mtime": 1777308590.855129,
-    "hash": "bc1440b1421422e820a46ce423d46d2d"
+    "mtime": 1778515059.4764986,
+    "hash": "1959a380436cf44eb15ef44f0d9bbddb"
   },
   "/home/manu/Projects/recetapps/src/app/app.spec.ts": {
-    "mtime": 1776680837.3738883,
+    "mtime": 1778513400.7942555,
     "hash": "ab9a4f9e7a0c1f9657cf6095c96f4fcc"
   },
   "/home/manu/Projects/recetapps/src/app/shared/infrastructure/network.service.ts": {
-    "mtime": 1776938627.308405,
+    "mtime": 1778513400.7999997,
     "hash": "e9111e126330b1b472ba564b6fbf8797"
   },
   "/home/manu/Projects/recetapps/src/app/shared/infrastructure/network.service.spec.ts": {
-    "mtime": 1776940431.2386007,
+    "mtime": 1778513400.799921,
     "hash": "b84a705601e2240b5ce3f22a4b8035a9"
   },
   "/home/manu/Projects/recetapps/src/app/shared/infrastructure/network-plugin.ts": {
-    "mtime": 1776683293.9421813,
+    "mtime": 1778513400.7998383,
     "hash": "a2ce34261e9eb6676b070c2cb9c49799"
   },
   "/home/manu/Projects/recetapps/src/app/shared/infrastructure/database.service.spec.ts": {
-    "mtime": 1778167341.4723492,
-    "hash": "639910897c97e266f6f85ef3273d5652"
+    "mtime": 1778513400.7994256,
+    "hash": "61ef49cf9f9ed69c1d49933cd3b0f718"
   },
   "/home/manu/Projects/recetapps/src/app/shared/infrastructure/app-plugin.ts": {
-    "mtime": 1776767385.4555554,
+    "mtime": 1778513400.799357,
     "hash": "01482a28bb888ddf2423b2d7e73d0b72"
   },
   "/home/manu/Projects/recetapps/src/app/shared/infrastructure/image-cache.service.ts": {
-    "mtime": 1777478769.4057896,
+    "mtime": 1778513400.7997074,
     "hash": "b690ca1a529e568ad6863dd13f924bb8"
   },
   "/home/manu/Projects/recetapps/src/app/shared/infrastructure/network-plugin.spec.ts": {
-    "mtime": 1776939938.3101828,
+    "mtime": 1778513400.7997746,
     "hash": "01ced26eee140b363f02ca8dd8063014"
   },
   "/home/manu/Projects/recetapps/src/app/shared/infrastructure/image-cache.service.spec.ts": {
-    "mtime": 1777480231.1833558,
+    "mtime": 1778513400.799636,
     "hash": "45a5a1a82e40e04dde550bb4b13fde69"
   },
   "/home/manu/Projects/recetapps/src/app/shared/infrastructure/database.service.ts": {
-    "mtime": 1777567069.9372091,
+    "mtime": 1778513400.799557,
     "hash": "d5dc3bb80272fde0f7941c964447a600"
   },
   "/home/manu/Projects/recetapps/src/app/shared/ui/app-footer/app-footer.component.ts": {
-    "mtime": 1777309133.112185,
+    "mtime": 1778513400.8002293,
     "hash": "d2c8db09fa2039fac8620c6f117f942c"
   },
   "/home/manu/Projects/recetapps/src/app/shared/ui/app-header/app-header.component.ts": {
-    "mtime": 1776677358.3421426,
-    "hash": "6db1ea073dc5d36a3459d270136664ec"
+    "mtime": 1778515135.543539,
+    "hash": "2ccb91a297876aa4c900152887a9831d"
   },
   "/home/manu/Projects/recetapps/src/app/shared/ui/app-header/app-header.component.spec.ts": {
-    "mtime": 1776701887.8261008,
-    "hash": "8535913ae12780a0767a7ff9c57998f2"
+    "mtime": 1778515116.7602823,
+    "hash": "5e7e03c918c44277240e372d4d343a38"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/domain/recipe.model.spec.ts": {
-    "mtime": 1777051455.253667,
+    "mtime": 1778513400.7969325,
     "hash": "b57048a64dd1764da29bce2e102ce6ae"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/domain/recipe.model.ts": {
-    "mtime": 1777051161.1182194,
+    "mtime": 1778513400.797069,
     "hash": "9ebbc487af495ddd661c92a7d815d2c7"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/domain/recipe.repository.ts": {
-    "mtime": 1776675366.8738766,
+    "mtime": 1778513400.7971582,
     "hash": "d25c818f37e9af6cdab93240dda6f582"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/infrastructure/recipe-http.repository.ts": {
-    "mtime": 1777567137.1091502,
+    "mtime": 1778513400.7973647,
     "hash": "c77e32e26691c5166abe3393a62aa5fb"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/infrastructure/recipe-http.repository.spec.ts": {
-    "mtime": 1777566695.3881361,
+    "mtime": 1778513400.797258,
     "hash": "e0bf1a7e02273eb73ab97625c8dfce52"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/infrastructure/recipe-mock.repository.ts": {
-    "mtime": 1777051182.8584647,
+    "mtime": 1778513400.7974682,
     "hash": "e8a6fd9a2124b708cf23b1691f3f3e1e"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/infrastructure/recipe-sqlite.types.ts": {
-    "mtime": 1776762205.6706073,
+    "mtime": 1778513400.797643,
     "hash": "90ce2485577f268256d41c0e2a96c003"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/infrastructure/recipe-sqlite.repository.ts": {
-    "mtime": 1777565557.7016814,
-    "hash": "211b32a1827c3a8470f181d44fcd5946"
+    "mtime": 1778515145.293672,
+    "hash": "9016e7946a4540bbd337ebc3b21cfb23"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-image/recipe-image.component.ts": {
-    "mtime": 1777023931.6942124,
+    "mtime": 1778513400.7986941,
     "hash": "e1f9dfe76cf3a7129c8b5c2a888f37f3"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-image/recipe-image.component.spec.ts": {
-    "mtime": 1777047664.6640546,
+    "mtime": 1778513400.7986224,
     "hash": "b8391c861f7dc6ab4570fe0ced278a46"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-detail/recipe-detail.component.ts": {
-    "mtime": 1777051173.3472352,
+    "mtime": 1778513400.7980027,
     "hash": "e4da386f5e488f5dbd7c3928d1969f7b"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-detail/recipe-detail.component.spec.ts": {
-    "mtime": 1777051476.5789258,
+    "mtime": 1778513400.7978923,
     "hash": "1ead975e95d4ef902bc0eec1e67c49c7"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-list/recipe-list.component.spec.ts": {
-    "mtime": 1776939157.4549165,
+    "mtime": 1778513400.7990015,
     "hash": "289660d22a750c870bf072a0920fb0db"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-list/recipe-list.component.ts": {
-    "mtime": 1776678009.1985624,
+    "mtime": 1778513400.7991047,
     "hash": "82794ef75e3e92cb06ff2a6cf0583a98"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-panel/recipe-panel.component.ts": {
-    "mtime": 1776080245.6430583,
+    "mtime": 1778513400.7992902,
     "hash": "c42a86cddb78fc41053496b8d8871da6"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-panel/recipe-panel.component.spec.ts": {
@@ -340,11 +340,11 @@
     "hash": "247ed4ed1a03832a77bfaf2981df009b"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-form/recipe-form.component.ts": {
-    "mtime": 1777051174.4057982,
+    "mtime": 1778513400.7983742,
     "hash": "949f799251efaf3cb198fcca124c16ea"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-form/recipe-form.component.spec.ts": {
-    "mtime": 1777051536.7111263,
+    "mtime": 1778513400.7982876,
     "hash": "ef2ff91ce3167ec218d9bc8cef9947a8"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-instructions/recipe-instructions.component.spec.ts": {
@@ -356,11 +356,11 @@
     "hash": "d4d2b27d68cb324cd466768bcf4c3577"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/application/recipe.store.spec.ts": {
-    "mtime": 1777479224.2443688,
+    "mtime": 1778513400.796731,
     "hash": "cac5c61bf99d47b6b07bbb4604d111fe"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/application/recipe.store.ts": {
-    "mtime": 1777477350.2919996,
+    "mtime": 1778513400.7968514,
     "hash": "1a66bcbd3ae4353c0cc0f3f4caf8eebd"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/application/recipe.service.ts": {
@@ -368,47 +368,47 @@
     "hash": "642b5f8199436338dc77b63cbbf0304b"
   },
   "/home/manu/Projects/recetapps/src/app/favorites/domain/favorite.repository.ts": {
-    "mtime": 1776079657.5253441,
+    "mtime": 1778513400.7961807,
     "hash": "e7479754296d81408102758373204212"
   },
   "/home/manu/Projects/recetapps/src/app/favorites/infrastructure/favorite-http.repository.spec.ts": {
-    "mtime": 1777479687.4178665,
+    "mtime": 1778513400.7962768,
     "hash": "3102e870f486a32b0ce51c9f079b6b18"
   },
   "/home/manu/Projects/recetapps/src/app/favorites/infrastructure/favorite-mock.repository.ts": {
-    "mtime": 1776079779.4141793,
-    "hash": "a53befdee94d25384018e00cceb2c742"
+    "mtime": 1778516121.2981849,
+    "hash": "f2b7bbfd3f4cbbfa21575611264541ab"
   },
   "/home/manu/Projects/recetapps/src/app/favorites/infrastructure/favorite-sqlite.repository.ts": {
-    "mtime": 1776938629.3339405,
-    "hash": "de3cb2bdc4fe5370df1c7bc93835fc92"
+    "mtime": 1778516132.268284,
+    "hash": "d076772e379afad6f8cd1bc3e8a40cab"
   },
   "/home/manu/Projects/recetapps/src/app/favorites/infrastructure/favorite-http.repository.ts": {
-    "mtime": 1777476677.0517554,
+    "mtime": 1778513400.7963562,
     "hash": "5a03475c05c5e4d2c6b35846695a81df"
   },
   "/home/manu/Projects/recetapps/src/app/favorites/infrastructure/favorite-sqlite.types.ts": {
-    "mtime": 1776762207.6946511,
+    "mtime": 1778513400.796595,
     "hash": "02a87f79aa24c3608496bf24a69a2545"
   },
   "/home/manu/Projects/recetapps/src/app/favorites/application/favorite.service.ts": {
-    "mtime": 1776855156.2873695,
-    "hash": "9ec639eb1333ce8bcea55fc07b9e77a7"
+    "mtime": 1778515481.7072558,
+    "hash": "0d05327f674f4f4e26f5940e7fb9dd94"
   },
   "/home/manu/Projects/recetapps/src/app/favorites/application/favorite.service.spec.ts": {
-    "mtime": 1776939704.6746168,
-    "hash": "e459d49a2e6cf8975f7068b62102a28e"
+    "mtime": 1778515610.6757507,
+    "hash": "21818c71d915abb0a10fc15896258f87"
   },
   "/home/manu/Projects/recetapps/src/app/sync/application/sync.service.spec.ts": {
-    "mtime": 1777019288.6036344,
+    "mtime": 1778513400.8007765,
     "hash": "46b5d22e2186a1c6393eec2a114b8849"
   },
   "/home/manu/Projects/recetapps/src/app/sync/application/sync.types.ts": {
-    "mtime": 1776788584.9282234,
+    "mtime": 1778513400.8009648,
     "hash": "ca5d6a90a4db2cfeffd3c27139e884b1"
   },
   "/home/manu/Projects/recetapps/src/app/sync/application/sync.service.ts": {
-    "mtime": 1777567077.6780648,
+    "mtime": 1778513400.8008876,
     "hash": "759c7d43f869cb3e2c73bf38e0611e0e"
   },
   "/home/manu/Projects/recetapps/src/app/auth/domain/auth.repository.ts": {
@@ -420,7 +420,7 @@
     "hash": "4e41683cae8c2c79509c52208d899d00"
   },
   "/home/manu/Projects/recetapps/src/app/auth/infrastructure/auth.guard.ts": {
-    "mtime": 1776243547.3482838,
+    "mtime": 1778513400.7947178,
     "hash": "b1909f222572e99c6fa6488a745899c9"
   },
   "/home/manu/Projects/recetapps/src/app/auth/infrastructure/auth-http.repository.ts": {
@@ -428,7 +428,7 @@
     "hash": "f1d99d3ee1669e41a323291be7655101"
   },
   "/home/manu/Projects/recetapps/src/app/auth/infrastructure/auth.interceptor.spec.ts": {
-    "mtime": 1776704442.187126,
+    "mtime": 1778513400.7947888,
     "hash": "0f7660976ef492210c47c373744e113c"
   },
   "/home/manu/Projects/recetapps/src/app/auth/infrastructure/auth.interceptor.ts": {
@@ -440,7 +440,7 @@
     "hash": "7f3af335bb1a2e0df0d1e89e677ecc4d"
   },
   "/home/manu/Projects/recetapps/src/app/auth/infrastructure/auth.guard.spec.ts": {
-    "mtime": 1776704303.5462523,
+    "mtime": 1778513400.7946525,
     "hash": "5ec4bf6a84685ee8e2dd70f00cddcf43"
   },
   "/home/manu/Projects/recetapps/src/app/auth/ui/register/register.component.ts": {
@@ -460,11 +460,11 @@
     "hash": "c50d9c5e84a480f80fdfddb8ade145e4"
   },
   "/home/manu/Projects/recetapps/src/app/auth/application/auth.service.ts": {
-    "mtime": 1776963403.35624,
+    "mtime": 1778513400.7945688,
     "hash": "a431c164ab52fa6be92f228fb1ac0596"
   },
   "/home/manu/Projects/recetapps/src/app/auth/application/auth.service.spec.ts": {
-    "mtime": 1777019017.0908654,
+    "mtime": 1778513400.7944725,
     "hash": "ee1dc69a487a8df7daaa5e9c119be1a4"
   },
   "/home/manu/Projects/recetapps/src/app/categories/domain/category.repository.ts": {
@@ -472,47 +472,47 @@
     "hash": "8b3a248f0a1e8f9b547a2fe856ac4039"
   },
   "/home/manu/Projects/recetapps/src/app/categories/domain/category.model.ts": {
-    "mtime": 1776166996.0867522,
+    "mtime": 1778513400.7950652,
     "hash": "dd019a77c3e4a67240cb14e074602bf1"
   },
   "/home/manu/Projects/recetapps/src/app/categories/infrastructure/category-sqlite.repository.ts": {
-    "mtime": 1777308304.0124798,
+    "mtime": 1778513400.7953346,
     "hash": "7e4e99da0796986bb2aff848ef4d9b0f"
   },
   "/home/manu/Projects/recetapps/src/app/categories/infrastructure/category-http.repository.ts": {
-    "mtime": 1777389976.7733443,
+    "mtime": 1778513400.7950652,
     "hash": "bda0a7ce871873b6fb2456a377cb488f"
   },
   "/home/manu/Projects/recetapps/src/app/categories/infrastructure/category-sqlite.types.ts": {
-    "mtime": 1776762206.6836293,
+    "mtime": 1778513400.7953985,
     "hash": "fb522e7bab45da809b283e004fbfd25a"
   },
   "/home/manu/Projects/recetapps/src/app/categories/infrastructure/category-mock.repository.ts": {
-    "mtime": 1776081063.2762942,
+    "mtime": 1778513400.795218,
     "hash": "0cef2020ff27e06d295e40e3bfe685cb"
   },
   "/home/manu/Projects/recetapps/src/app/categories/ui/category-add/category-add.component.ts": {
-    "mtime": 1777309179.6480331,
+    "mtime": 1778513400.7956586,
     "hash": "0795ce18d9e7cef1cb2063c5f68103d3"
   },
   "/home/manu/Projects/recetapps/src/app/categories/ui/category-list/category-list.component.ts": {
-    "mtime": 1777309149.5809674,
+    "mtime": 1778513400.7958872,
     "hash": "fbc4940d1f388c46b26288a9f75984c6"
   },
   "/home/manu/Projects/recetapps/src/app/categories/application/category.store.spec.ts": {
-    "mtime": 1777309888.5525491,
+    "mtime": 1778513400.7948864,
     "hash": "a2836182a2e254404e890807e57a1ae0"
   },
   "/home/manu/Projects/recetapps/src/app/categories/application/category.store.ts": {
-    "mtime": 1777309874.516306,
-    "hash": "8dbfb6dc4fb4c4c8dc3b71caf2770a35"
+    "mtime": 1778515497.6324646,
+    "hash": "dae2aa97f6482d5cd9e281c573660b13"
   },
   "/home/manu/Projects/recetapps/src/app/categories/application/category.service.ts": {
     "mtime": 1776077772.3253284,
     "hash": "ab861b293bf37557cad40266ec281f53"
   },
   "/home/manu/Projects/recetapps/src/environments/environment.ts": {
-    "mtime": 1777475907.9550555,
+    "mtime": 1778513400.801162,
     "hash": "7c87896c39ce471fda59ee07f8d8aa28"
   },
   "/home/manu/Projects/recetapps/src/environments/environment.dev.ts": {
@@ -520,15 +520,15 @@
     "hash": "9b63536c9f8446d7c935b53a8caa484c"
   },
   "/home/manu/Projects/recetapps/src/environments/environment.production.ts": {
-    "mtime": 1777462106.708757,
+    "mtime": 1778513400.801073,
     "hash": "cfa54547d2a5de122a691ea00bfc1913"
   },
   "/home/manu/Projects/recetapps/CLAUDE.md": {
-    "mtime": 1777019504.1582048,
+    "mtime": 1778513400.748642,
     "hash": "3ae7fca111a66068716408f75bf72761"
   },
   "/home/manu/Projects/recetapps/README.md": {
-    "mtime": 1776242272.1698542,
+    "mtime": 1778513400.748642,
     "hash": "9463b758d31fce48da0b52e5891d178a"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/assets/public/index.html": {
@@ -536,216 +536,216 @@
     "hash": "5512c7b10c3f71731e21dd4c04938f17"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/index.html": {
-    "mtime": 1778167407.0886188,
-    "hash": "aada98bc7fa19b9f89e69fb855b20f05"
+    "mtime": 1778513320.2048283,
+    "hash": "7300ed1a99972c3506d8e5ac4fe63d94"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/index.html": {
-    "mtime": 1778167407.0889108,
-    "hash": "23ea6c1258d6e6acc5d215bcdf6c8fbe"
+    "mtime": 1778513320.2050936,
+    "hash": "7d637b63d271a7fb7d79f9ea76b97bae"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/app.ts.html": {
-    "mtime": 1778167407.0899446,
-    "hash": "940f34a6f50765cd140304dbd7a79cbe"
+    "mtime": 1778513320.206226,
+    "hash": "db2ae798df6a2354f42c288247d3a661"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/shared/infrastructure/network-plugin.ts.html": {
-    "mtime": 1778167407.1069465,
-    "hash": "f160424f151de798ab65129632caf1c7"
+    "mtime": 1778513320.221651,
+    "hash": "4979f68b8b73286371d98e0a90a33392"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/shared/infrastructure/app-plugin.ts.html": {
-    "mtime": 1778167407.1060917,
-    "hash": "f701541e0aab1729213c5174886466da"
+    "mtime": 1778513320.2207823,
+    "hash": "f2295e63dee77e9a0b4f5a431587cb28"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/shared/infrastructure/database.service.ts.html": {
-    "mtime": 1778167407.106472,
-    "hash": "38ed204a4c7f53567c96b9e462a54e42"
+    "mtime": 1778513320.2211416,
+    "hash": "7808cb5495d4b5e6cb548ae6e04af6af"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/shared/infrastructure/index.html": {
-    "mtime": 1778167407.1058955,
-    "hash": "0087f60693aecfea4cc7d38af799c14a"
+    "mtime": 1778513320.2205904,
+    "hash": "43a00a067b718331db00feee5e44356e"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/shared/infrastructure/network.service.ts.html": {
-    "mtime": 1778167407.107234,
-    "hash": "017a73774603c53f4662e7b6188bdc05"
+    "mtime": 1778513320.221943,
+    "hash": "24d9e6abc48bf5ae91b8855eca465872"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/shared/infrastructure/image-cache.service.ts.html": {
-    "mtime": 1778167407.1067438,
-    "hash": "de649ebe600045c7121962cadf7758d2"
+    "mtime": 1778513320.221451,
+    "hash": "0985d3fe8907afa8a59b9abf78dd80fb"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/shared/ui/app-footer/index.html": {
-    "mtime": 1778167407.107425,
-    "hash": "f8ecc94a71732234562915de71c30c9a"
+    "mtime": 1778513320.2221172,
+    "hash": "a80694006f43e208609ef9229d116f6f"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/shared/ui/app-footer/app-footer.component.ts.html": {
-    "mtime": 1778167407.1076343,
-    "hash": "1db8c50fc096bc17891e9556bdad99c6"
+    "mtime": 1778513320.2222996,
+    "hash": "fee7f68937b59a965418e7d0e9800894"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/shared/ui/app-header/index.html": {
-    "mtime": 1778167407.107804,
-    "hash": "195c659effd4f9efc580fdfefdc4ed8d"
+    "mtime": 1778513320.2224581,
+    "hash": "93eb8cb2a1838efdade54c48fd3941d3"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/shared/ui/app-header/app-header.component.ts.html": {
-    "mtime": 1778167407.108039,
-    "hash": "990c87be84355c6c25ebc6045a75c9fb"
+    "mtime": 1778513320.2226827,
+    "hash": "632e18976463b9d98436448f39f54c77"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/domain/recipe.model.ts.html": {
-    "mtime": 1778167407.0972881,
-    "hash": "1a9b323e6a2233d11ee2c477fb92b100"
+    "mtime": 1778513320.2143314,
+    "hash": "975d9b9217765facf9faabba33873d47"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/domain/index.html": {
-    "mtime": 1778167407.096883,
-    "hash": "60fa3d527f8cfa21e11cd5919edb95c5"
+    "mtime": 1778513320.2139432,
+    "hash": "f4215d4aa174a9d40882eea6c9105fe8"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/infrastructure/recipe-http.repository.ts.html": {
-    "mtime": 1778167407.098224,
-    "hash": "30b2e2cc7637cd4fe78280da365dccf3"
+    "mtime": 1778513320.2152562,
+    "hash": "d66ff350c116696698ee4d7fd7dde356"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/infrastructure/index.html": {
-    "mtime": 1778167407.0975661,
-    "hash": "03e5f504cd2f29c2c79b520831e47fd2"
+    "mtime": 1778513320.2145941,
+    "hash": "fcf39a0399bbbddd861bc951ff5c3a94"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-image/recipe-image.component.ts.html": {
-    "mtime": 1778167407.101087,
-    "hash": "3f428ca7ce118b26da554922f0fc5cb6"
+    "mtime": 1778513320.218007,
+    "hash": "64b151bbe9ff2ca0f8b9e8349c9618ad"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-image/index.html": {
-    "mtime": 1778167407.1007388,
-    "hash": "7982297713f67af84e0ca37d632d5655"
+    "mtime": 1778513320.2176692,
+    "hash": "b03fbcac4c818d74e90d6487344075c9"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-detail/index.html": {
-    "mtime": 1778167407.0985136,
-    "hash": "c8e1fc99a458401baecc23c9cbd5c2bd"
+    "mtime": 1778513320.2155461,
+    "hash": "4695f8419ea27702a0d653b172ddd7f7"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-detail/recipe-detail.component.ts.html": {
-    "mtime": 1778167407.099402,
-    "hash": "feb2e7f957541fcea5d118db82f97724"
+    "mtime": 1778513320.2163477,
+    "hash": "30778f87fbe675e5ff3eb5e08ec75c79"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-list/recipe-list.component.ts.html": {
-    "mtime": 1778167407.1043859,
-    "hash": "b77e68b308d68357bdb090d83f5706eb"
+    "mtime": 1778513320.2199814,
+    "hash": "f661e2adfdaf4496952c16d8dca4ab3d"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-list/index.html": {
-    "mtime": 1778167407.1037555,
-    "hash": "8c33c64ec5a88678eefb51174af6b5b1"
+    "mtime": 1778513320.219698,
+    "hash": "e441d07170d467b22670244b937c8977"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-panel/recipe-panel.component.ts.html": {
-    "mtime": 1778167407.105296,
-    "hash": "14e51ae21a5b6a62b40bd0b2cef8589d"
+    "mtime": 1778513320.2203536,
+    "hash": "e022ced3e0f8be43df870dc05b7fa0f2"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-panel/index.html": {
-    "mtime": 1778167407.1048205,
-    "hash": "db8421c96c1ca9c46c5202647177ca90"
+    "mtime": 1778513320.2201593,
+    "hash": "8a4f4f87e6a999b96d0a529df1a89e99"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-ingredients/recipe-ingredients.component.ts.html": {
-    "mtime": 1778167407.102137,
-    "hash": "2a2622a1370c31190afce1a22bbf614f"
+    "mtime": 1778513320.2188199,
+    "hash": "15d278bd7c2377e9e26ae8eab2df5d88"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-ingredients/index.html": {
-    "mtime": 1778167407.1013494,
-    "hash": "de1581674138ba2b1c47ac36a884fd6e"
+    "mtime": 1778513320.218274,
+    "hash": "604ca1f48b711b727f02946f310a2d49"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-form/recipe-form.component.ts.html": {
-    "mtime": 1778167407.1004488,
-    "hash": "ef1f50fd4861e449610d2d2b6939a6e6"
+    "mtime": 1778513320.2173803,
+    "hash": "1fd864eabbe2c0adec05bba5166a0eac"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-form/index.html": {
-    "mtime": 1778167407.0996933,
-    "hash": "857799302633666568ad1bb506694fb1"
+    "mtime": 1778513320.2166338,
+    "hash": "0dac48e4a9c6736a117ba2172ac61f07"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-instructions/recipe-instructions.component.ts.html": {
-    "mtime": 1778167407.103323,
-    "hash": "dd22900d470273366f26992c187426c8"
+    "mtime": 1778513320.2194622,
+    "hash": "e163a9385cdaec0510e6c6d3c8a825f5"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/ui/recipe-instructions/index.html": {
-    "mtime": 1778167407.1027467,
-    "hash": "d30beb56e5d7e871b18ad3dd843fd9a6"
+    "mtime": 1778513320.2190893,
+    "hash": "ebab727d1fce8b14882d375fb4d523f4"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/application/recipe.store.ts.html": {
-    "mtime": 1778167407.0959926,
-    "hash": "bc46a3686efdb9eeb7d8333e79e9dce7"
+    "mtime": 1778513320.213662,
+    "hash": "fc1e63f18836b1193dc2271229d2ac02"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/application/recipe.service.ts.html": {
     "mtime": 1775751231.468994,
     "hash": "419b849986f5bd603eff9e2d342c06d0"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/recipes/application/index.html": {
-    "mtime": 1778167407.0955937,
-    "hash": "18b6e33071f235958ccbe7b8c3bc8ce9"
+    "mtime": 1778513320.2112045,
+    "hash": "55ff2031cad3c5374cbbbdfb17ba185a"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/favorites/infrastructure/favorite-http.repository.ts.html": {
-    "mtime": 1778167407.0952592,
-    "hash": "daeab6b0264ad36c81def4857a035d72"
+    "mtime": 1778513320.2112045,
+    "hash": "4aabb076920b6dacb5d140a887407454"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/favorites/infrastructure/index.html": {
-    "mtime": 1778167407.0948021,
-    "hash": "d320c7b505f302c84efa2dfed0324f7f"
+    "mtime": 1778513320.2102044,
+    "hash": "d6c065a7dd45213dc524a3f3168c5cff"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/favorites/application/favorite.service.ts.html": {
-    "mtime": 1778167407.0945594,
-    "hash": "de700257e5a0d6b1212b7d009c6273dd"
+    "mtime": 1778513320.2102044,
+    "hash": "31c526083c587155cb6e898c4e59f432"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/favorites/application/index.html": {
-    "mtime": 1778167407.0941498,
-    "hash": "8bada09afd302a574ad96f82a21d7022"
+    "mtime": 1778513320.2102044,
+    "hash": "3ec5d7d7f6b92e6ea68607fb8f7c392e"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/sync/application/sync.service.ts.html": {
-    "mtime": 1778167407.109185,
-    "hash": "02b1c70e8f039b1f532a0ee6977d3632"
+    "mtime": 1778513320.2239077,
+    "hash": "09a67d5b65c91b3cfcb55082f1a3175e"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/sync/application/index.html": {
-    "mtime": 1778167407.1082022,
-    "hash": "1eab80fd9ab3708c54757cdd7aa508df"
+    "mtime": 1778513320.2228444,
+    "hash": "893dfeb10df9754477d2ead2f86a7df0"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/auth/infrastructure/auth.guard.ts.html": {
-    "mtime": 1778167407.0915368,
-    "hash": "5cf0f31d956963dc3caa1a8421996d5c"
+    "mtime": 1778513320.2082176,
+    "hash": "1eb6f81df1a13122ae0a04a54200ac00"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/auth/infrastructure/auth.interceptor.ts.html": {
-    "mtime": 1778167407.091895,
-    "hash": "15056d99054eb0ab55c3b3c6ac7ac073"
+    "mtime": 1778513320.2087088,
+    "hash": "22e25cd39c866f75d2b534a4187fa5a8"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/auth/infrastructure/index.html": {
-    "mtime": 1778167407.0912786,
-    "hash": "19cd56d5042e494a15d9598af1b38c44"
+    "mtime": 1778513320.2078834,
+    "hash": "4de3b648989552abd5cb20b21eb2fd7b"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/auth/ui/register/register.component.ts.html": {
-    "mtime": 1778167407.092843,
-    "hash": "d001feaa32c2f0cdb27d7f8b7f364b8f"
+    "mtime": 1778513320.2101223,
+    "hash": "bc433dc7070f3252f184a7f17df6a62d"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/auth/ui/register/index.html": {
-    "mtime": 1778167407.092843,
-    "hash": "7dab8e540347bfcb627105e11d1936a5"
+    "mtime": 1778513320.2097485,
+    "hash": "48524746f6434571d213d18ab1f6e43e"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/auth/ui/login/index.html": {
-    "mtime": 1778167407.091895,
-    "hash": "2b8be0565fe6bffd3e40d50f5c32bbee"
+    "mtime": 1778513320.2090442,
+    "hash": "f39381d4345f9853f3be13e81fdaa271"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/auth/ui/login/login.component.ts.html": {
-    "mtime": 1778167407.0919926,
-    "hash": "ff156324895f56df42ffbe7059e516f8"
+    "mtime": 1778513320.2094736,
+    "hash": "fe519f11a881d8b1e1f2f0d325b5f954"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/auth/application/auth.service.ts.html": {
-    "mtime": 1778167407.091009,
-    "hash": "8940f9049fca95b9449dce8b1f0746ad"
+    "mtime": 1778513320.2075593,
+    "hash": "7d460124395bd2312dc34a633bc8a075"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/auth/application/index.html": {
-    "mtime": 1778167407.0902069,
-    "hash": "01aa753719ff4131726ae241de26933b"
+    "mtime": 1778513320.2065253,
+    "hash": "2ebc8f75143e876c12aaddc1e357833c"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/categories/application/index.html": {
-    "mtime": 1778167407.092843,
-    "hash": "981c2397a0cff0dc0fc7ce76d1b1ef2a"
+    "mtime": 1778513320.2101223,
+    "hash": "921ccab5438f12422942267e72814641"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/app/categories/application/category.store.ts.html": {
-    "mtime": 1778167407.0939043,
-    "hash": "8643676864e65d3d1d12fac8a9bfc694"
+    "mtime": 1778513320.2101223,
+    "hash": "a7666b0194b3f9a30cd6bd81f1efe2ab"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/environments/environment.ts.html": {
-    "mtime": 1778167407.1096482,
-    "hash": "5ba29c9c8228d618ae45f0073a1ca8f3"
+    "mtime": 1778513320.2244935,
+    "hash": "da96d8e179ca3d61dc756b6dc0618e18"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/environments/index.html": {
-    "mtime": 1778167407.1094491,
-    "hash": "305bb079f38a601c0e79c6fb59803a9d"
+    "mtime": 1778513320.2242901,
+    "hash": "e520d0455c9e08be29b68c1d4b1735bc"
   },
   "/home/manu/Projects/recetapps/src/index.html": {
     "mtime": 1773316645.0537047,
@@ -756,35 +756,35 @@
     "hash": "113209303ed0fc815760de170f47bb4e"
   },
   "/home/manu/Projects/recetapps/src/app/shared/ui/app-footer/app-footer.component.html": {
-    "mtime": 1777309141.334335,
+    "mtime": 1778513400.8000739,
     "hash": "caa7870a72bcf59e9d72950fce54139b"
   },
   "/home/manu/Projects/recetapps/src/app/shared/ui/app-header/app-header.component.html": {
-    "mtime": 1776963728.307386,
-    "hash": "676e3673be52a8fcea894eed3e218096"
+    "mtime": 1778515105.052122,
+    "hash": "621cff5ef90530357d294d681841cb69"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-image/recipe-image.component.html": {
-    "mtime": 1777047493.6991088,
+    "mtime": 1778513400.798445,
     "hash": "f464e683ff1536d6befd2fabd9504294"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-detail/recipe-detail.component.html": {
-    "mtime": 1777309258.2814558,
+    "mtime": 1778513400.79777,
     "hash": "5870f5d34fe02bb2701fbe05b91832ff"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-list/recipe-list.component.html": {
-    "mtime": 1777309210.7395973,
+    "mtime": 1778513400.7988963,
     "hash": "c313f8bd9fc1bcd8f661dcfe82f689d7"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-panel/recipe-panel.component.html": {
-    "mtime": 1776080251.5041437,
+    "mtime": 1778513400.7992048,
     "hash": "2c0d867d0e202a6682d4381401d7eef5"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-ingredients/recipe-ingredients.component.html": {
-    "mtime": 1777478869.8040462,
+    "mtime": 1778513400.7987947,
     "hash": "db1dffe249c60b58d72474acbaf42cac"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-form/recipe-form.component.html": {
-    "mtime": 1777309279.551695,
+    "mtime": 1778513400.7980769,
     "hash": "88ec1522cd3003dcf63d8400f6c7349c"
   },
   "/home/manu/Projects/recetapps/src/app/recipes/ui/recipe-instructions/recipe-instructions.component.html": {
@@ -800,11 +800,11 @@
     "hash": "c60245e2847e98cff72b04caf0b41801"
   },
   "/home/manu/Projects/recetapps/src/app/categories/ui/category-add/category-add.component.html": {
-    "mtime": 1777309195.063313,
+    "mtime": 1778513400.7955384,
     "hash": "02ca357d0c5be7181504dbb353536efe"
   },
   "/home/manu/Projects/recetapps/src/app/categories/ui/category-list/category-list.component.html": {
-    "mtime": 1777309172.826909,
+    "mtime": 1778513400.7957187,
     "hash": "846ee4a52b678d45fb8b4397f060e858"
   },
   "/home/manu/Projects/recetapps/public/recetapps_icon_64.png": {
@@ -848,7 +848,7 @@
     "hash": "c336e01e7c1a550b751c2614d02e0aec"
   },
   "/home/manu/Projects/recetapps/public/images/web-icon-512.png": {
-    "mtime": 1776964099.6060543,
+    "mtime": 1778513400.7920413,
     "hash": "eba9b078f07222335e16b79052d9e658"
   },
   "/home/manu/Projects/recetapps/public/images/web-icons.jpg": {
@@ -860,203 +860,203 @@
     "hash": "9a834686d47acf456a6149078ecbccd6"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-land-night-xxxhdpi/splash.png": {
-    "mtime": 1776964991.77776,
+    "mtime": 1778513400.7522352,
     "hash": "a3490e52868b9d4a9e6b63a10ddd3a8b"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-land-night-xxhdpi/splash.png": {
-    "mtime": 1776964991.7527597,
+    "mtime": 1778513400.7512352,
     "hash": "017d5877ee5444ecc30b4ad8e58b5131"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-port-night-hdpi/splash.png": {
-    "mtime": 1776964991.7347596,
+    "mtime": 1778513400.7542353,
     "hash": "81b80777d29e9b7fcc07eaa629329482"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-port-night-ldpi/splash.png": {
-    "mtime": 1776964991.698759,
+    "mtime": 1778513400.7542353,
     "hash": "1af02e97c1b5f257221044f806898f79"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable/splash.png": {
-    "mtime": 1776964991.4699578,
+    "mtime": 1778513400.7580004,
     "hash": "82925eadbb68296edff9d6f624f2077d"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-land-hdpi/splash.png": {
-    "mtime": 1776964991.492757,
+    "mtime": 1778513400.7501175,
     "hash": "60d2bb4474863996f7f540fc0345ebbe"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-port-xxhdpi/splash.png": {
-    "mtime": 1776964991.5537577,
+    "mtime": 1778513400.7562351,
     "hash": "7849c8b93da2f432bd1a2474ccca8806"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-hdpi/ic_launcher.png": {
-    "mtime": 1776964991.303755,
+    "mtime": 1778513400.7582927,
     "hash": "7a69bd2cfcc5b1522db9e962ab54a605"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-hdpi/ic_launcher_background.png": {
-    "mtime": 1776964991.1677535,
+    "mtime": 1778513400.7584467,
     "hash": "bc7c934a61eae7bcc611704b0c5b2d5f"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png": {
-    "mtime": 1776964991.2446024,
+    "mtime": 1778513400.7584467,
     "hash": "3f4735bbc34cbb89e44d71c6a9161287"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png": {
-    "mtime": 1776964991.3495798,
+    "mtime": 1778513400.7584467,
     "hash": "a24596eab2a957cdad16c3e8b5c08381"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-port-xhdpi/splash.png": {
-    "mtime": 1776964991.5347574,
+    "mtime": 1778513400.7562351,
     "hash": "cbfd5b5b21064123ebf35f9c08cfff00"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png": {
-    "mtime": 1776964991.2968931,
+    "mtime": 1778513400.7592561,
     "hash": "a5dc0ff5c588ead753c507aea100a462"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-xhdpi/ic_launcher_background.png": {
-    "mtime": 1776964991.1697536,
+    "mtime": 1778513400.759333,
     "hash": "9e1ec3df60917bce2c31aa8665afe21e"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png": {
-    "mtime": 1776964991.2481697,
+    "mtime": 1778513400.7594802,
     "hash": "8f2955575623ad0e5aca41a8bc3ee975"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png": {
-    "mtime": 1776964991.3517554,
+    "mtime": 1778513400.759567,
     "hash": "901cf78690cafe2c0dac3ed3b893470f"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-ldpi/ic_launcher.png": {
-    "mtime": 1776964991.2937548,
+    "mtime": 1778513400.7584467,
     "hash": "3868ddcc0f96092a7fc51fbeda2ef933"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-ldpi/ic_launcher_background.png": {
-    "mtime": 1776964991.209754,
+    "mtime": 1778513400.7587533,
     "hash": "3d6b120d600c303583d5269332817c91"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-ldpi/ic_launcher_foreground.png": {
-    "mtime": 1776964991.2355788,
+    "mtime": 1778513400.7587533,
     "hash": "959f51d53c9c515dfdbc07475a1cbe8c"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-ldpi/ic_launcher_round.png": {
-    "mtime": 1776964991.3457553,
+    "mtime": 1778513400.7587533,
     "hash": "3f2ab354c6b740bc6f7367ff0c9d3175"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-port-xxxhdpi/splash.png": {
-    "mtime": 1776964991.5678973,
+    "mtime": 1778513400.7562351,
     "hash": "1b89e741c703161a62cb3f81d3119573"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-land-xxxhdpi/splash.png": {
-    "mtime": 1776964991.5477576,
+    "mtime": 1778513400.753235,
     "hash": "e3d1bdd73c1b72056cdfe6e5f23dda82"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-land-mdpi/splash.png": {
-    "mtime": 1776964991.4770987,
+    "mtime": 1778513400.7501175,
     "hash": "56606ccdc48c8d071e4552558c69c103"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-land-night-mdpi/splash.png": {
-    "mtime": 1776964991.689759,
+    "mtime": 1778513400.750235,
     "hash": "3521ee5815d9141438824087fdc5f34a"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-land-xxhdpi/splash.png": {
-    "mtime": 1776964991.5449243,
+    "mtime": 1778513400.753235,
     "hash": "c96d50e5807685ab59e2cd6b1d9699fe"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-port-night-xxxhdpi/splash.png": {
-    "mtime": 1776964991.77976,
+    "mtime": 1778513400.7552352,
     "hash": "82825e36aca476622f05b47c81c500fd"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-night/splash.png": {
-    "mtime": 1776964991.6818693,
+    "mtime": 1778513400.753235,
     "hash": "1e98a518a16efe1aae35d2ac01aaefcd"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-port-hdpi/splash.png": {
-    "mtime": 1776964991.5078328,
+    "mtime": 1778513400.7542353,
     "hash": "971a234459d1d9c0b3ed96adada2f2ab"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png": {
-    "mtime": 1776964991.2984607,
+    "mtime": 1778513400.759641,
     "hash": "6482abdf19079a730db01528f5676cb6"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_background.png": {
-    "mtime": 1776964991.0127518,
+    "mtime": 1778513400.7597904,
     "hash": "5e809f15c5299495e990916334965946"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png": {
-    "mtime": 1776964991.2599595,
+    "mtime": 1778513400.7600167,
     "hash": "45deb0beefd6bbf85404e01731f6ec26"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png": {
-    "mtime": 1776964991.3627014,
+    "mtime": 1778513400.760092,
     "hash": "d16231be469c2669316e795768d12dd3"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-port-night-xxhdpi/splash.png": {
-    "mtime": 1776964991.7677598,
+    "mtime": 1778513400.7552352,
     "hash": "0a619430292ba5376d2376ddbd989961"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png": {
-    "mtime": 1776964991.3149736,
+    "mtime": 1778513400.760092,
     "hash": "a2ddb005896b85eeb906234a827b5a84"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_background.png": {
-    "mtime": 1776964991.0447524,
+    "mtime": 1778513400.76034,
     "hash": "2a2b548e7cb1ac0c3b0b2019cde4c5b7"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png": {
-    "mtime": 1776964991.2628965,
+    "mtime": 1778513400.7606714,
     "hash": "aa11f0a1a7a392fc362628d427fb9664"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png": {
-    "mtime": 1776964991.3698976,
+    "mtime": 1778513400.7607915,
     "hash": "68f4b915f2aa9a50bab5d648ac046403"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-port-mdpi/splash.png": {
-    "mtime": 1776964991.5047572,
+    "mtime": 1778513400.7542353,
     "hash": "82925eadbb68296edff9d6f624f2077d"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-port-night-mdpi/splash.png": {
-    "mtime": 1776964991.7182367,
+    "mtime": 1778513400.7542353,
     "hash": "fe1c64be5fd96904372d8b3c96a96acc"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-land-xhdpi/splash.png": {
-    "mtime": 1776964991.513185,
+    "mtime": 1778513400.7522352,
     "hash": "e743a83f97fcda2dc4b42ef77b7109b2"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-land-night-hdpi/splash.png": {
-    "mtime": 1776964991.7067592,
+    "mtime": 1778513400.7501175,
     "hash": "2b23ed6f6900254ddb3a71f48844593e"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-land-night-ldpi/splash.png": {
-    "mtime": 1776964991.6937592,
+    "mtime": 1778513400.750235,
     "hash": "1e98a518a16efe1aae35d2ac01aaefcd"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-land-ldpi/splash.png": {
-    "mtime": 1776964991.5232172,
+    "mtime": 1778513400.7501175,
     "hash": "7406388d5324295b7153a89146d24a50"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-port-night-xhdpi/splash.png": {
-    "mtime": 1776964991.7397597,
+    "mtime": 1778513400.7542353,
     "hash": "09cf0d565d5b420b39a88188b7500dae"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-land-night-xhdpi/splash.png": {
-    "mtime": 1776964991.7197595,
+    "mtime": 1778513400.750235,
     "hash": "f33f73d34076d287cba46b9efd75bcb8"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-mdpi/ic_launcher.png": {
-    "mtime": 1776964991.2952251,
+    "mtime": 1778513400.7589579,
     "hash": "386272e2c74c916d6fdf1b9837604fc8"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-mdpi/ic_launcher_background.png": {
-    "mtime": 1776964991.1227531,
+    "mtime": 1778513400.7590258,
     "hash": "615b60ec33c56761f38852305c1b8e47"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png": {
-    "mtime": 1776964991.239247,
+    "mtime": 1778513400.7591243,
     "hash": "ec25c74a35e93b92fbfdea8203a47c31"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png": {
-    "mtime": 1776964991.3437555,
+    "mtime": 1778513400.7591956,
     "hash": "8df10e50a08e694a6118207a127a04b9"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/res/drawable-port-ldpi/splash.png": {
-    "mtime": 1776964991.5567577,
+    "mtime": 1778513400.7542353,
     "hash": "041619ff321bbba13b1adf0d836413c2"
   },
   "/home/manu/Projects/recetapps/android/app/src/main/assets/public/recetapps_icon_64.png": {
@@ -1116,15 +1116,15 @@
     "hash": "9a834686d47acf456a6149078ecbccd6"
   },
   "/home/manu/Projects/recetapps/resources/icon.png": {
-    "mtime": 1776964735.8421,
+    "mtime": 1778513400.7938964,
     "hash": "3a1d4dfb6ff8c07a0dcbe49ffc517ca8"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/favicon.png": {
-    "mtime": 1778167407.0849924,
+    "mtime": 1778513320.2012043,
     "hash": "8c814a46f24208d0bc459bb2cf8b7b88"
   },
   "/home/manu/Projects/recetapps/coverage/recetapps/sort-arrow-sprite.png": {
-    "mtime": 1778167407.0849924,
+    "mtime": 1778513320.2012043,
     "hash": "fd08a5625d21e34b1d6d9c026f2728a9"
   }
 }

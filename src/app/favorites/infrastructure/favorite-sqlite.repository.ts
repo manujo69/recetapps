@@ -6,7 +6,8 @@ import { FavoriteRepository } from '../domain/favorite.repository';
 import { RecipeSummary } from '../../recipes/domain/recipe.model';
 
 interface FavoriteDisplayRow {
-  id: number;
+  rowid?: number;
+  id: number | null;
   title: string;
   first_image_url?: string;
   prep_time: number;
@@ -27,7 +28,7 @@ export class FavoriteSqliteRepository extends FavoriteRepository {
                  WHERE recipe_client_id = r.client_id
                  ORDER BY id ASC LIMIT 1) as first_image_url
          FROM favorites f
-         JOIN recipes r ON r.id = f.recipe_id
+         JOIN recipes r ON COALESCE(r.id, -r.rowid) = f.recipe_id
          LEFT JOIN recipe_categories rc ON rc.recipe_client_id = r.client_id
          WHERE f.deleted_at IS NULL AND r.deleted_at IS NULL
          GROUP BY r.client_id
@@ -87,7 +88,7 @@ export class FavoriteSqliteRepository extends FavoriteRepository {
   }
 
   private rowToSummary = (row: FavoriteDisplayRow): RecipeSummary => ({
-    id: row['id'],
+    id: row['id'] ?? -row['rowid']!,
     title: row['title'],
     firstImageUrl: row['first_image_url'] ?? null,
     prepTime: row['prep_time'],

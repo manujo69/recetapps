@@ -8,7 +8,16 @@ export class FavoriteMockRepository extends FavoriteRepository {
   private readonly favorites = new Set<number>();
 
   getMyFavorites(): Observable<RecipeSummary[]> {
-    return of([]);
+    return of(
+      [...this.favorites].map((id) => ({
+        id,
+        title: '',
+        prepTime: 0,
+        cookTime: 0,
+        servings: 0,
+        firstImageUrl: null,
+      })),
+    );
   }
 
   isFavorite(recipeId: number): Observable<boolean> {

@@ -165,16 +165,15 @@ export class RecipeSqliteRepository extends RecipeRepository {
     });
   }
 
-  getByUser(userId: number): Observable<Recipe[]> {
+  getByUser(_userId: number): Observable<Recipe[]> {
     return this.query(async (db) => {
       const result = (await db.query(
         `SELECT r.rowid, r.*, GROUP_CONCAT(rc.category_id) as category_ids
          FROM recipes r
          LEFT JOIN recipe_categories rc ON rc.recipe_client_id = r.client_id
-         WHERE r.user_id = ? AND r.deleted_at IS NULL
+         WHERE r.deleted_at IS NULL
          GROUP BY r.client_id
          ORDER BY r.updated_at DESC`,
-        [userId],
       )) as QueryResult<RecipeAggregatedRow>;
 
       return (result.values ?? []).map((row) =>
@@ -224,21 +223,19 @@ export class RecipeSqliteRepository extends RecipeRepository {
 
   getFavorites(): Observable<Recipe[]> {
     return this.query(async (db) => {
-      const result = await db.query(
+      const result = (await db.query(
         `SELECT r.rowid, r.*, GROUP_CONCAT(rc.category_id) as category_ids
          FROM recipes r
-         JOIN favorites f ON f.recipe_client_id = r.client_id
+         JOIN favorites f ON COALESCE(r.id, -r.rowid) = f.recipe_id
          LEFT JOIN recipe_categories rc ON rc.recipe_client_id = r.client_id
-         WHERE r.deleted_at IS NULL AND f.user_id = ?
+         WHERE r.deleted_at IS NULL AND f.deleted_at IS NULL
          GROUP BY r.client_id
          ORDER BY r.updated_at DESC`,
-        [/* current user ID should be passed here */],
-      );
+      )) as QueryResult<RecipeAggregatedRow>;
 
       return (result.values ?? []).map((row) =>
         this.rowToRecipe(row, this.parseCategoryIds(row)),
       );
-
     });
   }
 

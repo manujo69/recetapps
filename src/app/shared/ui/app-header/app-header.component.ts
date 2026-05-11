@@ -3,7 +3,6 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthService } from '../../../auth/application/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +11,6 @@ import { AuthService } from '../../../auth/application/auth.service';
   styleUrl: './app-header.component.scss',
 })
 export class AppHeaderComponent {
-  private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
   readonly showFavoritesLink = toSignal(
@@ -27,10 +25,5 @@ export class AppHeaderComponent {
   getFavorites(): void {
     const goingToFavorites = this.showFavoritesLink();
     this.router.navigate(['/recipes'], { queryParams: goingToFavorites ? { favorites: true } : {} });
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
   }
 }

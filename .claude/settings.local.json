@@ -31,7 +31,13 @@
       "Bash(npm test *)",
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('paths', {}\\).get\\('/sync', {}\\), indent=2\\)\\)\")",
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); schemas=d.get\\('components',{}\\).get\\('schemas',{}\\); print\\(json.dumps\\({k:schemas[k] for k in ['SyncPushRequest','SyncPushResponse','RecipePushItem','CategoryPushItem'] if k in schemas}, indent=2\\)\\)\")",
-      "Bash(mkdir -p /home/manu/Projects/recetapps/.context)"
+      "Bash(mkdir -p /home/manu/Projects/recetapps/.context)",
+      "Read(//usr/local/bin/**)",
+      "Read(//home/manu/.nvm/versions/node/**)",
+      "Read(//opt/**)",
+      "Read(//home/manu/Documents/Obsidian Vault/**)",
+      "Read(//home/manu/Documents/Obsidian Vault/recetapps/**)",
+      "Bash(git -C /home/manu/Projects/recetapps status --short)"
     ],
     "additionalDirectories": [
       "/home/manu/Projects/recetapps"
