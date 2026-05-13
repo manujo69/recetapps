@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs';
@@ -11,6 +11,8 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './app-header.component.scss',
 })
 export class AppHeaderComponent {
+  readonly hideFavorites = input(false);
+
   private readonly router = inject(Router);
 
   readonly showFavoritesLink = toSignal(

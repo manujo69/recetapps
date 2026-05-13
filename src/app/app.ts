@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AppHeaderComponent } from './shared/ui/app-header/app-header.component';
+import { RecipeStore } from './recipes/application/recipe.store';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +10,6 @@ import { AppHeaderComponent } from './shared/ui/app-header/app-header.component'
   styleUrl: './app.scss',
 })
 export class App {
-  protected readonly title = signal('recetapps');
+  private readonly recipeStore = inject(RecipeStore);
+  readonly noRecipes = computed(() => !this.recipeStore.loading() && this.recipeStore.recipes().length === 0);
 }

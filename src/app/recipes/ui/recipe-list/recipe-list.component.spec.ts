@@ -2,7 +2,6 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { provideRouter, Router, convertToParamMap } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of, throwError } from 'rxjs';
-import { signal } from '@angular/core';
 import { provideTranslateService } from '@ngx-translate/core';
 import { RecipeListComponent } from './recipe-list.component';
 import { RecipeStore } from '../../application/recipe.store';
@@ -10,8 +9,6 @@ import { RecipeRepository } from '../../domain/recipe.repository';
 import { RecipeSummary } from '../../domain/recipe.model';
 import { FavoriteRepository } from '../../../favorites/domain/favorite.repository';
 import { FavoriteService } from '../../../favorites/application/favorite.service';
-import { NetworkService } from '../../../shared/infrastructure/network.service';
-import { SyncService } from '../../../sync/application/sync.service';
 import { CategoryRepository } from '../../../categories/domain/category.repository';
 import { CategoryStore } from '../../../categories/application/category.store';
 import { Category } from '../../../categories/domain/category.model';
@@ -35,7 +32,6 @@ describe('RecipeListComponent', () => {
   let mockRecipeRepository: jasmine.SpyObj<RecipeRepository>;
   let mockFavoriteRepository: jasmine.SpyObj<FavoriteRepository>;
   let mockCategoryRepository: jasmine.SpyObj<CategoryRepository>;
-  let mockSyncService: jasmine.SpyObj<SyncService>;
   let queryParamMapSubject: BehaviorSubject<ReturnType<typeof convertToParamMap>>;
 
   beforeEach(async () => {
@@ -52,11 +48,6 @@ describe('RecipeListComponent', () => {
       'getAll', 'getById', 'create', 'update', 'delete',
     ]);
 
-    mockSyncService = jasmine.createSpyObj('SyncService', ['push']);
-    mockSyncService.push.and.returnValue(Promise.resolve());
-
-    const mockNetworkService = { pullCompletedAt: signal(0), isOnline: signal(true) };
-
     // Default stubs so ngOnInit never throws
     mockFavoriteRepository.getMyFavorites.and.returnValue(of([]));
     mockCategoryRepository.getAll.and.returnValue(of(MOCK_CATEGORIES));
@@ -71,8 +62,6 @@ describe('RecipeListComponent', () => {
         { provide: RecipeRepository, useValue: mockRecipeRepository },
         RecipeStore,
         { provide: FavoriteRepository, useValue: mockFavoriteRepository },
-        { provide: NetworkService, useValue: mockNetworkService },
-        { provide: SyncService, useValue: mockSyncService },
         FavoriteService,
         { provide: CategoryRepository, useValue: mockCategoryRepository },
         CategoryStore,
@@ -244,6 +233,51 @@ describe('RecipeListComponent', () => {
       tick();
 
       expect(fixture.componentInstance.favoriteIds().size).toBe(0);
+    }));
+  });
+
+  describe('empty state', () => {
+    it('should show the salad image when recipes list is empty', fakeAsync(() => {
+      mockRecipeRepository.getAll.and.returnValue(of([]));
+      const fixture = TestBed.createComponent(RecipeListComponent);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('img[src="salad-010.png"]')).toBeTruthy();
+    }));
+
+    it('should not show the salad image when recipes exist', fakeAsync(() => {
+      mockRecipeRepository.getAll.and.returnValue(of(MOCK_RECIPES));
+      const fixture = TestBed.createComponent(RecipeListComponent);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('img[src="salad-010.png"]')).toBeNull();
+    }));
+
+    it('should show an inline add button (not fixed) when list is empty', fakeAsync(() => {
+      mockRecipeRepository.getAll.and.returnValue(of([]));
+      const fixture = TestBed.createComponent(RecipeListComponent);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      const addLink = fixture.nativeElement.querySelector('a.mt-6');
+      expect(addLink).toBeTruthy();
+      expect(fixture.nativeElement.querySelector('a.fixed')).toBeNull();
+    }));
+
+    it('should show a fixed FAB and no inline add button when recipes exist', fakeAsync(() => {
+      mockRecipeRepository.getAll.and.returnValue(of(MOCK_RECIPES));
+      const fixture = TestBed.createComponent(RecipeListComponent);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('a.fixed')).toBeTruthy();
+      expect(fixture.nativeElement.querySelector('a.mt-6')).toBeNull();
     }));
   });
 

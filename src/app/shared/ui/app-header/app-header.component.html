@@ -1,6 +1,6 @@
 <header class="app-header sticky top-0 z-[200] bg-white border-b border-gray-200 px-4 py-2 flex items-center">
   <div class="flex-1">
-    <button class="app-header__favorites" (click)="getFavorites()">
+    <button class="app-header__favorites" (click)="getFavorites()" [class.invisible]="hideFavorites()">
       @if (showFavoritesLink()) {
         {{ 'favorites.title' | translate }}
       } @else {

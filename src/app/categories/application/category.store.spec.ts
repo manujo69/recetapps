@@ -3,7 +3,6 @@ import { Category } from "../domain/category.model";
 import { CategoryStore } from "./category.store";
 import { CategoryRepository } from "../domain/category.repository";
 import { RecipeStore } from "../../recipes/application/recipe.store";
-import { SyncService } from "../../sync/application/sync.service";
 import { fakeAsync, TestBed, tick } from "@angular/core/testing";
 
 const CATEGORY_1: Category = { id: 1, name: 'Category 1' };
@@ -13,19 +12,14 @@ describe('CategoryStore', () => {
   let store: InstanceType<typeof CategoryStore>;
   let repositorySpy: jasmine.SpyObj<CategoryRepository>;
   let recipeStoreSpy: jasmine.SpyObj<InstanceType<typeof RecipeStore>>;
-  let syncServiceSpy: jasmine.SpyObj<SyncService>;
-
   beforeEach(() => {
     repositorySpy = jasmine.createSpyObj('CategoryRepository', ['getAll', 'create', 'delete']);
     recipeStoreSpy = jasmine.createSpyObj('RecipeStore', ['removeCategoryFromAll']);
-    syncServiceSpy = jasmine.createSpyObj('SyncService', ['push']);
-    syncServiceSpy.push.and.returnValue(Promise.resolve());
 
     TestBed.configureTestingModule({
       providers: [
         { provide: CategoryRepository, useValue: repositorySpy },
         { provide: RecipeStore, useValue: recipeStoreSpy },
-        { provide: SyncService, useValue: syncServiceSpy },
         CategoryStore,
       ],
     });

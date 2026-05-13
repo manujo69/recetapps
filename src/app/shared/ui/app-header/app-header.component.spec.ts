@@ -24,6 +24,37 @@ describe('AppHeaderComponent', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
+  describe('hideFavorites input', () => {
+    it('should not apply invisible class to favorites button by default', () => {
+      const fixture = TestBed.createComponent(AppHeaderComponent);
+      fixture.detectChanges();
+
+      const button = fixture.nativeElement.querySelector('.app-header__favorites');
+      expect(button.classList.contains('invisible')).toBeFalse();
+    });
+
+    it('should apply invisible class to favorites button when hideFavorites is true', () => {
+      const fixture = TestBed.createComponent(AppHeaderComponent);
+      fixture.componentRef.setInput('hideFavorites', true);
+      fixture.detectChanges();
+
+      const button = fixture.nativeElement.querySelector('.app-header__favorites');
+      expect(button.classList.contains('invisible')).toBeTrue();
+    });
+
+    it('should remove invisible class when hideFavorites changes back to false', () => {
+      const fixture = TestBed.createComponent(AppHeaderComponent);
+      fixture.componentRef.setInput('hideFavorites', true);
+      fixture.detectChanges();
+
+      fixture.componentRef.setInput('hideFavorites', false);
+      fixture.detectChanges();
+
+      const button = fixture.nativeElement.querySelector('.app-header__favorites');
+      expect(button.classList.contains('invisible')).toBeFalse();
+    });
+  });
+
   describe('getFavorites()', () => {
     it('should navigate to /recipes with favorites queryParam when showFavoritesLink is true', () => {
       spyOn(router, 'navigate');

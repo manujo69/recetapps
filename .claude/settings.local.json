@@ -37,7 +37,11 @@
       "Read(//opt/**)",
       "Read(//home/manu/Documents/Obsidian Vault/**)",
       "Read(//home/manu/Documents/Obsidian Vault/recetapps/**)",
-      "Bash(git -C /home/manu/Projects/recetapps status --short)"
+      "Bash(git -C /home/manu/Projects/recetapps status --short)",
+      "Bash(git -C /home/manu/Projects/recetapps log --oneline -5)",
+      "Bash(find /home/manu/Projects/recetapps/android/app/src/main/res/mipmap* -type d)",
+      "Bash(find /home/manu/Projects/recetapps/android/app/src/main/res/mipmap* -type f)",
+      "Bash(git -C /home/manu/Projects/recetapps status)"
     ],
     "additionalDirectories": [
       "/home/manu/Projects/recetapps"
