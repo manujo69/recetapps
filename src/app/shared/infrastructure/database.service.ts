@@ -31,12 +31,13 @@ const SCHEMA = `
   );
 
   CREATE TABLE IF NOT EXISTS recipe_images (
-    id               INTEGER PRIMARY KEY,
+    id               INTEGER NOT NULL,
     recipe_client_id TEXT NOT NULL,
     filename         TEXT,
     url              TEXT,
     created_at       TEXT,
-    pending_sync     INTEGER NOT NULL DEFAULT 0
+    pending_sync     INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (recipe_client_id, id)
   );
 
   CREATE TABLE IF NOT EXISTS categories (
@@ -81,13 +82,20 @@ export class DatabaseService {
       {
         toVersion: 2,
         statements: [
+          `CREATE TABLE IF NOT EXISTS recipe_images (
+             id               INTEGER PRIMARY KEY,
+             recipe_client_id TEXT NOT NULL,
+             filename         TEXT,
+             url              TEXT,
+             created_at       TEXT
+           );`,
           'ALTER TABLE recipe_images ADD COLUMN pending_sync INTEGER NOT NULL DEFAULT 0;',
         ],
       },
       {
         toVersion: 3,
         statements: [
-          `CREATE TABLE recipe_images_new (
+          `CREATE TABLE IF NOT EXISTS recipe_images_new (
              id               INTEGER NOT NULL,
              recipe_client_id TEXT NOT NULL,
              filename         TEXT,
@@ -96,8 +104,8 @@ export class DatabaseService {
              pending_sync     INTEGER NOT NULL DEFAULT 0,
              PRIMARY KEY (recipe_client_id, id)
            );`,
-          `INSERT OR IGNORE INTO recipe_images_new SELECT id, recipe_client_id, filename, url, created_at, pending_sync FROM recipe_images;`,
-          `DROP TABLE recipe_images;`,
+          `INSERT OR IGNORE INTO recipe_images_new SELECT id, recipe_client_id, filename, url, created_at, pending_sync FROM recipe_images WHERE EXISTS (SELECT 1 FROM sqlite_master WHERE type='table' AND name='recipe_images');`,
+          `DROP TABLE IF EXISTS recipe_images;`,
           `ALTER TABLE recipe_images_new RENAME TO recipe_images;`,
         ],
       },
@@ -111,8 +119,12 @@ export class DatabaseService {
     } else {
       this.connection = await this.sqlite.createConnection(DB_NAME, false, 'no-encryption', DB_VERSION, false);
       await this.connection.open();
-      await this.connection.execute(SCHEMA);
     }
+
+    // Always run SCHEMA — all statements use IF NOT EXISTS so this is idempotent.
+    // Guards against cold-start paths (retrieveConnection) where SCHEMA may not
+    // have fully executed in a previous session.
+    await this.connection.execute(SCHEMA);
 
     return this.connection;
   }

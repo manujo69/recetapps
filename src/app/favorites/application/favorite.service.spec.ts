@@ -64,10 +64,22 @@ describe('FavoriteService', () => {
       expect(result).toEqual(MOCK_SUMMARIES);
     });
 
-    it('should clear favoriteIds when response is empty', () => {
+    it('should not re-fetch or change favoriteIds once already loaded', () => {
       repositorySpy.getMyFavorites.and.returnValue(of(MOCK_SUMMARIES));
       service.loadFavorites().subscribe();
 
+      repositorySpy.getMyFavorites.and.returnValue(of([]));
+      service.loadFavorites().subscribe();
+
+      expect(repositorySpy.getMyFavorites).toHaveBeenCalledTimes(1);
+      expect(service.favoriteIds()).toEqual(new Set([1, 3]));
+    });
+
+    it('should clear favoriteIds when response is empty after a reset', () => {
+      repositorySpy.getMyFavorites.and.returnValue(of(MOCK_SUMMARIES));
+      service.loadFavorites().subscribe();
+
+      service.reset();
       repositorySpy.getMyFavorites.and.returnValue(of([]));
       service.loadFavorites().subscribe();
 

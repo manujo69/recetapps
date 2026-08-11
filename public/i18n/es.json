@@ -60,6 +60,8 @@
       "remove_filter": "Quitar filtro",
       "create_aria": "Crear receta",
       "empty": "Añade tu primera receta para comenzar",
+      "empty_favorites": "Aún no tienes recetas favoritas",
+      "empty_category": "No hay recetas en esta categoría",
       "meta": "Tiempo/Raciones: {{time}} min · {{servings}} raciones",
       "metaSingular": "Tiempo/Raciones: {{time}} min · 1 ración"
     },

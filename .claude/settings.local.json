@@ -41,7 +41,12 @@
       "Bash(git -C /home/manu/Projects/recetapps log --oneline -5)",
       "Bash(find /home/manu/Projects/recetapps/android/app/src/main/res/mipmap* -type d)",
       "Bash(find /home/manu/Projects/recetapps/android/app/src/main/res/mipmap* -type f)",
-      "Bash(git -C /home/manu/Projects/recetapps status)"
+      "Bash(git -C /home/manu/Projects/recetapps status)",
+      "mcp__recipes-mysql__mysql_query",
+      "Bash(npx ng *)",
+      "Bash(grep -B2 \"FAILED$\")",
+      "Bash(grep -v \"^--$\")",
+      "Bash(grep -B2 -A10 \"FAILED$\")"
     ],
     "additionalDirectories": [
       "/home/manu/Projects/recetapps"

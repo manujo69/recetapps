@@ -43,6 +43,12 @@ export class RecipeListComponent implements OnInit {
     return id ? this.categoryStore.categories().find((c) => c.id === id) ?? null : null;
   });
 
+  readonly emptyMessageKey = computed(() => {
+    if (this.favoritesOnly()) return 'recipes.list.empty_favorites';
+    if (this.activeCategoryId()) return 'recipes.list.empty_category';
+    return 'recipes.list.empty';
+  });
+
   readonly recipes = computed(() => {
     const all = [...this.store.recipes()].sort((a, b) => b.id - a.id);
     const catId = this.activeCategoryId();

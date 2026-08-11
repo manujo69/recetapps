@@ -112,11 +112,13 @@ describe('DatabaseService', () => {
         expect(db).toBe(dbSpy);
       });
 
-      it('does not create a new connection or execute schema', async () => {
+      it('does not create a new connection but still executes the schema', async () => {
         await service.getDb();
         expect(sqliteSpy.createConnection).not.toHaveBeenCalled();
         expect(dbSpy.open).not.toHaveBeenCalled();
-        expect(dbSpy.execute).not.toHaveBeenCalled();
+        expect(dbSpy.execute).toHaveBeenCalledWith(
+          jasmine.stringContaining('CREATE TABLE IF NOT EXISTS recipes'),
+        );
       });
     });
   });

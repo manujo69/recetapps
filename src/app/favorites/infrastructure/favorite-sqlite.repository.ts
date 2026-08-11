@@ -21,6 +21,9 @@ export class FavoriteSqliteRepository extends FavoriteRepository {
 
   getMyFavorites(): Observable<RecipeSummary[]> {
     return this.query(async (db) => {
+      const raw = await db.query(`SELECT recipe_id, deleted_at FROM favorites`);
+      console.log('[FavSQLite] getMyFavorites — raw favorites table:', JSON.stringify(raw.values));
+
       const result = await db.query(
         `SELECT r.rowid, r.*,
                 GROUP_CONCAT(rc.category_id) as category_ids,
@@ -34,6 +37,7 @@ export class FavoriteSqliteRepository extends FavoriteRepository {
          GROUP BY r.client_id
          ORDER BY r.title ASC`,
       );
+      console.log('[FavSQLite] getMyFavorites — joined result count:', result.values?.length ?? 0);
       return (result.values ?? []).map(this.rowToSummary);
     });
   }
@@ -50,14 +54,19 @@ export class FavoriteSqliteRepository extends FavoriteRepository {
 
   addFavorite(recipeId: number): Observable<void> {
     return this.query(async (db) => {
+      console.log('[FavSQLite] addFavorite — inserting recipe_id:', recipeId);
       const now = new Date().toISOString();
       await db.run(
-        `INSERT INTO favorites (recipe_id, updated_at, deleted_at, pending_sync)
-         VALUES (?, ?, NULL, 1)
-         ON CONFLICT(recipe_id) DO UPDATE SET deleted_at = NULL, updated_at = ?, pending_sync = 1`,
-        [recipeId, now, now],
+        `INSERT OR REPLACE INTO favorites (recipe_id, updated_at, deleted_at, pending_sync)
+         VALUES (?, ?, ?, ?)`,
+        [recipeId, now, null, 1],
         true,
       );
+      const check = await db.query(
+        `SELECT recipe_id, deleted_at FROM favorites WHERE recipe_id = ?`,
+        [recipeId],
+      );
+      console.log('[FavSQLite] addFavorite — post-insert check:', JSON.stringify(check.values));
     });
   }
 
